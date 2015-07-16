@@ -1,1 +1,2 @@
-#  Digital Halo
+#digital-halo
+A basic add-on

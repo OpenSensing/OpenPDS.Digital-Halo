@@ -1,7 +1,0 @@
-content digital-halo content/
-overlay chrome://browser/content/browser.xul chrome://digital-halo/content/overlay.xul
-
-locale digital-halo en-US locale/en-US/
-
-skin digital-halo classic/1.0 skin/
-style chrome://global/content/customizeToolbar.xul chrome://digital-halo/skin/overlay.css
