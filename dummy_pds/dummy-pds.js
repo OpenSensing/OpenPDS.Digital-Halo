@@ -3,20 +3,19 @@ var http = require('http')
   , fs = require('fs')
   , express = require('express')
   , bodyParser = require('body-parser')
-  , MongoClient = require('mongodb').MongoClient;
+  , MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
 
 var pds = express()
   , mongoUrl = 'mongodb://localhost:27017/dummy-pds';
 
-pds.use(bodyParser.json());
-//pds.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-//      extended: true
-//}));
+
+// Route handlers  
 
 function saveData (req, res) {
-//    fs.appendFileSync("./data/url-log.txt", "POST "+ req.body.sentUrl + '\n');
     MongoClient.connect(mongoUrl, function (err, db) {
-        if (err) return console.log('Unable to connect to mongo: '+ err)
+	if (err) return console.log ("can't connect to Mongo: "+err)
+//        assert.equal(null,err, 'Unable to connect to mongo: '+ err)
 	console.log("Connected to mongo");
         
         insertToMongo(db, {userID: 1, url: req.body.sentUrl}, function () {
@@ -39,7 +38,12 @@ function insertToMongo (db, data, callback)  {
 	  callback(result)
       });
 }
+// Register Middleware
 
+pds.use(bodyParser.json());
+
+// Routing
+//
 pds.get("/:id", function (req,res) {res.send({answer : "What do you want?"})});
 pds.post("/", saveData)
 

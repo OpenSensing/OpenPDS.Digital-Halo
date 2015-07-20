@@ -1,9 +1,9 @@
 //var sdkSelf = require('sdk/self');
-var tabs  = require('sdk/tabs');
-var Request = require('sdk/request').Request;
+var tabs  = require('sdk/tabs')
+  , Request = require('sdk/request').Request
+  , buttons = require('sdk/ui/button/action');
 
-tabs.on('ready', alertURL);
-
+// Event Handlers
 
 function alertURL (tab) {
     tab.attach  ({
@@ -18,8 +18,27 @@ function alertURL (tab) {
 	console.log(res)
         }
     }).post()
-
 };
+
+function clickHandler (state) {
+    tabs.open('./vis.html')
+}
+
+
+// UI
+
+var button = buttons.ActionButton({
+    id: 'Visualiztion-Tab',
+    label: 'See your Digital-Halo',
+    icon: {'16': './icon-16.png'},
+    onClick: clickHandler
+});
+
+
+// Event Registration
+
+tabs.on('ready', alertURL);
+
 
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
