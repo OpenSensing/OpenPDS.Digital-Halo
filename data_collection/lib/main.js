@@ -3,6 +3,9 @@ var tabs  = require('sdk/tabs')
   , Request = require('sdk/request').Request
   , buttons = require('sdk/ui/button/action');
 
+var pdsUrl = 'http://localhost:8000/';
+
+
 // Event Handlers
 
 function alertURL (tab) {
@@ -11,27 +14,42 @@ function alertURL (tab) {
         //contentScript: 'document.body.innerHTML = "Page matches ruleset"'
     });
     console.log(tabs.activeTab.url);
-    Request({ url: "http://localhost:8000/",
+    Request({ url: pdsUrl,
 	contentType: 'application/json',
 	content: JSON.stringify({'sentUrl' : tabs.activeTab.url}),
         onComplete: function (res) {
-	console.log(res)
+	    console.log(res)
         }
     }).post()
 };
 
-function clickHandler (state) {
-    tabs.open('./vis.html')
+function buttonClickHandler (state) {
+    tabs.open({
+	url: './vis.html',
+	onReady: getDigitalHalo
+    })
+}
+
+function getDigitalHalo () {
+    Request({ url: pdsUrl,
+        conentType: 'text/html',
+        onComplete: function (res) {
+            var worker = tabs.activeTab.attach({
+		contentScript: "self.port.on('loadHalo', function(halo) {document.body.innerHTML = halo});"
+	    });
+	    worker.port.emit('loadHalo', res.text);
+	} 
+    }).get()
 }
 
 
-// UI
+// UI modifications
 
 var button = buttons.ActionButton({
     id: 'Visualiztion-Tab',
     label: 'See your Digital-Halo',
     icon: {'16': './icon-16.png'},
-    onClick: clickHandler
+    onClick: buttonClickHandler
 });
 
 
