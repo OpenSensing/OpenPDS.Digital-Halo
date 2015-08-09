@@ -1,8 +1,10 @@
-extend layout
+extend ../layouts/layout
 block imports
   link(rel='stylesheet', href='http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.css')
   script(src='http://visapi-gadgets.googlecode.com/svn/trunk/termcloud/tc.js')
   script(src='http://www.google.com/jsapi')
+block header
+    | V0.0.1 of your digital halo visualization.
 block content
   p
     | Whenever you do anything on the internet you leave a trace, a fallout

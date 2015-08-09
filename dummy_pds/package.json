@@ -3,11 +3,12 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
+    "bcrypt": "^0.8.4",
     "body-parser": "*",
     "express": "*",
     "jade": "*",
-    "mongodb": "*",
     "mongoose": "^4.1.x",
+    "mongoose-validate": "latest",
     "nib": "*",
     "stylus": "*"
   }

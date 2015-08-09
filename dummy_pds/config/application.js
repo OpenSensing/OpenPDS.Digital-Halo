@@ -3,7 +3,6 @@ var env          = process.env.NODE_ENV || 'development'
   , express      = require('express')
   , path         = require('path')
   , bodyParser   = require('body-parser')
-  , MongoClient  = require('mongodb').MongoClient
   , childProcess = require('child_process')
   , stylus       = require('stylus')
   , nib          = require('nib')
@@ -36,6 +35,9 @@ global.App = {
 , model: function (path) {
     return this.require('app/models/' + path)
   }
+, anal: function (path)  {
+    return this.require('app/anal/' + path)
+  }
 }
 
 
@@ -63,4 +65,6 @@ App.require('config/database')(process.env.MONGODB_URL || 'mongodb://localhost:2
 
 App.require('config/routes')(App.app)
 
+// Load exec schedule
 
+App.require('config/schedule')
