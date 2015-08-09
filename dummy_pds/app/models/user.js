@@ -18,13 +18,26 @@ schema.pre('save', function (next) {
 
   if (!self.isModified('passwordHash')) return next()
 
-  bcrypt.has(self.passwordHash, SALT_WORK_FACTOR, function(err, hash) {
-    if (err) return next(err)
-    
+  bcrypt.hash(self.passwordHash, SALT_WORK_FACTOR, function(err, hash) {
+    if (err) {
+      console.log(err)
+      return next(err)
+    }
     self.passwordHash = hash
     next()
   }) 
 })
+
+schema.statics.findByEmailAndPassword = function findByEmailAndPassword(email,passwd,cb) {
+  this.findOne({email: email}, function (err,user) {
+    if (err) return cb(err)
+    if (!user) return cb()
+
+    bcrypt.compare(passwd, user.passwordHash, function (err, match) {
+      return cb(err, match ? user : null)
+    })
+  })
+}
 
 var Model = mongoose.model('user', schema)
 

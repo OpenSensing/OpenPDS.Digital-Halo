@@ -8,5 +8,9 @@ module.exports = function (app)  {
 
   var userRoutes = App.route('userRoutes')
   app.get('/signUp', userRoutes.signUp)
-  app.post('/createUser', userRoutes.create )
+  app.post('/signUp', userRoutes.create )
+
+  var sessionRoutes = App.route('sessionRoutes')
+  app.get('/signIn', sessionRoutes.signIn)
+  app.post('/signIn', sessionRoutes.create)
 }

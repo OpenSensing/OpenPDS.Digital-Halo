@@ -3,6 +3,7 @@ var env          = process.env.NODE_ENV || 'development'
   , express      = require('express')
   , path         = require('path')
   , bodyParser   = require('body-parser')
+  , logger       = require('morgan')
   , childProcess = require('child_process')
   , stylus       = require('stylus')
   , nib          = require('nib')
@@ -48,13 +49,16 @@ function compile (str, path)  {
     .use(nib())
 } 
 
-App.app.use(bodyParser.json())
 App.app.set('views', App.appPath('app/views'))
 App.app.set('view engine', 'jade')
 App.app.use(stylus.middleware(
   {src: App.appPath('public/stylesheets'),
    compile: compile}      
 ))
+
+App.app.use(logger(':method :url :req[content-type]'))
+App.app.use(bodyParser.json())
+App.app.use(bodyParser.urlencoded())
 App.app.use(express.static(App.appPath('public')))
 
 // DB bootstrap
