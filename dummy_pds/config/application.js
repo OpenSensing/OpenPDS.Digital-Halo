@@ -68,7 +68,7 @@ App.app.use(logger(':method :url :req[content-type]'))
 App.app.use(bodyParser.json())
 App.app.use(bodyParser.urlencoded())
 App.app.use(require('cookie-parser')())
-App.app.use(require('cookie-session')({secret: 'A secret', key: 'session', maxAge: 3600000}))
+App.app.use(require('cookie-session')({secret: 'A secret', key: 'session', maxAge: 1440000000}))
 App.require('config/initializers/passport.js')()
 App.app.use(require('connect-flash')())
 App.app.use(App.middleware('attachAuthStatus'))
@@ -77,7 +77,7 @@ App.app.use(express.static(App.appPath('public')))
 
 // DB bootstrap
 
-App.require('config/database')(process.env.MONGODB_URL || 'mongodb://localhost:27017/dummy-pds')
+App.require('config/database')(process.env.MONGODB_URL || 'mongodb://localhost:27017/dummy-pds') //digitalHalo_' + App.env)
 
 // Routes
 

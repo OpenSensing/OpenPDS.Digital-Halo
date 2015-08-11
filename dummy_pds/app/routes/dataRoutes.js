@@ -1,11 +1,13 @@
-var Url   = App.model('url')
-var Topic = App.model('topic')
+var mongoose = require('mongoose')
+  , Url      = App.model('url')
+  , Topic    = App.model('topic')
 
-var userId = 1                     // A placeholder for user id
+
+//var userId = 1                     // A placeholder for user id
 
 exports.store = function (req, res)  {
   var url = new Url({ 
-    userID    : userId                    // Placeholder for user id
+    userID    : mongoose.Types.ObjectId(req.user.id)                   // Placeholder for user id
   , url       : req.body.sentUrl
   , accessedAt: 123456789
   })

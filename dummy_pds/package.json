@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
+    "authorize": "0.0.1",
     "bcrypt": "^0.8.4",
     "body-parser": "*",
     "connect-flash": "^0.1.1",
