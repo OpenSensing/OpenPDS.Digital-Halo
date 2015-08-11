@@ -1,14 +1,16 @@
 doctype
 html
   head
-    title #{title} - My site
+    title #{title} 
     link(rel='stylesheet', href='/stylesheets/style.css')
     block imports
   body
     header
       h1 
         block header
+    include navBar
     .container
+      include flash
       .main-content
         block content
       .sidebar

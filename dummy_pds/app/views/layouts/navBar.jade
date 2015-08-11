@@ -1,0 +1,11 @@
+ul#navBar
+  li
+    a(href="/about") About
+  - if (!isAuthenticated)
+    li
+      a(href="/signIn") Sign In
+    li
+      a(href="/signUp") Sign Up
+  - else
+    li
+      a(href="/signOut") Sign Out

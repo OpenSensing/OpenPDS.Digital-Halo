@@ -26,7 +26,7 @@ function saveURL (tab) {
 
 function buttonClickHandler (state) {
     tabs.open({
-	url: pdsUrl+'showHalo'
+	url: pdsUrl+'app/showHalo'
 	/*url: './vis.html',
 	onLoad: getDigitalHalo*/
     })

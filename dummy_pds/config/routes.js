@@ -1,10 +1,15 @@
+var passport = require('passport')
+
 module.exports = function (app)  {
   var dataRoutes = App.route('dataRoutes')
   app.post('/', dataRoutes.store)
   app.get('/', dataRoutes.send)
 
+  // Ensure authenticated
+  app.all('/app/*', App.middleware('ensureAuthenticated'))
+
   var vizRoutes = App.route('vizRoutes')
-  app.get('/showHalo', vizRoutes.show)
+  app.get('/app/showHalo', vizRoutes.show)
 
   var userRoutes = App.route('userRoutes')
   app.get('/signUp', userRoutes.signUp)
@@ -12,5 +17,6 @@ module.exports = function (app)  {
 
   var sessionRoutes = App.route('sessionRoutes')
   app.get('/signIn', sessionRoutes.signIn)
-  app.post('/signIn', sessionRoutes.create)
+  app.post('/signIn', passport.authenticate('local', {successRedirect: '/app/showHalo', failureRedirect: '/signIn', failureFlash: 'Invalid username or password'}))
+  app.get('/signOut', sessionRoutes.destroy)
 }

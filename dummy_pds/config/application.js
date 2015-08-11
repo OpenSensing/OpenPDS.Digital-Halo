@@ -39,10 +39,16 @@ global.App = {
 , anal: function (path)  {
     return this.require('app/anal/' + path)
   }
+, command: function (path) {
+    return this.require('app/commands/' + path)
+  }
+, middleware: function (path) {
+    return this.require('app/middlewares/' + path)
+  }
 }
 
+// Set up views and styles engine
 
-//  Register Middleware
 function compile (str, path)  {
   return stylus(str)
     .set('filename', path)
@@ -56,9 +62,17 @@ App.app.use(stylus.middleware(
    compile: compile}      
 ))
 
+//  Register Middleware
+
 App.app.use(logger(':method :url :req[content-type]'))
 App.app.use(bodyParser.json())
 App.app.use(bodyParser.urlencoded())
+App.app.use(require('cookie-parser')())
+App.app.use(require('cookie-session')({secret: 'A secret', key: 'session', maxAge: 3600000}))
+App.require('config/initializers/passport.js')()
+App.app.use(require('connect-flash')())
+App.app.use(App.middleware('attachAuthStatus'))
+App.app.use(App.middleware('setFlash'))
 App.app.use(express.static(App.appPath('public')))
 
 // DB bootstrap
