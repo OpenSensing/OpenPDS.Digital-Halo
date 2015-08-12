@@ -3,14 +3,13 @@ from bson import objectid
 from logging import log
 import sys
 
-user_id = 1
 
 
 # Find topics for whole users browsing history (if sites listed in DMOZ)
 
 ##############
 
-def get_new_urls (userId=user_id):
+def get_new_urls (userId):
     url_cursor = db.url.find({'userID': userId, 'processed': {'$ne' : True}}) 
     obj_ids = []
     #update the fetched elements as processed 
@@ -55,8 +54,12 @@ def save_topic (topic, user):
 
 ############
 
-db = MongoClient('mongodb://localhost:27017')['dummy-pds']
+mongo_uri, db_name = sys.argv[1:3]
+#db = MongoClient('mongodb://localhost:27017')['dummy-pds']
+con = MongoClient(mongo_uri)
+db  = con[db_name]
 
 for user in db.users.find():	
     get_topic(get_new_urls(userId=user['_id']), user['_id']);
 
+con.close()
