@@ -16,6 +16,8 @@ global.App = {
 , port: process.env.PORT || 8000
 , version: packageJson.version
 , root: path.join(__dirname, '..')
+, mongoUrl: (process.env.MONGODB_URL || 'mongodb://localhost:27017/')
+, dbName: 'digitalHalo_' + env
 , appPath: function(path)  {
     return this.root + '/' + path
   }
@@ -77,7 +79,7 @@ App.app.use(express.static(App.appPath('public')))
 
 // DB bootstrap
 
-App.require('config/database')(process.env.MONGODB_URL || 'mongodb://localhost:27017/dummy-pds') //digitalHalo_' + App.env)
+App.require('config/database')(App.mongoUrl + App.dbName)
 
 // Routes
 
