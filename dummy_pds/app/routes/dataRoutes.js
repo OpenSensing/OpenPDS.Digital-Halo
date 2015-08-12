@@ -9,6 +9,7 @@ exports.store = function (req, res)  {
   var url = new Url({ 
     userID    : mongoose.Types.ObjectId(req.user.id)                   // Placeholder for user id
   , url       : req.body.sentUrl
+  , title     : req.body.sentTitle
   , accessedAt: 123456789
   })
   url.save(function (err)  {
@@ -21,7 +22,7 @@ exports.store = function (req, res)  {
 
 exports.send = function (req, res)  {
   Topic.
-    find({userID: userId}).
+    find({userID: mongoose.Types.ObjectId(req.user.id) }).
     exec(function (err, records) {
       if (err) return res.status(422).send('Error while retreiving from Mongoose :', err.message)
 

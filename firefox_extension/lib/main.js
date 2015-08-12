@@ -4,17 +4,20 @@ var data    = require('sdk/self').data
   , buttons = require('sdk/ui/button/action')
   , windows = require('sdk/windows')//.browserWindows
 
-var pdsUrl = 'http://localhost:8000/';
+var pdsUrl = 'http://dev.sensible.dtu.dk:9090/'//'http://localhost:8000/';
 tabs.open({url: pdsUrl + 'app/signIn'})
 
 
 // Event Handlers
 
-function saveURL (tab) {
+function savePageData (tab) {
     console.log(tabs.activeTab.url);
     Request({ url: pdsUrl,
 	contentType: 'application/json',
-	content: JSON.stringify({'sentUrl' : tabs.activeTab.url}),
+	content: JSON.stringify({
+          'sentUrl'  : tabs.activeTab.url,
+          'sentTitle': tabs.activeTab.title
+        }),
         onComplete: function (res) {
 	    console.log(res)
         }
@@ -46,7 +49,7 @@ var button = buttons.ActionButton({
 
 // Event Registration
 
-tabs.on('ready', saveURL)
+tabs.on('ready', savePageData)
 
 // a dummy function, to show how tests work.
 // to see how to test this function, look at test/test-index.js
