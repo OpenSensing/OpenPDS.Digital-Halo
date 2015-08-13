@@ -4,7 +4,7 @@ var schema = mongoose.Schema({
   userID    : {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   url       : String,
   title     : String,
-  accessedAt: Number,
+  accessedAt: Date,
   processed : Boolean
 },{
   collection: 'url'

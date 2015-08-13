@@ -7,10 +7,10 @@ var mongoose = require('mongoose')
 
 exports.store = function (req, res)  {
   var url = new Url({ 
-    userID    : mongoose.Types.ObjectId(req.user.id)                   // Placeholder for user id
-  , url       : req.body.sentUrl
-  , title     : req.body.sentTitle
-  , accessedAt: 123456789
+    userID      : mongoose.Types.ObjectId(req.user.id)                   // Placeholder for user id
+  , url         : req.body.sentUrl
+  , title       : req.body.sentTitle
+  , accessedAt  : new Date(Number(req.body.accessedAt))
   })
   url.save(function (err)  {
     if (err) return res.status(422).send('Problem saving the url: ', err.message)
