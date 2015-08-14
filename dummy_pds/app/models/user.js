@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
   , validate = require('mongoose-validate')
   , bcrypt   = require('bcrypt')
+  , annotate = App.middleware('addSystemProperties')
   , SALT_WORK_FACTOR = 10
   , MIN_PASSWD_LENGTH = 7
 
@@ -38,6 +39,8 @@ schema.statics.findByEmailAndPassword = function findByEmailAndPassword(email,pa
     })
   })
 }
+
+annotate(schema)
 
 var Model = mongoose.model('user', schema)
 

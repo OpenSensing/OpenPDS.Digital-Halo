@@ -1,7 +1,7 @@
 {
   "title": "digital-halo",
   "name": "digital-halo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Collects your browsing history",
   "main": "./lib/main.js",
   "author": "Mieszko Manijak",

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+  , annotate = App.middleware('addSystemProperties')
 
 var schema = mongoose.Schema({
   userID: {type: mongoose.Schema.Types.ObjectId, ref: 'user'}
@@ -7,6 +8,8 @@ var schema = mongoose.Schema({
 },{
   collection: 'topic'    
 })
+
+annotate(schema)
 
 var Model  = mongoose.model('topic',  schema)
 
