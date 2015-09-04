@@ -10,7 +10,6 @@ exports.store = function (req, res)  {
     userID      : mongoose.Types.ObjectId(req.user.id)                   // Placeholder for user id
   , url         : req.body.sentUrl
   , title       : req.body.sentTitle
-  , accessedAt  : new Date(Number(req.body.accessedAt))
   })
   url.save(function (err)  {
     if (err) return res.status(422).send('Problem saving the url: ', err.message)
