@@ -6,14 +6,16 @@ var mongoose = require('mongoose')
   , MIN_PASSWD_LENGTH = 7
 
 function passwordValidator (pass) {
-  return pass.length >= MIN_PASSWD_LENGTH
+  //return pass.length >= MIN_PASSWD_LENGTH
+  return true
 } 
 
 var schema = mongoose.Schema({
   email       : {type: String, unique: true, required: true, validate: [validate.email, 'invalid email address']},
-  passwordHash: {type: String, required: true, validate: [passwordValidator, 'password to short']}
+  passwordHash: {type: String, required: false, validate: [passwordValidator, 'password to short']}
 })
 
+/*
 schema.pre('save', function (next) {
   var self = this
 
@@ -28,6 +30,7 @@ schema.pre('save', function (next) {
     next()
   }) 
 })
+*/
 
 schema.statics.findByEmailAndPassword = function findByEmailAndPassword(email,passwd,cb) {
   Model.findOne({email: email}, function (err,user) {

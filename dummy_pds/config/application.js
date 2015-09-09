@@ -88,3 +88,10 @@ App.require('config/routes')(App.app)
 // Load exec schedule
 
 App.require('config/schedule')
+
+
+
+App.app.use(function(err, req, res, next) {
+     res.status(err.status || 500)
+     res.send('error message: ' + err.message + '\n' + err);
+});

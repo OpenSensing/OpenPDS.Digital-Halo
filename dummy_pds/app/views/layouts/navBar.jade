@@ -3,9 +3,9 @@ ul#navBar
     a(href="/about") About
   - if (!isAuthenticated)
     li
-      a(href="/signIn") Sign In
-    li
-      a(href="/signUp") Sign Up
+      a(href="/signIn") Sign In/Sign Up
+    //- li
+    //-  a(href="/signUp") Sign Up
   - else
     li
       a(href="/signOut") Sign Out

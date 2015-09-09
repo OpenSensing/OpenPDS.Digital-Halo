@@ -17,6 +17,7 @@
     "nib": "*",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0",
+    "passport-openidconnect": "0.0.1",
     "stylus": "*"
   }
 }
