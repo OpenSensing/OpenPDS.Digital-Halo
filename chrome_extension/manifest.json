@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+
+  "name":  	 "Digital-Halo",
+  "description": "It allows collection of your Digital Halo data",
+  "version":     "0.0.1",
+
+  "background": {
+    "persistent": false,
+    "scripts":    ["send_data.js"]
+  },
+
+  "browser_action": {
+    "default_icon":  "icon-16.png",
+    "default_popup": "popup.html",
+    "default_title": "See your halo!"
+  },
+
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "http://dev.sensible.dtu.dk:9090/"
+  ]
+}
