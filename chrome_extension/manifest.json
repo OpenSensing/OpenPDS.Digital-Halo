@@ -5,10 +5,15 @@
   "description": "It allows collection of your Digital Halo data",
   "version":     "0.0.2",
 
+  "background": {
+    "scripts":    ["send_data.js"],
+    "persistent": false
+  },
+
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js":      ["send_data.js"],
+      "js":      ["get_data.js"],
       "run_at":  "document_start" 
     } 
   ],
