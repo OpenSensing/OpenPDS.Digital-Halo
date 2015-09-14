@@ -1,4 +1,20 @@
 
+
+
+chrome.runtime.onMessage.addListener(function(message,sender, cb) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", 'http://dev.sensible.dtu.dk:9090/', true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  xhr.send(JSON.stringify({
+    'sentUrl':    message.URL,
+    'sentTitle':  message.title,
+    'accessedAt': message.accessedAt
+  }))
+})
+
+
+
+/*
 chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(function (message,sender) {
 
@@ -15,6 +31,7 @@ chrome.runtime.onConnect.addListener(function (port) {
     }
   })
 }) 
+*/
 
 /*
 document.addEventListener('DOMContentLoaded', function () {
