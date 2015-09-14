@@ -3,15 +3,16 @@ chrome.runtime.onConnect.addListener(function (port) {
   port.onMessage.addListener(function (message,sender) {
 
 //    alert('from background sctipt on message' + message.URL)
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'http://dev.sensible.dtu.dk:9090/', true)
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
-    xhr.send(JSON.stringify({
-      'sentUrl':    message.URL,
-      'sentTitle':  message.title,
-      'accessedAt': message.accessedAt
-    }))
+  if (sender.name == "Halo_get_data_content_script") {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", 'http://dev.sensible.dtu.dk:9090/', true)
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+      xhr.send(JSON.stringify({
+        'sentUrl':    message.URL,
+        'sentTitle':  message.title,
+        'accessedAt': message.accessedAt
+      }))
+    }
   })
 }) 
 
