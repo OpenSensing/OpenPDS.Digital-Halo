@@ -67,6 +67,7 @@ App.app.use(stylus.middleware(
 //  Register Middleware
 
 App.app.use(logger(':method :url :req[content-type]'))
+//App.app.use(App.middleware('redirectToHTTP'))
 App.app.use(bodyParser.json())
 App.app.use(bodyParser.urlencoded())
 App.app.use(require('cookie-parser')())
