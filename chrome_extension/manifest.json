@@ -3,12 +3,15 @@
 
   "name":  	 "Digital-Halo",
   "description": "It allows collection of your Digital Halo data",
-  "version":     "0.0.1",
+  "version":     "0.0.2",
 
-  "background": {
-    "persistent": false,
-    "scripts":    ["send_data.js"]
-  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js":      ["send_data.js"],
+      "run_at":  "document_start" 
+    } 
+  ],
 
   "browser_action": {
     "default_icon":  "icon-16.png",

@@ -1,4 +1,15 @@
-//document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", 'http://dev.sensible.dtu.dk:9090/', true)
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  xhr.send(JSON.stringify({
+    'sentUrl':    document.URL,
+    'sentTitle':  document.title,
+    'accessedAt': Date.now()
+  }))
+}, false) 
+
+/*
 chrome.tabs.onUpdated.addListener(function (id, changeInfo, tab) {
   if(changeInfo.status == 'complete' && tab.status == 'complete' && tab.url != undefined){
     alert( tab.title +  tab.url)
@@ -13,3 +24,4 @@ chrome.tabs.onUpdated.addListener(function (id, changeInfo, tab) {
     }))
   }
 })
+*/
