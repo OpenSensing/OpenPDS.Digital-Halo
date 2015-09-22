@@ -4,12 +4,12 @@ function init() {
   var passport              = require('passport')
     , OpenIDConnectStrategy = require('passport-openidconnect').Strategy
     , PDSOpenIDConnectStrategy = new OpenIDConnectStrategy ({
-          authorizationURL: 'http://localhost:3000/oauth/authorize'
-        , tokenURL        : 'http://localhost:3000/oauth/token'
-        , clientID        : 'df4012ec3bffefd3e14cff0a4a734266'
-        , clientSecret    : '5d002be253376792bbbff204a9fccb36'
-        , callbackURL     : 'http://localhost:8000/auth/provider/callback'
-        , userInfoURL     : 'http://localhost:3000/oauth/userInfo'
+      authorizationURL: 'http://dev.sensible.dtu.dk:9091/oauth/authorize'
+        , tokenURL        : 'http://dev.sensible.dtu.dk:9091/oauth/token'
+        , clientID        : 'ae4c7cf88783336eaa66e38427bb151d'
+        , clientSecret    : 'd0e313a1cb69401284524b910180dc56'
+        , callbackURL     : 'http://dev.sensible.dtu.dk:9090/auth/provider/callback'
+        , userInfoURL     : 'http://dev.sensible.dtu.dk:9091/oauth/userInfo'
         , scope           : 'profile|email'
         },
       function (accessToken, refreshToken, profile, cb) {
