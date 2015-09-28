@@ -22,6 +22,11 @@
 */
 
 /* Destringifies an object. */
+function serialize(object) {
+  return typeof object != 'string' ? JSON.stringify(object) : object
+}
+
+
 function deserialize(object) {
   return typeof object == 'string' ? JSON.parse(object) : object;
 }

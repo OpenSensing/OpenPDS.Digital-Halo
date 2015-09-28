@@ -51,6 +51,7 @@
     "webRequest",
     "webRequestBlocking",
     "http://*/*",
-    "https://*/*"
+    "https://*/*",
+    "history"
   ]
 }
