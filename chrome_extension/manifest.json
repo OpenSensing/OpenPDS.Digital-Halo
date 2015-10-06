@@ -8,7 +8,10 @@
   "content_security_policy":
       "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
-  "web_accessible_resources": ["scripts/vendor/jquery/jquery-2.0.3.min.map"],
+  "web_accessible_resources": [
+    "scripts/vendor/jquery/jquery-2.0.3.min.map",
+    "chrome_oauth_receiver.html"
+  ],
 
   "background": {
     "scripts":    [
@@ -52,6 +55,8 @@
     "webRequestBlocking",
     "http://*/*",
     "https://*/*",
-    "history"
+    "history",
+    "storage"
   ]
+
 }

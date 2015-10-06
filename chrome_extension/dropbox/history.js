@@ -8,10 +8,6 @@ function getHistory (cb) {
     	  theHistory[domain] += hist[it]['visitCount']
     }
     cb(theHistory)  
-    console.log(theHistory.length)
+    //console.log(theHistory.length)
   })
 }
-
-var button = document.getElementById('send');
-button.addEventListener('click', getHistory(dropboxSend))
-
