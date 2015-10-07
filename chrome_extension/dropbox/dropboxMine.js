@@ -41,9 +41,9 @@ function getDropboxAccountInfo() {
 	})
 }
 
-function writeDropbox (text) {
+function writeDropbox (text, fileName) {
 	text = serialize(text)
-	client.writeFile("hello_world.txt", text, function(error, stat) {
+	client.writeFile(fileName, text, function(error, stat) {
 	  if (error) {
 	    return console.error(error);  // Something went wrong.
 	  }
@@ -59,7 +59,7 @@ function writeHistory (e) {
 
 // register 
 window.addEventListener('load', function (e) {
-	document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
+  document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
   document.querySelector('#logOut').addEventListener('click', signOutOfDropbox)
   document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
 })

@@ -7,7 +7,8 @@ function getHistory (cb) {
     	!theHistory[domain] ? theHistory[domain] = hist[it]['visitCount'] :
     	  theHistory[domain] += hist[it]['visitCount']
     }
-    cb(theHistory)  
+    var fileName = 'history.json'
+    cb(theHistory, fileName)  
     //console.log(theHistory.length)
   })
 }
