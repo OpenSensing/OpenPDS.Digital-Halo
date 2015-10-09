@@ -2,6 +2,7 @@ import file_io
 from browsing_history import browsing_history
 import decimal
 from decimal import Decimal
+import operator
 
 age_priors = {"25_34": 0.173, "18": 0.181, "55_64": 0.102, "65": 0.052, "18_24": 0.127, "45_54": 0.175, "35_44": 0.193}
 
@@ -35,7 +36,7 @@ for age_group in age_weights:
 ##
 
 flat_age = [(l,v[0]) for l,v in age_scores.iteritems()]
-age = max(flat, key=operator.itemgetter(1))
+age = max(flat_age, key = operator.itemgetter(1))
 
 if male_score[0] > female_score[0]:
     gender = 'Male'
