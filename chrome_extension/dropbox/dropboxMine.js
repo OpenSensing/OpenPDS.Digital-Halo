@@ -52,9 +52,24 @@ function writeDropbox (text, fileName) {
 	})
 }
 
+function readFromDropbox (fileName, cb) {
+	client.readFile(fileName, function (err, contents) {
+		if (err) console.error(err)
+
+		cb(contents)
+	})
+}
+
 // button calbacks
 function writeHistory (e) {
 	getHistory(writeDropbox)
+}
+
+function readDemographics (e) {
+  var demoFile = 'test_res.json'
+	readFromDropbox(demoFile, function (demo) {
+		alert(serialize(demo))
+	})
 }
 
 // register 
@@ -62,5 +77,6 @@ window.addEventListener('load', function (e) {
   document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
   document.querySelector('#logOut').addEventListener('click', signOutOfDropbox)
   document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
+  document.querySelector('#showAnswer').addEventListener('click', readDemographics)
 })
 

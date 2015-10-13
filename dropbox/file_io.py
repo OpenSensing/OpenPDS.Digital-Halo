@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import json
 
 weights = {}
 
@@ -12,7 +13,7 @@ demogroups = {
 	'gender'   : ('Female', 'Male'),
 	'income'   : ('0-50k', '50-100k', '100-150k', '150k'),
 	'kids'     : ('Has_Kids', 'No_Kids'),
-	'race_US'  : ('African_American', 'Asian', 'Caucasian', 'Hispanic')
+	'race_US'  : ('Caucasian', 'African_American', 'Asian' , 'Hispanic')
 }
 
 # helper
@@ -26,7 +27,7 @@ def getDropboxPath ():
 
 def getAppPath ():
 	return getDropboxPath() + '/Apps/openPDS.Digital-Halo/'
-
+APP_PATH = getAppPath ()
 
 def loadModel (model_file):
 	model_dic = {}
@@ -37,17 +38,20 @@ def loadModel (model_file):
 
 	return model_dic
 
+def saveToDropbox (answer, file_name):
+    with open(APP_PATH + file_name, 'w') as out_file:
+    	json.dump(answer, out_file)
+
 # populate
 
 def populateModels () :
-	app_path =  getAppPath()
-
 	for category, bins in demogroups.iteritems():
 		weights[category] = {}
 		mod = weights[category]
 
 		for bin in bins:
-			mod[bin] = loadModel(app_path + '/quantcast/' + bin + '.txt-goog.txt')
+			mod[bin] = loadModel(APP_PATH + '/quantcast/' + bin + '.txt-goog.txt')
+
 
 
 # action
