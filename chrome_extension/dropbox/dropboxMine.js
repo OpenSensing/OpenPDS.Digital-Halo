@@ -3,6 +3,9 @@
 function serialize (object) {
   return typeof object != 'string' ? JSON.stringify(object) : object
 }
+function deserialize (object) {
+  return typeof object == 'string' ? JSON.parse(object) : object
+}
 
 // init client
 var client = new Dropbox.Client({key: '3z9vnky7whz2dmn'})
@@ -67,8 +70,16 @@ function writeHistory (e) {
 
 function readDemographics (e) {
   var demoFile = 'test_res.json'
-	readFromDropbox(demoFile, function (demo) {
-		alert(serialize(demo))
+	readFromDropbox(demoFile, function showDemographics(demographics) {	
+		demographics = JSON.parse(demographics); 
+		for (category in demographics) {
+			if (category != 'createdAt') {
+				var new_li = document.createElement('li');
+				document.querySelector('ul').appendChild(new_li);
+				new_li.innerHTML = category + '\t' + demographics[category]
+		  } 
+		}
+		//alert(serialize(demo))
 	})
 }
 
