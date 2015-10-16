@@ -75,7 +75,7 @@ function readDemographics (e) {
 		for (category in demographics) {
 			if (category != 'createdAt') {
 				var new_li = document.createElement('li');
-				document.querySelector('ul').appendChild(new_li);
+				document.querySelector('#demographics-ul').appendChild(new_li);
 				new_li.innerHTML = category + '\t' + demographics[category]
 		  } 
 		}

@@ -1,0 +1,13 @@
+body {
+	background-color : #D6C299; 
+}
+
+header {
+	background-color : #C28566;
+	padding					 : 0.3em 0.3em 0.3em 0.3em;
+}
+
+nav {
+	display          : inline-block;
+	padding					 : 0.5em 0.5em 0.5em 0.5em; 
+}
