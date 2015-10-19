@@ -12,22 +12,24 @@ var client = new Dropbox.Client({key: '3z9vnky7whz2dmn'})
 
 client.authDriver(new Dropbox.AuthDriver.ChromeExtension({
 	  rememberUser: false,
-		receiverPath: 'chrome_oauth_receiver.html'
+		receiverPath: 'dropbox/chrome_oauth_receiver.html'
 	})
 )
 
 function authenticateWithDropbox () {
 	client.authenticate(function (err, client) {
-		if (err) return console.error(err)
+		if (err) return alert(err)
 
+		getDropboxAccountInfo()
 		console.log('Halo authenticated with Dropbox')	
 	})
 }
 function signOutOfDropbox () {
 	client.signOut(function (err) {
-		if (err) return console.log('Error while signing out: '+err)
+		if (err) return alert('Error while signing out: '+err)
 
 		window.location.reload()
+		alert('Signed out from Dropbox')
 	})
 }
 

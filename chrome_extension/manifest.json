@@ -10,7 +10,7 @@
 
   "web_accessible_resources": [
     "scripts/vendor/jquery/jquery-2.0.3.min.map",
-    "chrome_oauth_receiver.html"
+    "dropbox/chrome_oauth_receiver.html"
   ],
 
   "background": {
