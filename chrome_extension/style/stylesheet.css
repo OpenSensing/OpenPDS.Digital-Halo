@@ -11,3 +11,11 @@ nav {
 	display          : inline-block;
 	padding					 : 0.5em 0.5em 0.5em 0.5em; 
 }
+
+.move {
+	-webkit-transform : rotate(0.5turn);
+	-webkit-transition: -webkit-transform 4000ms;
+
+	transform : rotate(0.5turn);
+	transition: transform 4000ms;
+}

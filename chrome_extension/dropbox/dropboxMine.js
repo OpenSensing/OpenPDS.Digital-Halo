@@ -63,31 +63,5 @@ function readFromDropbox (fileName, cb) {
 	})
 }
 
-// button calbacks
-function writeHistory (e) {
-	getHistory(writeDropbox)
-}
 
-function readDemographics (e) {
-  var demoFile = 'test_res.json'
-	readFromDropbox(demoFile, function showDemographics(demographics) {	
-		demographics = JSON.parse(demographics); 
-		for (category in demographics) {
-			if (category != 'createdAt') {
-				var new_li = document.createElement('li');
-				document.querySelector('#demographics-ul').appendChild(new_li);
-				new_li.innerHTML = category + '\t' + demographics[category]
-		  } 
-		}
-		//alert(serialize(demo))
-	})
-}
-
-// register 
-window.addEventListener('load', function (e) {
-  document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
-  document.querySelector('#logOut').addEventListener('click', signOutOfDropbox)
-  document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
-  document.querySelector('#showAnswer').addEventListener('click', readDemographics)
-})
 
