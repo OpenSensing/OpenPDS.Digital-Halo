@@ -1,4 +1,4 @@
-from file_io import APP_PATH
+from file_io import APP_PATH, ANAL_PATH
 import os
 from shutil import copyfile
 import sqlite3

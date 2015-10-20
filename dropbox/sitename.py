@@ -1,7 +1,8 @@
 import json
 from urlparse import urlparse
+from file_io import ANAL_PATH
 
-with open ('tlds.json', 'r') as tlds_file:
+with open (ANAL_PATH + '/tlds.json', 'r') as tlds_file:
 	tlds = json.loads(tlds_file.read())
 
 def sitename (url):
