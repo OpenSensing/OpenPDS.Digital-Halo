@@ -57,5 +57,6 @@ def populateModels () :
 
 # action
 
-populateModels()
+if __name__ == '__main__':
+	populateModels()
 
