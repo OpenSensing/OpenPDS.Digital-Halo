@@ -9,4 +9,5 @@ while true; do
 	esac
 done
 
+python dropbox/copy_model_to_dropbox.py
 python dropbox/demographics.py
