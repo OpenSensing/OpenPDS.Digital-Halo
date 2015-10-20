@@ -28,7 +28,7 @@ def getDropboxPath ():
 def getAppPath ():
 	return getDropboxPath() + '/Apps/openPDS.Digital-Halo/'
 APP_PATH  = getAppPath ()
-ANAL_PATH = os.path.dirname(os.path.realpath(__file__))
+ANAL_PATH = os.path.dirname(os.path.realpath(__file__)) + '/'
 
 def loadModel (model_file):
 	model_dic = {}
@@ -51,7 +51,7 @@ def populateModels () :
 		mod = weights[category]
 
 		for bin in bins:
-			mod[bin] = loadModel(APP_PATH + 'quantcast/' + bin + '.txt-goog.txt')
+			mod[bin] = loadModel(APP_PATH + 'model/' + bin + '.txt-goog.txt')
 
 
 
