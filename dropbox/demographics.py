@@ -13,6 +13,7 @@ etn_priors  = {'Caucasian': 0.762, 'African_American': 0.095, 'Asian': 0.047 , '
 
 decimal.getcontext().prec = 3
 
+file_io.populateModels()
 weights  = file_io.weights
 female_weights  = file_io.weights['gender']['Female']
 male_weights    = file_io.weights['gender']['Male']
