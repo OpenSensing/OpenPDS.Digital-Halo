@@ -8,7 +8,7 @@ while true; do
 	read -p 'Do you whish to import your Safari history
 It will require installing a python dependency (with sudo).  y/n' yn
 	case $yn in
-		[Yy]* ) if ! [ -f $SAFARI_PATH ]; then sudo easy_install biplist; python dropbox/safari_parser_v1_1.py --history -d -o $DROPBOX_PATH; fi; python dropbox/safari_history.py; break;;
+		[Yy]* ) if ! [ -f $SAFARI_PATH ]; then sudo easy_install biplist; python dropbox/safari_parser_v1_1.py --history -d $SAFARI_PATH -o $DROPBOX_PATH; fi; python dropbox/safari_history.py; break;;
 		[Nn]* ) break;;
 	esac
 done

@@ -318,8 +318,9 @@ if options.safari_dir:
 
 #user chose just to process one file, check it
 if not options.safari_dir:
-    output = open(options.outfile, 'w')
-    
+    #output = open(options.outfile, 'w')
+    output = sqlite3.connect(options.outfile + '/safari_history.db')
+
     if check_plist_file(options.infile) == False:
         print options.infile + " not located or not a binary plist file"
 
@@ -458,8 +459,7 @@ if options.bookmarks == True:
     output.close()   
 
 #process History.plist file
-if options.history == True:    
-    do_history()
+
 
 def do_history ():
     history_count = 0
@@ -525,6 +525,9 @@ def do_history ():
                 #output.write("\n")
     print "History parsed: \t" + str(history_count)
     #output.close()
+
+if options.history == True:    
+    do_history()
     
 #iPhonebookmarks are stored in an SQLite database file
 if options.iPhonebookmarks == True:
