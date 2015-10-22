@@ -319,7 +319,8 @@ if options.safari_dir:
 #user chose just to process one file, check it
 if not options.safari_dir:
     #output = open(options.outfile, 'w')
-    output = sqlite3.connect(options.outfile + '/safari_history.db')
+    output_history = sqlite3.connect(options.outfile + '/safari_history.db')
+    output_history.execute("CREATE TABLE history_items(url TEXT, visit_count INT)")
 
     if check_plist_file(options.infile) == False:
         print options.infile + " not located or not a binary plist file"
