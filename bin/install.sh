@@ -1,5 +1,5 @@
 #!/bin/sh
-SAFARI_PATH=${HOME}'/Library/Safari/History.db'
+SAFARI_PATH=${HOME}'/Library/Safari/History.plist'
 DROPBOX_PATH=${HOME}'/Dropbox/Apps/OpenPDS.Digital-Halo'
 
 echo 'Installing the dev version of Digital Halo - Cookie Jar'
