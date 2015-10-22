@@ -10,7 +10,7 @@ from sitename import sitename
 ######  copy the history file to DBox
 
 SAFARI_PATH = os.environ['HOME'] + '/Library/Safari'
-if os.path.isfile(SAFARI_PATH + '/History.plist'):
+if not os.path.isfile(SAFARI_PATH + '/History.plist'):
 	copyfile(SAFARI_PATH + '/History.db', APP_PATH + 'safari_history.db')
 ###### convert sqlite into json 
 con = sqlite3.connect(APP_PATH + 'safari_history.db')
