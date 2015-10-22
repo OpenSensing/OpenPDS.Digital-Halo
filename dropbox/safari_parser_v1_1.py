@@ -43,6 +43,7 @@ from optparse import OptionParser
 import datetime
 import sqlite3
 import sys
+import os
 
 #convert mac absolute time (seconds from 1/1/2001) to human readable
 def convert_absolute(mac_absolute_time):
@@ -240,7 +241,14 @@ if __name__ == '__main__':
          
     if options.safari_dir == None and options.history == None and options.topsites == None and options.downloads == None and options.bookmarks == None and options.iPhonebookmarks == None and options.recentsearches == None:
         parser.error("Choose a file type or a directory to process")
-        
+else:
+    options = {
+        'safari_dir': os.environ['HOME'] + '/Library/Safari' 
+    }       
+    try:
+        options.outfile = APP_PATH[0:-1]
+    except NameError:
+        options.outfile = raw_input('Where do you want to save the results? ')
 
 
 #if the Safari folder was selected, check for each file that can be parsed
@@ -258,7 +266,10 @@ if options.safari_dir:
         print "History.plist file not located or not correct format (OSX,iPhone)"
     else:
         options.history = True
-        output_history = open(options.outfile + seperator + "history.tsv", 'w')
+        #output_history = open(options.outfile + seperator + "history.tsv", 'w')
+        # changed b yellowBirdy
+        output_history = sqlite3.connect(options.outfile + seperator + "safari_history.db")
+        output_history.execute("CREATE TABLE history_items(url TEXT, visit_count INT)")
         
     #check for bookmark file
     bookmarks_file = file_check("Bookmarks.plist")
@@ -460,7 +471,8 @@ def do_history ():
         plist = readPlist(options.infile)
 
 #start at the root
-    output.write("Last Visit Date (UTC)\tURL\tTitle\tVisit Count\tRedirect URLs\n")
+    #output.write("Last Visit Date (UTC)\tURL\tTitle\tVisit Count\tRedirect URLs\n")
+    # want to put this as an sqlite dbdo_
     for key,value in plist.iteritems():
          
         #go through the webhistory dictionary first
@@ -484,29 +496,35 @@ def do_history ():
                 else:
                     visitCount = ""
                        
-                output.write(str(lastVisitedDate) + "\t" + str(URL)+"\t")
+                #output.write(str(lastVisitedDate) + "\t" + str(URL)+"\t")
                                        
                 if "title" in history_entry:                       
-                        
-                    try:
-                        output.write(str(history_entry["title"])+"\t")
-                    except:
-                        title = history_entry["title"]
-                        output.write(title.encode("utf-8") + "\t")
+                    title = history_entry['title']    
+                    #try:
+                        #output.write(str(history_entry["title"])+"\t")
+                    #except:
+                        #title = history_entry["title"]
+                        #output.write(title.encode("utf-8") + "\t")
                 else:
-                    output.write("" + "\t")
+                    title = None
+                    #output.write("" + "\t")
                 
-                output.write(str(visitCount) + "\t")
+                #output.write(str(visitCount) + "\t")
                 
-                if "redirectURLs" in history_entry:
-                    for url in history_entry["redirectURLs"]:
-                        output.write(url + " ")
-                else:
-                    output.write("")
+                #if "redirectURLs" in history_entry:
+                    #for url in history_entry["redirectURLs"]:
+                        #output.write(url + " ")
+                #else:
+                    #output.write("")
             
-                output.write("\n")
+                cur = output.cursor()
+                cur.execute('INSERT INTO history_items VALUES(?, ?)', (URL, visitCount))
+
+
+
+                #output.write("\n")
     print "History parsed: \t" + str(history_count)
-    output.close()
+    #output.close()
     
 #iPhonebookmarks are stored in an SQLite database file
 if options.iPhonebookmarks == True:
