@@ -6,11 +6,14 @@ import json
 from collections import defaultdict
 
 from sitename import sitename
+from parse_history_plist import *
 
 ######  copy the history file to DBox
 
 SAFARI_PATH = os.environ['HOME'] + '/Library/Safari'
-if not os.path.isfile(SAFARI_PATH + '/History.plist'):
+if os.path.isfile(SAFARI_PATH + '/History.plist'):
+     history_plist_work()
+else:
 	copyfile(SAFARI_PATH + '/History.db', APP_PATH + 'safari_history.db')
 ###### convert sqlite into json 
 con = sqlite3.connect(APP_PATH + 'safari_history.db')
