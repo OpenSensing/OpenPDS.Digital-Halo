@@ -15,7 +15,7 @@
 
   "background": {
     "scripts":    [
-      "send_data.js",
+      "lib/background/store_localy.js",
       "trackers/vendor/port/port.js",
       "trackers/vendor/jquery/jquery.js",
       "trackers/vendor/moment/moment.js",
@@ -23,7 +23,9 @@
       "trackers/vendor/sitename/tldpatch.js",
       "trackers/vendor/sitename/sitename.js",
       "trackers/services.js",
-      "trackers/catch.js"
+      "trackers/catch.js",
+      "dropbox/dropbox.js",
+      "dropbox/dropboxMine.js"
     ],
     "persistent": true
   },
