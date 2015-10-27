@@ -25,7 +25,8 @@
       "trackers/services.js",
       "trackers/catch.js",
       "dropbox/dropbox.js",
-      "dropbox/dropboxMine.js"
+      "dropbox/dropboxMine.js",
+      "lib/background/background.js"
     ],
     "persistent": true
   },

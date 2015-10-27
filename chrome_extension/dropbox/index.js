@@ -32,6 +32,30 @@ function readDemographics (e) {
     })
 }
 
+function sendRecent () {
+  chrome.storage.local.get('recordedCount', function (items) {
+    var count        = items.recordedCount;
+    // create pointer Array
+    var pagePointers = []
+    for (var i = 0; i <= count; i++) {
+      pagePointers.push('page' + i)
+    } 
+    // get the pages from storage and send them
+    chrome.storage.local.get(pagePointers, function (data) {
+      // merge the pages into a single json array
+      var payload = [];
+      for (page in data) {
+        payload.push(data[page])
+      } 
+      // send it
+      writeDropbox(payload, 'test_live.json')
+      console.log('sent recent history and trackers to Dropbox')
+      // clear the pages from local storage and reset the counter
+      chrome.storage.local.remove(pagePointers)
+      chrome.storage.local.set({'recordedCount': 0}) 
+    })  
+  })
+}
 // register 
 window.addEventListener('load', function (e) {
   document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
@@ -39,4 +63,5 @@ window.addEventListener('load', function (e) {
   document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
   document.querySelector('#showAnswer').addEventListener('click', readDemographics)
   document.querySelector('nav').classList.add('move')
+  document.querySelector('#sendRecent').addEventListener('click', sendRecent)
 })
