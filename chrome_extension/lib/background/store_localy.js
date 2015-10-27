@@ -27,7 +27,7 @@ function storeBrowsingAndTrackingLocaly(message, sender) {
   }, 1.5 * SECOND)
 }
 //})
-/*  uncomment when (after testing) copy from dropbox/index.js removed
+/*  remember to remove copy from dropbox/index.js  when done with testing */
 function sendRecent () {
   chrome.storage.local.get('recordedCount', function (items) {
     var count        = items.recordedCount;
