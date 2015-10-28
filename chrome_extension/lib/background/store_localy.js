@@ -28,7 +28,8 @@ function storeBrowsingAndTrackingLocaly(message, sender) {
 }
 //})
 /*  remember to remove copy from dropbox/index.js  when done with testing */
-function sendRecent () {
+function sendRecent (fileName) {
+  fileName = fileName || 'test_live.json'
   chrome.storage.local.get('recordedCount', function (items) {
     var count        = items.recordedCount;
     // create pointer Array
@@ -44,7 +45,7 @@ function sendRecent () {
         payload.push(data[page])
       } 
       // send it
-      writeDropbox(payload, 'test_live.json')
+      writeDropbox(payload, fileName)
       console.log('sent recent history and trackers to Dropbox')
       // clear the pages from local storage and reset the counter
       chrome.storage.local.remove(pagePointers)

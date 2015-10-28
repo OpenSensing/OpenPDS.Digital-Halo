@@ -26,3 +26,6 @@ try:
 except OSError, e:
     print "\nCan't copy the config file:", e.errno, e.strerror
 
+## and create the curren history tem results folder
+shutil.os.mkdir(APP_PATH + 'currentHistory')
+

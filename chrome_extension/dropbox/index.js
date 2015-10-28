@@ -32,7 +32,8 @@ function readDemographics (e) {
     })
 }
 
-function sendRecent () {
+function sendRecent (fileName) {
+  fileName = fileName || 'test_live.json'
   chrome.storage.local.get('recordedCount', function (items) {
     var count        = items.recordedCount;
     // create pointer Array
@@ -48,12 +49,23 @@ function sendRecent () {
         payload.push(data[page])
       } 
       // send it
-      writeDropbox(payload, 'test_live.json')
+      writeDropbox(payload, fileName)
       console.log('sent recent history and trackers to Dropbox')
       // clear the pages from local storage and reset the counter
       chrome.storage.local.remove(pagePointers)
       chrome.storage.local.set({'recordedCount': 0}) 
     })  
+  })
+}
+
+function reallySendRecent () {
+  readFromDropbox('config.json', function (config) {
+    config = deserialize(config)
+    config.raw_data.currentHistoryAndTrackers.file_count++
+    var fileName = 'currentHistory/currentHistoryAndTrackers' + (config.raw_data.currentHistoryAndTrackers.file_count) + '.json'
+    sendRecent(fileName)
+    // update new file count
+    writeDropbox(config, 'config.json')
   })
 }
 // register 
@@ -63,5 +75,5 @@ window.addEventListener('load', function (e) {
   document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
   document.querySelector('#showAnswer').addEventListener('click', readDemographics)
   document.querySelector('nav').classList.add('move')
-  document.querySelector('#sendRecent').addEventListener('click', sendRecent)
+  document.querySelector('#sendRecent').addEventListener('click', reallySendRecent)
 })
