@@ -17,12 +17,24 @@ client.authDriver(new Dropbox.AuthDriver.ChromeExtension({
 )
 
 function authenticateWithDropbox () {
-	client.authenticate(function (err, client) {
-		if (err) return handleDBoxError(err)
+	try {
+		client.authenticate(function (err, client) {
+			if (err) return handleDBoxError(err)
 
-		getDropboxAccountInfo()
-		console.log('Halo authenticated with Dropbox')	
-	})
+			getDropboxAccountInfo()
+			console.log('Halo authenticated with Dropbox')	
+		})  	
+  } catch (exception) {   // not giving authorization crashes the client, so trying to reset
+  	console.log(exception+'\nReseting the client and trying to authenticate again')
+  	client.reset()
+  	client.authenticate(function (err, client) {
+			if (err) return handleDBoxError(err)
+
+			getDropboxAccountInfo()
+			console.log('Halo authenticated with Dropbox')	
+		})  
+  }
+
 }
 function signOutOfDropbox () {
 	client.signOut(function (err) {
@@ -92,7 +104,7 @@ var handleDBoxError = function(error) {
   case Dropbox.ApiError.OAUTH_ERROR:
   case Dropbox.ApiError.INVALID_METHOD:
   default:
-    alert('An error occured, please refresh the page.')
+    alert('An error occured, please refresh the page. '+error.status)
   }
 };
 
