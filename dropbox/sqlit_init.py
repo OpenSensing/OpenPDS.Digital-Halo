@@ -9,7 +9,7 @@ print 'Initializatin of sqlite db: ',
 try:
 	create_tabs_queries = ["CREATE TABLE domain(name TEXT, total INT, count INT, ancient_count INT, domID INT, trackers TEXT, otherXDRs TEXT)",
 		"CREATE TABLE url(url TEXT, title TEXT, domain TEXT, trackers TEXT, otherXDRs TEXT, accessedAt INT)",
-		"CREATE TABLE tracker(name TEXT, domains TEXT, trackID INT)",
+		"CREATE TABLE tracker(name TEXT UNIQUE, domains TEXT, trackID INT)",
 		"CREATE TABLE otherXDR(name TEXT, domains TEXT, xdrID INT)"]
 
 	db  = sqlite3.connect(DB_PATH)

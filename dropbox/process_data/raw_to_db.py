@@ -6,9 +6,9 @@ import json
 def recent_to_sqlite(file_handle):
 	content = json.loads(file_handle.read())
 	for el in content:
-		record = [el.get('sentUrl'), el.get('sentTitle') ,el.get('domain'), str(el.get('thirdPTrackers')), str(el.get('firstPTrackers')), el.get('accessedAt')]
+		url_record = [el.get('sentUrl'), el.get('sentTitle') ,el.get('domain'), str(el.get('thirdPTrackers')), str(el.get('firstPTrackers')), el.get('accessedAt')]
 		try: 
-			cur.execute('INSERT INTO url VALUES (?,?,?,?,?,?)', record)
+			cur.execute('INSERT INTO url VALUES (?,?,?,?,?,?)', url_record)
 		except sqlite3.Error, e:
 			print 'error while inserting into url: ', e
 		#print el.get('sentTitle', '---- Title Missing ----')
