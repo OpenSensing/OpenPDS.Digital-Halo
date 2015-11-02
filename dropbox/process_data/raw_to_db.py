@@ -26,8 +26,8 @@ def recent_to_sqlite(file_handle):
 			print url_record
 
 		# DOMAINS table
-		insert_query = 'INSERT OR IGNORE INTO domain (name, total, recent) VALUES (?, ?, ?)'
-		update_counts_query = 'UPDATE domain SET total=total+1,recent=recent+1 WHERE name="{0}"'.format( domain )
+		domain_insert_query = 'INSERT OR IGNORE INTO domain (name, total, recent) VALUES (?, ?, ?)'
+		domain_update_counts_query = 'UPDATE domain SET total=total+1,recent=recent+1 WHERE name="{0}"'.format( domain )
 		
 		if trackers:
 			trackers = set(ast.literal_eval(trackers))
@@ -35,8 +35,8 @@ def recent_to_sqlite(file_handle):
 			otherXDRs = set(ast.literal_eval(otherXDRs))
 		
 		try:
-			cur.execute(insert_query, (domain, 0, 0))
-			cur.execute(update_counts_query)
+			cur.execute(domain_insert_query, (domain, 0, 0))
+			cur.execute(domain_update_counts_query)
 			if trackers:
 				cur.execute('SELECT trackers FROM domain WHERE name="{0}"'.format(domain))
 				db_trackers = cur.fetchone()[0]
@@ -55,8 +55,26 @@ def recent_to_sqlite(file_handle):
 
 			print 'UPDATE domain SET trackers = "{0}" WHERE name="{1}"'.format(list(trackers), domain)
 
+		# TRACKERS table
+		if trackers:
+			for tracker in trackers:
+				track_insert_query  = 'INSERT OR IGNORE INTO tracker(name) VALUES (?)'
+				track_select_query = 'SELECT domains FROM tracker WHERE name="{}"'.format(tracker)
 
-
+				try:
+					cur.execute(track_insert_query, (tracker,))
+					cur.execute(track_select_query)
+					tracked_domains = cur.fetchone()[0] 
+					
+					if tracked_domains:
+						tracked_domains = set(ast.literal_eval(tracked_domains))
+						if tracked_domains != tracked_domains.union(set([domain])):
+							cur.execute('UPDATE tracker SET domains="{}" WHERE name="{}"'.format(list(tracked_domains.union(set([domain]))), tracker))
+					else:
+						cur.execute('UPDATE tracker SET domains="{}" WHERE name="{}"'.format([domain], tracker))
+		
+				except sqlite3.Error, e:
+					print 'error while inserting into trackers tracker {1} for domain {0}'.format(domain, tracker), e
 	db.commit()
 
 
