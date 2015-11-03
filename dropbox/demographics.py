@@ -26,6 +26,7 @@ def count_score (data, model, prior = 0.5):
 			           #from index to odds ration
 			score[0] *= Decimal(model[d] / 100.0) ** count
 			score[1] += count
+	score[0] = float(score[0])
 	return score
 
 ######### 
@@ -62,7 +63,7 @@ kids = max(flat_kids, key = operator.itemgetter(1))
 ### income
 inc_scores = {}
 for inc_group in weights['income']:
-	inc_scores[inc_group] = count_score(browsing_history, weights['income'][inc_group]), inc_priors[inc_group]
+	inc_scores[inc_group] = count_score(browsing_history, weights['income'][inc_group], inc_priors[inc_group])
 flat_inc = [(l,v[0]) for l,v in inc_scores.iteritems()]
 inc      = max(flat_inc, key= operator.itemgetter(1))
 
@@ -84,4 +85,14 @@ file_io.saveToDropbox({
 	'kids'     : kids[0],
 	'createdAt': int(time.time()*1000)
 }, 'test_res.json')
+
+file_io.saveToDropbox({
+	'gender'   : {'Male': male_score, 'Female': female_score},
+	'age'      : age_scores,
+	'education': edu_scores,
+	'race'     : eth_scores,
+	'income'   : inc_scores,
+	'kids'     : kids_scores,
+	'createdAt': int(time.time()*1000)
+}, 'test_res_details.json')
 
