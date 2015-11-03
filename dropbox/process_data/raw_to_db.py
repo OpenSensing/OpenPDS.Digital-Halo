@@ -3,6 +3,9 @@ import os
 import sqlite3
 import json
 import ast
+from copy import deepcopy
+
+import pdb
 
 def recent_to_sqlite(file_handle):
 	content = json.loads(file_handle.read())
@@ -12,9 +15,13 @@ def recent_to_sqlite(file_handle):
 		title      = el.get('sentTitle')
 		domain     = el.get('domain')
 		trackers   = el.get('thirdPTrackers')
-		if trackers : trackers = str(trackers)
+		if trackers : 
+			trackers_details = deepcopy(trackers)
+			trackers = str(trackers.keys())
 		otherXDRs  = el.get('firstPTrackers')
-		if otherXDRs: otherXDRs = str(otherXDRs)
+		if otherXDRs: 
+			otherXDRs_details = deepcopy(otherXDRs)
+			otherXDRs = str(otherXDRs.keys())
 		accessedAt = el.get('accessedAt')
 
 		# URL table 
@@ -57,12 +64,16 @@ def recent_to_sqlite(file_handle):
 
 		# TRACKERS table
 		if trackers:
-			for tracker in trackers:
-				track_insert_query  = 'INSERT OR IGNORE INTO tracker(name) VALUES (?)'
+			for tracker, owner in trackers_details.iteritems():
+				
+				#pdb.set_trace()
+
+				owner, ownerUrl   = owner
+				track_insert_query = 'INSERT OR IGNORE INTO tracker(name, owner, ownerUrl) VALUES (?, ?, ?)'
 				track_select_query = 'SELECT domains FROM tracker WHERE name="{}"'.format(tracker)
 
 				try:
-					cur.execute(track_insert_query, (tracker,))
+					cur.execute(track_insert_query, (tracker, owner, ownerUrl))
 					cur.execute(track_select_query)
 					tracked_domains = cur.fetchone()[0] 
 					
@@ -84,9 +95,10 @@ cur = db.cursor()
 
 for subdir, dirs, files  in os.walk(RECENT_PATH):
 	for file_name in files:
-		file_name = RECENT_PATH + file_name
-		with open(file_name, 'r') as f:
-			recent_to_sqlite(f)
+		if file_name != '.DS_Store': 
+			file_name = RECENT_PATH + file_name
+			with open(file_name, 'r') as f:
+				recent_to_sqlite(f)
 
 db.close()
 

@@ -15,8 +15,8 @@ function storeBrowsingAndTrackingLocaly(message, sender) {
       toStore['page' + n]['sentTitle']      = message.title,
       toStore['page' + n]['accessedAt']     = message.accessedAt,
       toStore['page' + n]['domain']         = GET(message.URL),
-      toStore['page' + n]['thirdPTrackers'] = BAD_XDOMAIN_REQUESTS[sender.tab.id] && Object.keys(BAD_XDOMAIN_REQUESTS[sender.tab.id]),
-      toStore['page' + n]['firstPTrackers'] = FISHY_REQUESTS[sender.tab.id] && Object.keys(FISHY_REQUESTS[sender.tab.id])
+      toStore['page' + n]['thirdPTrackers'] = BAD_XDOMAIN_REQUESTS[sender.tab.id], //&& Object.keys(BAD_XDOMAIN_REQUESTS[sender.tab.id]),
+      toStore['page' + n]['firstPTrackers'] = FISHY_REQUESTS[sender.tab.id],// && Object.keys(FISHY_REQUESTS[sender.tab.id])
       chrome.storage.local.set(toStore, function (err) {
         if (err) console.error(err)
 

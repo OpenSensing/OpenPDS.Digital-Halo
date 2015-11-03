@@ -442,7 +442,7 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
     if (!startTime) startTime = new Date();   
   }
 
-  const CHILD_SERVICE = getService(CHILD_DOMAIN);                                 /* getServices - defined in services.js
+  const CHILD_SERVICE = getService(CHILD_DOMAIN);      /* getServices - defined in services.js
                                                                                     object {category: "Disconnect|Advertising|etc" 
                                                                                            , name: "Google|Microsoft|etc"      - owner
                                                                                            , url: "http://www.google.com|etc"  - owners www
@@ -496,8 +496,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
       //alert('safe: ', REQUESTED_URL)   //  ###########################################################################
       if (!PARENT) {
         if (!FISHY_REQUESTS[TAB_ID])  FISHY_REQUESTS[TAB_ID] = {} 
+        if (!FISHY_REQUESTS[TAB_ID][CHILD_DOMAIN])  FISHY_REQUESTS[TAB_ID][CHILD_DOMAIN] = [CHILD_SERVICE['name'], CHILD_SERVICE['url']]
+        /*
         FISHY_REQUESTS[TAB_ID][CHILD_DOMAIN] ? 
           FISHY_REQUESTS[TAB_ID][CHILD_DOMAIN] += 1: FISHY_REQUESTS[TAB_ID][CHILD_DOMAIN] = 1
+        */
       }
 
     //---------------------  IF STH ABOVE TRUE & REDIRECT - 'HARDEN'                                                                  
@@ -540,9 +543,11 @@ chrome.webRequest.onBeforeRequest.addListener(function(details) {
    //alert( CHILD_NAME +' '+ CHILD_SERVICE  +' '+ CHILD_CATEGORY +' '+ CHILD_DOMAIN)   //  ###########################################################################
       //alert(CHILD_DOMAIN)   //  ###########################################################################
       if (!BAD_XDOMAIN_REQUESTS[TAB_ID])  BAD_XDOMAIN_REQUESTS[TAB_ID] = {} 
+      if (!BAD_XDOMAIN_REQUESTS[TAB_ID][CHILD_DOMAIN]) BAD_XDOMAIN_REQUESTS[TAB_ID][CHILD_DOMAIN] = [CHILD_SERVICE['name'], CHILD_SERVICE['url']]
+      /*
       BAD_XDOMAIN_REQUESTS[TAB_ID][CHILD_DOMAIN] ? 
         BAD_XDOMAIN_REQUESTS[TAB_ID][CHILD_DOMAIN] += 1: BAD_XDOMAIN_REQUESTS[TAB_ID][CHILD_DOMAIN] = 1
-
+      */
 
       blockingResponse = {
         redirectUrl:

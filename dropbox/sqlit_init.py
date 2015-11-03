@@ -10,8 +10,8 @@ def create_tables():
 	try:
 		create_tabs_queries = ["CREATE TABLE domain(name TEXT UNIQUE, total INT, recent INT, ancient_count INT, trackers TEXT, otherXDRs TEXT)",
 			"CREATE TABLE url(url TEXT, title TEXT, domain TEXT, trackers TEXT, otherXDRs TEXT, accessedAt INT)",
-			"CREATE TABLE tracker(name TEXT UNIQUE, domains TEXT, trackID INT)",
-			"CREATE TABLE otherXDR(name TEXT UNIQUE, domains TEXT, xdrID INT)"]
+			"CREATE TABLE tracker(name TEXT UNIQUE, domains TEXT, owner TEXT, ownerUrl TEXT)",
+			"CREATE TABLE otherXDR(name TEXT UNIQUE, domains TEXT, owner TEXT, ownerUrl TEXT)"]
 
 		db  = sqlite3.connect(DB_PATH)
 		cur = db.cursor()

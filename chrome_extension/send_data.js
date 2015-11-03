@@ -7,8 +7,8 @@ chrome.runtime.onMessage.addListener(function(message,sender, cb) {
       'sentUrl':         message.URL,
       'sentTitle':       message.title,
       'accessedAt':      message.accessedAt,
-      'thirdPTrackers':  BAD_XDOMAIN_REQUESTS[sender.tab.id] && Object.keys(BAD_XDOMAIN_REQUESTS[sender.tab.id]),
-      'firstPTrackers':  FISHY_REQUESTS[sender.tab.id] && Object.keys(FISHY_REQUESTS[sender.tab.id])  
+      'thirdPTrackers':  BAD_XDOMAIN_REQUESTS[sender.tab.id], //&& Object.keys(BAD_XDOMAIN_REQUESTS[sender.tab.id]),
+      'firstPTrackers':  FISHY_REQUESTS[sender.tab.id] //&& Object.keys(FISHY_REQUESTS[sender.tab.id])  
     }))
     //alert(JSON.stringify(message)+'\n'+JSON.stringify(BAD_XDOMAIN_REQUESTS[sender.tab.id]))
   }, 1500)
