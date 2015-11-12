@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import biplist
-from file_io import APP_PATH
+from utils import APP_PATH
 
 #
 SAFARI_PATH = os.environ['HOME'] + '/Library/Safari/'
