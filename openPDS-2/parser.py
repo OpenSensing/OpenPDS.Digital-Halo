@@ -13,16 +13,16 @@ data_types = ['domain',
              ]
 
 inouts     = json.loads(sys.argv[1])
-files_root = inouts.get('root')
-dbs_root   = inouts.get('root')
+files_root = inouts.get('files_root')
+dbs_root   = inouts.get('dbs_root')
 files	   = inouts.get('files')
 dbs        = inouts.get('dbs')
 
 ## open dbs
-domaindb = sqlite3.connect(path.join(dbs_root, 'domain.db'))
-urldb    = sqlite3.connect(path.join(dbs_root, 'url.db'))
-trackerdb    = sqlite3.connect(path.join(dbs_root, 'tracker.db'))
-otherXDRsdb    = sqlite3.connect(path.join(dbs_root, 'otherXDRs.db'))
+domaindb = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_domain.db'))
+urldb    = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_url.db'))
+trackerdb    = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_tracker.db'))
+otherXDRsdb    = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_otherXDRs.db'))
 ## get cursors
 domaindb_cur = domaindb.cursor()    
 urldb_cur = urldb.cursor()    
@@ -34,6 +34,7 @@ otherXDRsdb_cur = otherXDRsdb.cursor()
 history    = False
 if 'history.json' in files:
     history = files.pop(files.index('history.json'))
+    history = path.join(files_root, history)
 
 if history:
     with open(history, 'r') as his_fil:
