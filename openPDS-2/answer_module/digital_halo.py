@@ -13,17 +13,20 @@ import csv
 
 
 inouts     = json.loads(sys.argv[1])
-dbs_root   = inouts.get('dbs_root')
 dbs        = inouts.get('dbs')
 results    = inouts.get('results')
 RES_PATH   = path.join(results, 'res_per_tracker.json')
 RES_DETAILS_PATH  =  path.join(results, 'res_per_tracker_details.json')
 
 ## open dbs
-domaindb = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_domain.db'))
-trackerdb    = sqlite3.connect(path.join(dbs_root, 'Digital-Halo_tracker.db'))
+for dbpath in dbs:
+	if path.split(dbpath)[1] == 'Digital-Halo_domain.db':
+		domaindb     = sqlite3.connect(dbpath)
+	elif path.split(dbpath)[1] == 'Digital-Halo_tracker.db':
+		trackerdb    = sqlite3.connect(dbpath)
+
 ## get cursors
-domaindb_cur = domaindb.cursor()    
+domaindb_cur  = domaindb.cursor()    
 trackerdb_cur = trackerdb.cursor()    
 
 #### model work
