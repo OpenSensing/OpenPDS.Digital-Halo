@@ -59,7 +59,8 @@
     "http://*/*",
     "https://*/*",
     "history",
-    "storage"
+    "storage",
+    "nativeMessaging"
   ]
 
 }

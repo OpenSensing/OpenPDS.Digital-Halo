@@ -1,6 +1,6 @@
 {
  "name": "Digital-Halo",
- "parserPath": "digital_halo_parser.py",
+ "parserPath": "parser.py",
  "dropboxFileLocation": "openPDS.Digital-Halo/currentHistory",
  "dataTypes": [
    {
