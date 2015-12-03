@@ -69,12 +69,18 @@ function sendRecent () {
   })
 }
 
+function openPDS (e) {
+  chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content' : 'no message, just open app.'})
+}
+
 // register 
 window.addEventListener('load', function (e) {
-  document.querySelector('#logIn').addEventListener('click', authenticateWithDropbox) 
-  document.querySelector('#logOut').addEventListener('click', signOutOfDropbox)
-  document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
-  document.querySelector('#showAnswer').addEventListener('click', readDemographics)
-  document.querySelector('nav').classList.add('move')
-  document.querySelector('#sendRecent').addEventListener('click', sendRecent)
+  document.querySelector('#log_in').addEventListener('click', authenticateWithDropbox) 
+  document.querySelector('#log_out').addEventListener('click', signOutOfDropbox)
+  //document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
+  //document.querySelector('#showAnswer').addEventListener('click', readDemographics)
+  //document.querySelector('nav').classList.add('move')
+  //document.querySelector('#sendRecent').addEventListener('click', sendRecent)
+  document.querySelector('#meetMonsters').addEventListener('click', readDemographics)
+  document.querySelector('#openYourPDS').addEventListener('click', openPDS)
 })

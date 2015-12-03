@@ -1,0 +1,9 @@
+{
+    "name": "Digital-Halo",
+    "dropboxDirectory": "openPDS.Digital-Halo",
+    "scriptPath": "digital_halo.py",
+    "requiredDataTypes": [
+        "Digital-Halo.domain",
+        "Digital-Halo.tracker"
+    ]
+}

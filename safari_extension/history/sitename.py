@@ -1,6 +1,6 @@
 import json
 from urlparse import urlparse
-from file_io import ANAL_PATH
+from utils import ANAL_PATH
 
 with open (ANAL_PATH + 'tlds.json', 'r') as tlds_file:
 	tlds = json.loads(tlds_file.read())

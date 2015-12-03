@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang='en'>
  	<head>
- 		<link rel='stylesheet' type='text/css' href='../style/stylesheet.css'/>
+ 		<!--link rel='stylesheet' type='text/css' href='../style/stylesheet.css'/-->
+ 		<script src='../trackers/vendor/jquery/jquery.js'></script>
+		<link rel='stylesheet' type='text/css' href='../lib/materialize/css/materialize.css'/>
+		<script src='../lib/materialize/js/materialize.js'></script>
+		<!--meta name="viewport" content="width=device-width, initial-scale=1.0"/-->
+
  		<script src='../trackers/vendor/jquery/jquery.js'></script>
  		<script src='../trackers/vendor/sitename/alttlds.js'></script>
  		<script src='../trackers/vendor/sitename/tldpatch.js'></script>
@@ -12,25 +17,48 @@
  	</head>
  	<body>
  		<header>
-			<h1>This be a New Halo website</h1>
-			<nav>
-				<!--h2>Log in</h2-->
-				<button type='button' id='logIn'>Log in</button>
-				<!--h2>Log out</h2-->
-			  	<button type='button' id='logOut'>Log out</button>
+			<!--h1>Digital Halo: Cookie Jar</h1-->
+			<nav class='red darken-1' role='navigation'>
+				<div class='nav-wrapper container'>
+					<a id='logo-container' href='#' class='brand-logo center'>Digital Halo: Cookie Jar</a>
+					<ul id='nav-mobile' class='left'>
+					  <li><a id='log_in' href='#log_in'>Log in</a></li>
+					  <li><a id='log_out' href='#log_out'>Log out</a></li>
+					</ul>
+					<!--button class='btn red waves-effect waves-light right' type='button' id='logIn'>Log in</button>
+					
+				  	<button class='btn red waves-effect waves-light right' type='button' id='logOut'>Log out</button-->
+    	    	</div>
     	    </nav>
 		</header>
 		<section id='buttons'>
-			<h2>You can send your browsing history to YOUR dropbox account</h2>
-		  	<button type='button' id='sendSDK'>Send to Dropbox via SDK</button>
-		  	<h2>You can see your profile by pushing the button below</h2>
+			<!--h2>You can send your browsing history to YOUR dropbox account</h2>
+		  	<button type='button' id='sendSDK'>Send to Dropbox via SDK</button-->
+			<ul class="tabs">
+			    <li class="tab col s4 m1 l1" id="meetMonsters"><a href="#meetYourMonsters" class="active red-text">Meet your monsters</a></li>
+			    <li id="openYourPDS" class="tab col s4"><a href="#open_PDS" class="red-text">Open your Personal Data Store</a></li>
+			    <li class="tab col s4"><a href="#inviteAFriend" class="red-text">Invite your friend</a></li>
+			</ul>
+
+		  	<!--h2>You can see your profile by pushing the button below</h2>
 		  	<button type='button' id='showAnswer'>Show demographics</button>
 		  	<h2>You can send recent browsing history and tracker data to YOUR dropbox</h2>
 		  	<button type='button' id='sendRecent'>Send recent data</button>
+		  	<h2>Open your Open Personal Data Store application </h2>
+		  	<button type='button' id='openPDS'>Open PDS</button-->
     	</section>
     	<section id='viz-section'>
-    		<ul id='demographics-ul'>
-    		</ul>
+    		<div id='meetYourMonsters' class='container'>
+    			<ul id='demographics-ul'>
+    			</ul>
+    		</div>
+    		<div id='open_PDS' class='container'>
+    			<p>Open PDS</p>
+    		</div>
+    		<div id='inviteAFriend' class='container'>
+    			<p>Invite a friend</p>
+    		</div>
+    		
     	</section>
     <script src='index.js'></script>
   </body>

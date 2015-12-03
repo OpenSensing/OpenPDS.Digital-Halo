@@ -1,4 +1,3 @@
-from file_io import APP_PATH, ANAL_PATH
 import os
 from shutil import copyfile
 import sqlite3
@@ -7,6 +6,9 @@ from collections import defaultdict
 
 from sitename import sitename
 from parse_history_plist import *
+
+##### Get pahts
+from utils import APP_PATH, ANAL_PATH, REPO_PATH
 
 ######  copy the history file to DBox
 
