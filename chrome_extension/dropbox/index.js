@@ -17,20 +17,26 @@ function writeHistory (e) {
     getHistory(writeDropbox)
 }
 
+function presentResults (results) {
+  for (category in results) {
+    if (category != 'createdAt') {
+        var new_li = document.createElement('li');
+        document.querySelector('#demographics-ul').appendChild(new_li);
+        new_li.innerHTML = category + '\t' + results[category][0]
+    } 
+  }
+}
+
 function readDemographics (e) {
-  var demoFile = 'test_res.json'
+  var demoFile = 'res_per_tracker.json'
     readFromDropbox(demoFile, function showDemographics(demographics) { 
-        demographics = JSON.parse(demographics); 
-        for (category in demographics) {
-            if (category != 'createdAt') {
-                var new_li = document.createElement('li');
-                document.querySelector('#demographics-ul').appendChild(new_li);
-                new_li.innerHTML = category + '\t' + demographics[category]
-          } 
-        }
-        //alert(serialize(demo))
+        demographics = deserialize(demographics); 
+        totals = demographics['total'];
+
+        presentResults(totals)
     })
 }
+
 
 function sendRecent () {
   // get the overall count of recorded visits

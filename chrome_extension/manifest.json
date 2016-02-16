@@ -61,6 +61,11 @@
     "history",
     "storage",
     "nativeMessaging"
-  ]
+  ],
+
+  "icons": { "16" : "icon-16.png",
+             "48" : "icon-16.png",
+             "128": "icon-16.png" 
+  }
 
 }
