@@ -2,12 +2,14 @@
 <html lang='en'>
  	<head>
  		<!--link rel='stylesheet' type='text/css' href='../style/stylesheet.css'/-->
- 		<script src='../trackers/vendor/jquery/jquery.js'></script>
-		<link rel='stylesheet' type='text/css' href='../lib/materialize/css/materialize.css'/>
-		<script src='../lib/materialize/js/materialize.js'></script>
-		<!--meta name="viewport" content="width=device-width, initial-scale=1.0"/-->
+
+ 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 		<link rel='stylesheet' type='text/css' href='../lib/materialize/css/materialize.css'/>
+ 		<link rel='stylesheet' type='text/css' href='../style/material-icons.css'>
+ 		<link rel='stylesheet' type='text/css' href='../style/stylesheet.css'>
 
  		<script src='../trackers/vendor/jquery/jquery.js'></script>
+		<script src='../lib/materialize/js/materialize.js'></script>
  		<script src='../trackers/vendor/sitename/alttlds.js'></script>
  		<script src='../trackers/vendor/sitename/tldpatch.js'></script>
  		<script src='../trackers/vendor/sitename/sitename.js'></script>
@@ -18,18 +20,23 @@
  	<body>
  		<header>
 			<!--h1>Digital Halo: Cookie Jar</h1-->
-			<nav class='red darken-1' role='navigation'>
-				<div class='nav-wrapper container'>
-					<a id='logo-container' href='#' class='brand-logo center'>Digital Halo: Cookie Jar</a>
-					<ul id='nav-mobile' class='left'>
-					  <li><a id='log_in' href='#log_in'>Log in</a></li>
-					  <li><a id='log_out' href='#log_out'>Log out</a></li>
-					</ul>
-					<!--button class='btn red waves-effect waves-light right' type='button' id='logIn'>Log in</button>
-					
-				  	<button class='btn red waves-effect waves-light right' type='button' id='logOut'>Log out</button-->
-    	    	</div>
-    	    </nav>
+			<div class='navbar-fixed'>
+				<nav class='red darken-1' role='navigation'>
+					<div class='nav-wrapper container'>
+						<!--a id='logo-container' href='#' class='brand-logo right'>Digital Halo: Cookie Jar</a-->
+						<a id='logo-container' href='#' class='brand-logo left'>Digital Halo</a>
+						<a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="mdi-navigation-menu"></i></a>
+						<ul id='nav-mobile' class='right hide-on-med-and-down'>
+						  <li><a id='log_in' href='#log_in'>Log in</a></li>
+						  <li><a id='log_out' href='#log_out'>Log out</a></li>
+						</ul>
+						<ul class='side-nav' id='mobile-menu'>	
+							<li><a id='mobile-log_in' href='#mobile-log_in'>Log in</a></li>
+							<li><a id='mobile-log_out' href='#mobile-log_out'>Log out</a></li>
+						</ul>
+	    	    	</div>
+	    	    </nav>
+	    	</div>
 		</header>
 		<section id='buttons'>
 			<!--h2>You can send your browsing history to YOUR dropbox account</h2>
@@ -49,11 +56,41 @@
     	</section>
     	<section id='viz-section'>
     		<div id='meetYourMonsters' class='container'>
-    			<ul id='demographics-ul'>
-    			</ul>
+    			<div class='row'>
+    				<div class='col s12 m6 l6'>
+    					<div class='card hoverable'>
+    						<div class='card-image'>
+    							<img src='' alt='The Cookie Jar or other trackers visualization' />
+    						</div>
+    					</div>
+    				</div>
+
+    				<div class='col s12 m6 l6'>   
+    					<div class='card hoverable'> 
+    						<div class='card-content'>
+		    					<table class='centered highlight'>
+		    						<caption class='center-align'>Your tracker thinks that you are:</caption>
+		    						<thead>
+		    							<tr>
+		    								<th data-field='category'>Category</th>
+		    								<th data-field='group'>Group</th>
+		    								<th data-field='probability'>Probability</th>
+		    							</tr>
+		    						</thead>
+
+		    						<tbody id='demographics-table'>
+		    							<!-- the computed demographic categories go here -->
+		    						</tbody>
+		    					</table>
+		    				</div>
+		    			</div>
+		    			<!--ul id='demographics-ul'></ul-->
+    				</div>
+    			</div>	
+    		
     		</div>
     		<div id='open_PDS' class='container'>
-    			<p>Open PDS</p>
+    			<p>Click on the OpenPDS icon in the dock or circle through your open windows to manage your Personal Data System</p>
     		</div>
     		<div id='inviteAFriend' class='container'>
     			<p>Invite a friend</p>

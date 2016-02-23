@@ -1,16 +1,11 @@
-body {
-	background-color : #D6C299; 
+
+
+tr:hover { background: #f5f5f5; }
+
+progress {
+	width:100px;
 }
 
-header {
-	background-color : #C28566;
-	padding					 : 0.3em 0.3em 0.3em 0.3em;
-}
-
-nav {
-	display          : inline-block;
-	padding					 : 0.5em 0.5em 0.5em 0.5em; 
-}
 
 .move {
 	-webkit-transform : rotate(0.5turn);

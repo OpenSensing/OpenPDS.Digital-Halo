@@ -17,15 +17,28 @@ function writeHistory (e) {
     getHistory(writeDropbox)
 }
 
-function presentResults (results) {
-  for (category in results) {
-    if (category != 'createdAt') {
+function presentResultsAsList (results) {
+  for (group in results) {
+    if (group != 'createdAt') {
         var new_li = document.createElement('li');
         document.querySelector('#demographics-ul').appendChild(new_li);
-        new_li.innerHTML = category + '\t' + results[category][0]
+        new_li.innerHTML = group + '\t' + results[group][0]
     } 
   }
 }
+
+function presentResultsAsTable (results){
+  for (group in results) {
+    if (group != 'createdAt') {
+      category    = results[group][0]
+      probability = results[group][1].toFixed(3)
+      rowHTML  = '<tr><td>'+group+'</td><td>'+category+'</td><td>'+probability+'</td></tr>'
+      $('#demographics-table').append(rowHTML);
+      $('#demographics-table').append('<tr><td><progress value='+probability+' max=1></progress></td><tr>')
+    } 
+  }
+}
+
 
 function readDemographics (e) {
   var demoFile = 'res_per_tracker.json'
@@ -33,7 +46,7 @@ function readDemographics (e) {
         demographics = deserialize(demographics); 
         totals = demographics['total'];
 
-        presentResults(totals)
+        presentResultsAsTable(totals)
     })
 }
 
@@ -83,10 +96,14 @@ function openPDS (e) {
 window.addEventListener('load', function (e) {
   document.querySelector('#log_in').addEventListener('click', authenticateWithDropbox) 
   document.querySelector('#log_out').addEventListener('click', signOutOfDropbox)
+ 
   //document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
   //document.querySelector('#showAnswer').addEventListener('click', readDemographics)
   //document.querySelector('nav').classList.add('move')
   //document.querySelector('#sendRecent').addEventListener('click', sendRecent)
   document.querySelector('#meetMonsters').addEventListener('click', readDemographics)
   document.querySelector('#openYourPDS').addEventListener('click', openPDS)
+  $(".button-collapse").sideNav({edge: 'right'})
+  $('#mobile-log_in').on('click', authenticateWithDropbox)
+  $('#mobile-log_out').on('click', signOutOfDropbox)
 })
