@@ -40,7 +40,7 @@ if history:
     with open(history, 'r') as his_fil:
 	history = json.loads(his_fil.read())
         
-	insert_his_query = 'INSERT INTO domain (name, total, ancient_count, recent)VALUES(?, ?, ?, ?)'
+	insert_his_query = 'INSERT OR IGNORE INTO domain (name, total, ancient_count, recent)VALUES(?, ?, ?, ?)'
 	domains         = [(dom, count, count, 0) for dom,count in history.iteritems()]        	
         domaindb_cur.executemany(insert_his_query, domains)
         domaindb.commit()
@@ -49,6 +49,8 @@ if history:
 
 def recent_to_sqlite(file_handle):
     content = json.loads(file_handle.read())
+
+    #  el is information about a single page
     for el in content:
         # extract features
         url        = el.get('sentUrl')
@@ -107,11 +109,21 @@ def recent_to_sqlite(file_handle):
             for tracker, owner in trackers_details.iteritems():
 
                 owner, ownerUrl   = owner
-                track_insert_query = 'INSERT OR IGNORE INTO tracker(name, owner, ownerUrl) VALUES (?, ?, ?)'
+
+                ### query definitions
+                ## following two lines work as an upsert definition
+                track_insert_query = 'INSERT OR IGNORE INTO tracker(name, owner, ownerUrl, timesSeen) VALUES (?, ?, ?, ?)'             
+                tracker_update_counts_query = 'UPDATE tracker SET timesSeen=timesSeen+1 WHERE name="{0}"'.format( tracker )            
+                ## upsert end
+
                 track_select_query = 'SELECT domains FROM tracker WHERE name="{}"'.format(tracker)
+                ### query definitions end
 
                 try:
-                    trackerdb_cur.execute(track_insert_query, (tracker, owner, ownerUrl))
+                    ## perform upsert
+                    trackerdb_cur.execute(track_insert_query, (tracker, owner, ownerUrl, 0))
+                    trackerdb_cur.execute(tracker_update_counts_query)
+                    ## end of upsert
                     trackerdb_cur.execute(track_select_query)
                     tracked_domains = trackerdb_cur.fetchone()[0] 
                     

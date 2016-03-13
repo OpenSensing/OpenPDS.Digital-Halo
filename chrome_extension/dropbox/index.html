@@ -2,11 +2,12 @@
 <html lang='en'>
  	<head>
  		<!--link rel='stylesheet' type='text/css' href='../style/stylesheet.css'/-->
-
+ 		<meta charset='utf-8'>
  		<meta name="viewport" content="width=device-width, initial-scale=1.0">
  		<link rel='stylesheet' type='text/css' href='../lib/materialize/css/materialize.css'/>
  		<link rel='stylesheet' type='text/css' href='../style/material-icons.css'>
  		<link rel='stylesheet' type='text/css' href='../style/stylesheet.css'>
+ 		<link rel='stylesheet' type='text/css' href='../style/d3style.css'>
 
  		<script src='../trackers/vendor/jquery/jquery.js'></script>
 		<script src='../lib/materialize/js/materialize.js'></script>
@@ -15,13 +16,16 @@
  		<script src='../trackers/vendor/sitename/sitename.js'></script>
  		<script src='dropbox.js'></script>
  		<script src='dropboxMine.js'></script>
+
+
  		<!--script src='../lib/background/store_localy.js'></script-->
  	</head>
  	<body>
  		<header>
 			<!--h1>Digital Halo: Cookie Jar</h1-->
 			<div class='navbar-fixed'>
-				<nav class='red darken-1' role='navigation'>
+				<!--nav class='red darken-1' role='navigation'-->
+				<nav class='red darken-4' role='navigation'>
 					<div class='nav-wrapper container'>
 						<!--a id='logo-container' href='#' class='brand-logo right'>Digital Halo: Cookie Jar</a-->
 						<a id='logo-container' href='#' class='brand-logo left'>Digital Halo</a>
@@ -42,9 +46,9 @@
 			<!--h2>You can send your browsing history to YOUR dropbox account</h2>
 		  	<button type='button' id='sendSDK'>Send to Dropbox via SDK</button-->
 			<ul class="tabs">
-			    <li class="tab col s4 m1 l1" id="meetMonsters"><a href="#meetYourMonsters" class="active red-text">Meet your monsters</a></li>
-			    <li id="openYourPDS" class="tab col s4"><a href="#open_PDS" class="red-text">Open your Personal Data Store</a></li>
-			    <li class="tab col s4"><a href="#inviteAFriend" class="red-text">Invite your friend</a></li>
+			    <li class="tab col s4 m1 l1" id="meetMonsters"><a href="#meetYourMonsters" class="active red-text text-darken-4">Meet your monsters</a></li>
+			    <li id="openYourPDS" class="tab col s4"><a href="#open_PDS" class="red-text text-darken-4">Open your Personal Data Store</a></li>
+			    <li class="tab col s4"><a href="#inviteAFriend" class="red-text text-darken-4">Invite your friend</a></li>
 			</ul>
 
 		  	<!--h2>You can see your profile by pushing the button below</h2>
@@ -59,16 +63,24 @@
     			<div class='row'>
     				<div class='col s12 m6 l6'>
     					<div class='card hoverable'>
-    						<div class='card-image'>
-    							<img src='' alt='The Cookie Jar or other trackers visualization' />
-    						</div>
+    						<section class='card-content' id='cookies-container'>
+    							
+    						</section>
     					</div>
     				</div>
 
     				<div class='col s12 m6 l6'>   
     					<div class='card hoverable'> 
-    						<div class='card-content'>
-		    					<table class='centered highlight'>
+    						<section class='card-content' id='demographic-barcharts'>
+    							<h3>Your <span class='tracker-name'></span> cookie thinks that your are:</h3>
+    							<div><i class='mdi-navigation-refresh left'></i><svg id='gender-bars' class='demographic-bars gender'></svg></div>
+    							<svg id='age-bars' class='demographic-bars age'></svg>
+								<svg id='income-bars' class='demographic-bars income'></svg>
+								<svg id='education-bars' class='demographic-bars education'></svg>
+								<svg id='kids-bars' class='demographic-bars kids'></svg>
+
+
+		    					<!--table class='centered highlight'>
 		    						<caption class='center-align'>Your tracker thinks that you are:</caption>
 		    						<thead>
 		    							<tr>
@@ -79,10 +91,10 @@
 		    						</thead>
 
 		    						<tbody id='demographics-table'>
-		    							<!-- the computed demographic categories go here -->
+		    							
 		    						</tbody>
-		    					</table>
-		    				</div>
+		    					</table-->
+		    				</section>
 		    			</div>
 		    			<!--ul id='demographics-ul'></ul-->
     				</div>
@@ -97,6 +109,9 @@
     		</div>
     		
     	</section>
+	<script src='../bower_components/d3/d3.js'></script>
+	<script src='../demoViz.js'></script>
+	<script src='../cookiesViz.js'></script>
     <script src='index.js'></script>
   </body>
 </html>

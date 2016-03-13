@@ -13,10 +13,9 @@ function getHistory (cb) {
   })
 }
 
-function writeHistory (e) {
-    getHistory(writeDropbox)
-}
 
+
+// Presentation functions
 function presentResultsAsList (results) {
   for (group in results) {
     if (group != 'createdAt') {
@@ -40,15 +39,76 @@ function presentResultsAsTable (results){
 }
 
 
-function readDemographics (e) {
-  var demoFile = 'res_per_tracker.json'
-    readFromDropbox(demoFile, function showDemographics(demographics) { 
-        demographics = deserialize(demographics); 
-        totals = demographics['total'];
+//Dropbox inout
 
-        presentResultsAsTable(totals)
+function writeHistory (e) {
+    getHistory(writeDropbox)
+}
+
+function readDemographics () {
+  var demoFile = 'res_per_tracker_details.json'
+  readFromDropbox(demoFile, function showDemographics(demographics) { 
+      demographics = deserialize(demographics); 
+      totals = demographics['total'];
+
+      //initial render of totals
+      updateBarcharts('total', totals);
+
+
+
+
+      var trackerList = ['total'];
+      for (trackerName in demographics) {
+        if (demographics[trackerName] != 'No data available in model') {
+          trackerList.push(trackerName);
+        }
+      };
+
+      d3.select('#cookies-container').selectAll('.leaf')
+        .filter(function (d) {return (trackerList.indexOf(d.name) > -1)})
+        .on('click', function (d) {updateBarcharts(d.name, demographics[d.name])})
+    })
+
+  var demoPerCompanyFile = 'res_per_company_details.json'
+    readFromDropbox(demoPerCompanyFile, function showDemographics(demographics) { 
+      demographics = deserialize(demographics); 
+
+      var companyList = [];
+      for (companyName in demographics) {
+        if (demographics[companyName] != 'No data available in model') {
+          companyList.push(companyName);
+        }
+      };
+
+      d3.select('#cookies-container').selectAll('.node:not(.leaf):not(.root)')
+        .filter(function (d) {return (companyList.indexOf(d.name) > -1)})
+        .on('click', function (d) {updateBarcharts(d.name, demographics[d.name])})
+
+
+/*        var trackerLinks = d3.select('#cookies-container').selectAll('p')
+          .data(trackerList)
+          .enter().append('p')
+          .html(function (d) {return d})
+          .on('click', function (d) { updateBarcharts(d, demographics[d])});
+*/
     })
 }
+
+function readTrackerCounts () {
+  readFromDropbox('tracker_counts.json', function (data) {
+    data = deserialize(data);
+    packFeed = {name: 'Tracking Companies', 'children': []};
+
+    var min_count = 50; 
+    for (i in data) {
+      if (data[i].count >= min_count) packFeed['children'].push(data[i])   // trim out small tracking companies
+       
+    }
+
+    showCookieJar(packFeed, readDemographics)
+})
+}
+
 
 
 function sendRecent () {
@@ -93,17 +153,17 @@ function openPDS (e) {
 }
 
 // register 
-window.addEventListener('load', function (e) {
-  document.querySelector('#log_in').addEventListener('click', authenticateWithDropbox) 
-  document.querySelector('#log_out').addEventListener('click', signOutOfDropbox)
+$().ready(function (e) {
+  $('#log_in').click(authenticateWithDropbox) ;
+  $('#log_out').click(signOutOfDropbox);
  
   //document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
-  //document.querySelector('#showAnswer').addEventListener('click', readDemographics)
+  //document.querySelector('#showAnswer').addEventListener('click', read$)
   //document.querySelector('nav').classList.add('move')
   //document.querySelector('#sendRecent').addEventListener('click', sendRecent)
-  document.querySelector('#meetMonsters').addEventListener('click', readDemographics)
-  document.querySelector('#openYourPDS').addEventListener('click', openPDS)
-  $(".button-collapse").sideNav({edge: 'right'})
-  $('#mobile-log_in').on('click', authenticateWithDropbox)
-  $('#mobile-log_out').on('click', signOutOfDropbox)
+  $('#meetMonsters').click(readTrackerCounts);
+  $('#openYourPDS').click(openPDS);
+  $(".button-collapse").sideNav({edge: 'right'});
+  $('#mobile-log_in').on('click', authenticateWithDropbox);
+  $('#mobile-log_out').on('click', signOutOfDropbox);
 })

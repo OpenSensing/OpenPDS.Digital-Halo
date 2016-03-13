@@ -34,7 +34,8 @@
        "name": "TEXT UNIQUE",
        "domains": "TEXT",
        "owner": "TEXT",
-       "ownerUrl": "TEXT"
+       "ownerUrl": "TEXT",
+       "timesSeen": "INT"
      }
    },
    {
@@ -44,7 +45,8 @@
        "name": "TEXT UNIQUE",
        "domains": "TEXT",
        "owner": "TEXT",
-       "ownerUrl": "TEXT"
+       "ownerUrl": "TEXT",
+       "timesSeen": "INT"
      }
    }
  ]
