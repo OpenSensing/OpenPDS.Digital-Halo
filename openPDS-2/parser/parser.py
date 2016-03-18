@@ -69,7 +69,7 @@ def recent_to_sqlite(file_handle):
         # URL table 
         url_record = [url, title, domain, trackers, otherXDRs, accessedAt]
         try: 
-            urldb_cur.execute('INSERT INTO url VALUES (?,?,?,?,?,?)', url_record)
+            urldb_cur.execute('INSERT INTO url (url, title, domain, trackers, otherXDRs, accessedAt) VALUES (?,?,?,?,?,?)', url_record)
         except sqlite3.Error, e:
             print 'error while inserting into url: ', e
             print url_record
