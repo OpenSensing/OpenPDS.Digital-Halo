@@ -12,7 +12,6 @@ if len(sys.argv) > 1 and sys.argv[1] == '--dev':
 	dev = True
 else:
 	dev = False
-dev = True
 
 #### PATHS
 paths = {
@@ -32,7 +31,6 @@ if dev:
 else:
 	paths['parser'] = path.join(paths['this'], 'parser')
 	paths['am']     = path.join(paths['this'], 'answer_module')
-
 
 #### Config #############################
 ### Create state DB and table  
@@ -124,7 +122,7 @@ def get_dropbox_path ():
 
 
 paths['app']     = get_dropbox_path()
-paths['results'] = get_dropbox_path()
+if not dev: paths['results'] = paths['app']
 
 
 ### all filenames with counter greater then in last_file_details

@@ -1,10 +1,19 @@
 #!/bin/sh
+REPO=https://raw.githubusercontent.com/OpenSensing/OpenPDS.Digital-Halo/fix2-PDS_ersatz/openPDS-2
 
 PDSPATH=${HOME}/miniPDS
 mkdir ${PDSPATH}
+mkdir ${PDSPATH}/parser
+mkdir ${PDSPATH}/answer_module
 
-cp halo.py ${PDSPATH}
+curl ${REPO}/mini/halo.py --output ${PDSPATH}/halo.py
 chmod 755 ${PDSPATH}/halo.py
+
+curl ${REPO}/parser/parser.py --output ${PDSPATH}/parser/parser.py
+curl ${REPO}/answer_module/digital_halo.py --output ${PDSPATH}/answer_module/digital_halo.py
+
+curl ${REPO}/parser/manifest.json --output ${PDSPATH}/parser/manifest.json
+curl ${REPO}/answer_module/manifest.json --output ${PDSPATH}/answer_module/manifest.json
 #################### TODO  ##########
 # copy parser, the AM and any other needed stuff
 
