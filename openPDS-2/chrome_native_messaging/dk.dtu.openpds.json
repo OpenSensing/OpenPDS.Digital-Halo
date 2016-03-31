@@ -1,11 +1,10 @@
 {
   "name": "dk.dtu.openpds",
-  "description": "My nwjs app",
-  "path": "/Applications/nwjs.app/Contents/MacOS/nwjs",
+  "description": "python fill for the openPDS2",
+  "path": "LOCALPDSPATH/halo.py",
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://mhdllbaihgkdjmklmeoonpdoeagcdgol/",
-    "chrome-extension://deomgflodcpbdooiagkjfhhlnobodach/",
-    "chrome-extension://lobnngdfhhbagignnigpceaafaifilkm/"
+    "chrome-extension://deomgflodcpbdooiagkjfhhlnobodach/"
   ]
 }
