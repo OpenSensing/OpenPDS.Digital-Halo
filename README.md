@@ -1,23 +1,21 @@
 # digital-halo
 
-## DTL funded multibrowser addon to safely collect and visioualize browsing data and browsing data tracking abuse
+## DTL funded chrome extension complemented with local pdsapp to safely collect and visualize  browsing data and browsing data tracking abuse.
 
 ## Installation
 
-At this moment you need to install the chrome extension, you can still work on your browsing history from safari though.
+At this moment you need to install the chrome extension. 
 
-### Instructions
+### Installation instructions
 
 #### Extensinos
 * Open Google Chrome and go to `chrome://extensions`
-* Drag and drop `chrome_extension.xpi` from the folder to the opened tab
+* Drag and drop `chrome_extension.crx` from the folder to the opened tab
 * Check the `Enabled` box next to the extensions entry in the list
 * Click on the Digital-Halo icon next to the browsers omnibox
 * Log in with dropbox
-If you are normaly using Safari you can skip to analytics
-* Click `Send to Dropbox via SDK` button
 
-#### Analytics  
+#### OpenPDS  
 * run `bash install.sh` and fallow the instructions 
 * go back to chrome and the extension page 
-* click `Show demographics`
+* On the extension page click `meet your monsters`
