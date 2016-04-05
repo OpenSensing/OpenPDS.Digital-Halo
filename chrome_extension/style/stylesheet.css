@@ -1,4 +1,30 @@
 
+div.flash {
+  display: block;
+  height: 2rem;
+  width: 95%;
+  margin: 0 auto;
+  border-radius: 2%;
+  border-width: 5px;
+  border-style: solid;
+  text-align: center;
+  padding: 0rem 0 0rem 0;
+  font-size: 1rem;
+  color:hsl(30, 100%, 0%);
+  opacity: 0.6;
+
+}
+
+div.flash.success {
+  background-color:hsl(90, 100%, 80%);
+  border-color:hsl(120, 100%, 30%); 
+}
+
+div.flash.failure {
+  background-color:hsl(0, 100%, 70%);
+  border-color:hsl(0, 100%, 40%);
+}
+
 
 tr:hover { background: #f5f5f5; }
 
