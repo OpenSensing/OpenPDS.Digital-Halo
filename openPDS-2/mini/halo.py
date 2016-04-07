@@ -164,9 +164,16 @@ if history_file_names:
 
 	if process_history:
 		history_file_names.remove('history.json')
-	last_file         = sorted(history_file_names, key = lambda x: int(x.replace('currentHistoryAndTrackers', '').replace('.json', '')))[-1]
-	last_file_no      = int(last_file.replace('currentHistoryAndTrackers', '').replace('.json', ''))
+	try:
+		last_file     = sorted(history_file_names, key = lambda x: int(x.replace('currentHistoryAndTrackers', '').replace('.json', '')))[-1]
+		last_file_no  = int(last_file.replace('currentHistoryAndTrackers', '').replace('.json', ''))
+	except indexError:
+		last_file     = None
+		last_file_no  = -1
+
 	last_file_details = (last_file, last_file_no)
+	
+
 
 	insert_config_db_query = 'INSERT INTO execution_details (last_file_name , last_file_number) VALUES( ?, ? )'
 	confdb_cur.execute(insert_config_db_query, last_file_details)
