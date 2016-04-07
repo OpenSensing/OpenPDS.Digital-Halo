@@ -10,19 +10,7 @@ function showFlashMessage (type, message) {
 
 
 // button calbacks
-function getHistory (cb) {
-    var sitename = new Sitename()
-    var theHistory = {}
-  chrome.history.search({text: "", startTime: 0, maxResults: 100000}, function (hist) {
-    for (var it in hist) {
-        var domain = sitename.get(hist[it]['url'])
-        !theHistory[domain] ? theHistory[domain] = hist[it]['visitCount'] :
-          theHistory[domain] += hist[it]['visitCount']
-    }
-    var fileName = 'history.json'
-    cb(theHistory, fileName)
-  })
-}
+
 
 
 
@@ -52,9 +40,6 @@ function presentResultsAsTable (results){
 
 //Dropbox inout
 
-function writeHistory (e) {
-    getHistory(writeDropbox)
-}
 
 function readDemographics () {
   var demoFile = 'res_per_tracker_details.json'

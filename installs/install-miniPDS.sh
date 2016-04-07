@@ -1,5 +1,5 @@
 #!/bin/sh
-REPO=https://raw.githubusercontent.com/OpenSensing/OpenPDS.Digital-Halo/fix2-PDS_ersatz/openPDS-2
+REPO=https://raw.githubusercontent.com/OpenSensing/OpenPDS.Digital-Halo/dev/openPDS-2
 
 PDSPATH=${HOME}/miniPDS
 mkdir ${PDSPATH}
@@ -43,6 +43,7 @@ else
   fi
 fi
 
+mkdir "${MESSAGE_HOST_DIR}"
 cp dk.dtu.openpds.json "${MESSAGE_HOST_DIR}"
 chmod 644 "${MESSAGE_HOST_DIR}/dk.dtu.openpds.json"
 rm -f dk.dtu.openpds.json
