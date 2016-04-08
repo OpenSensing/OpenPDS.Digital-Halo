@@ -53,7 +53,7 @@ chmod 644 "${MESSAGE_HOST_DIR}/dk.dtu.openpds.json"
 rm -f dk.dtu.openpds.json
 
 ########## copy model files
-DBOXPATH=`cat ${HOME}/.dropbox/info.json| python -c 'import json,sys;obj=json.load(sys.stdin);z=obj["pesonal"] if obj.get("personal") else obj.get("business"); print z["path"];'`
+DBOXPATH=`cat ${HOME}/.dropbox/info.json| python -c 'import json,sys;obj=json.load(sys.stdin);z=obj["personal"] if obj.get("personal") else obj.get("business"); print z["path"];'`
 DBOXPATH=${DBOXPATH}/Apps/openPDS.Digital-Halo
 
 curl ${REPO}/resources/scrapped_uk.json --output ${DBOXPATH}/model/scrapped_uk.json

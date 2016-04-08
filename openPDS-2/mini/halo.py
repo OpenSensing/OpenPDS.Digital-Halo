@@ -167,7 +167,7 @@ if history_file_names:
 	try:
 		last_file     = sorted(history_file_names, key = lambda x: int(x.replace('currentHistoryAndTrackers', '').replace('.json', '')))[-1]
 		last_file_no  = int(last_file.replace('currentHistoryAndTrackers', '').replace('.json', ''))
-	except indexError:
+	except IndexError:
 		last_file     = None
 		last_file_no  = -1
 
