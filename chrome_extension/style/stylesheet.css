@@ -1,5 +1,6 @@
 
 div.flash {
+  position:absolute;
   display: block;
   height: 2rem;
   width: 95%;
@@ -10,19 +11,30 @@ div.flash {
   text-align: center;
   padding: 0rem 0 0rem 0;
   font-size: 1rem;
-  color:hsl(30, 100%, 0%);
-  opacity: 0.6;
+  opacity: 1;
+  z-index: inherit;
 
 }
 
 div.flash.success {
-  background-color:hsl(90, 100%, 80%);
-  border-color:hsl(120, 100%, 30%); 
+  background-color:hsl(90, 30%, 80%);
+  border-color:hsl(120, 30%, 30%);
+  color:hsl(120, 30%, 30%); 
 }
 
 div.flash.failure {
-  background-color:hsl(0, 100%, 70%);
-  border-color:hsl(0, 100%, 40%);
+  background-color:hsl(0, 30%, 70%);
+  border-color:hsl(0, 30%, 30%);
+  color:hsl(0, 30%, 30%);
+}
+
+div#flash_container {
+  position:fixed;
+  height: 3em;
+  width: 70vw;
+  top:4em;
+  left:15vw;
+  z-index: 1000;
 }
 
 
