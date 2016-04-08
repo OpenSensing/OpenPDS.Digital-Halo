@@ -1,17 +1,16 @@
-// button calbacks
-function getHistory (cb) {
-    var sitename = new Sitename()
-    var theHistory = {}
-  chrome.history.search({text: "", startTime: 0, maxResults: 100000}, function (hist) {
-    for (var it in hist) {
-        var domain = sitename.get(hist[it]['url'])
-        !theHistory[domain] ? theHistory[domain] = hist[it]['visitCount'] :
-          theHistory[domain] += hist[it]['visitCount']
-    }
-    var fileName = 'history.json'
-    cb(theHistory, fileName)
-  })
+// flash helper
+
+function showFlashMessage (type, message) {
+  if ((type != 'success') && (type != 'failure')) throw 'Wrong flash message type, can only be "success" or "failure"'
+
+  $('#flash_container').append( '<div class="flash ' + type + '" id="flashNote">' + message + '</div>')
+  // remove the notivification after 7 seconds
+  setTimeout(function(){$('#flashNote').remove()}, 10000)
 }
+
+
+// button calbacks
+
 
 
 
@@ -41,9 +40,6 @@ function presentResultsAsTable (results){
 
 //Dropbox inout
 
-function writeHistory (e) {
-    getHistory(writeDropbox)
-}
 
 function readDemographics () {
   var demoFile = 'res_per_tracker_details.json'
@@ -108,7 +104,7 @@ function readTrackerCounts () {
     showCookieJar(packFeed, readDemographics)
 })
 }
-
+/*
 
 
 function sendRecent () {
@@ -147,13 +143,13 @@ function sendRecent () {
     })
   })
 }
-
+*/
 function openPDS (e) {
   chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content' : 'no message, just open app.'})
 }
 
 // register 
-$().ready(function (e) {
+$('document').ready(function (e) {
   $('#log_in').click(authenticateWithDropbox) ;
   $('#log_out').click(signOutOfDropbox);
  

@@ -32,9 +32,10 @@ function sendRecent () {
   // get the overall count of recorded visits
   chrome.storage.local.get('recordedCount', function (items) {
     // check if anything got recorded, if not then return
-    if (!items.recordedCount) return alert('No current history stored, nothing sent')
+    if (!items.recordedCount) return updateDBoxLog('No current history stored, nothing sent')
 
     // get recent history file count to append to file name
+    authenticateWithDropbox()
     readFromDropbox('config.json', function (config) {
       config = deserialize(config)
       config.raw_data.currentHistoryAndTrackers.file_count++

@@ -30,6 +30,7 @@ function authenticateWithDropbox () {
   	client.authenticate(function (err, client) {
 			if (err) return handleDBoxError(err)
 
+
 			getDropboxAccountInfo()
 			console.log('Halo authenticated with Dropbox')	
 		})  
@@ -41,7 +42,7 @@ function signOutOfDropbox () {
 		if (err) return handleDBoxError(err)
 
 		window.location.reload()
-		alert('Signed out from Dropbox')
+		showFlashMessage('success', 'Signed out from Dropbox')
 	})
 }
 
@@ -52,7 +53,7 @@ function getDropboxAccountInfo() {
 	client.getAccountInfo(function(error, accountInfo) {
 	  if (error) return handleDBoxError(error)
 
-	  alert("Hello, " + accountInfo.name + "!");
+	  showFlashMessage('success', "Hello, " + accountInfo.name + "!");
 	})
 }
 
@@ -61,7 +62,7 @@ function writeDropbox (text, fileName) {
 	client.writeFile(fileName, text, function(error, stat) {
 	  if (error) return handleDBoxError(error);  
 
-	  alert("File saved as revision " + stat.versionTag);
+	  updateDBoxLog("File " + fileName + " saved as revision id: " + stat.versionTag);
 	})
 }
 
@@ -74,37 +75,55 @@ function readFromDropbox (fileName, cb) {
 }
 
 
+// update sending log
+function updateDBoxLog (logMessage) {
+	var timestamp = new Date()
+	timestamp = timestamp.toISOString()
+
+	chrome.storage.local.get('DBoxLog', function (storedItems) {
+		if (jQuery.isEmptyObject(storedItems)) {
+			DBoxLog = []
+		} else {
+			DBoxLog = storedItems.DBoxLog
+		}
+		DBoxLog.push(timestamp + ' ' + logMessage) 
+
+		chrome.storage.local.set({'DBoxLog': DBoxLog})
+	})
+}
+
+
 // Error handlers
 
 var handleDBoxError = function(error) {
 	console.log(error)
   switch (error.status) {
   case Dropbox.ApiError.INVALID_TOKEN:
-    alert('Token expired, please reauthenticate.')
+    showFlashMessage('failure', 'Token expired, please reauthenticate.')
     authenticateWithDropbox()
     break;
 
   case Dropbox.ApiError.NOT_FOUND:
-    alert('File not found for url: ' + error.url)
+    showFlashMessage('failure', 'File not found for url: ' + error.url)
     break;
 
   case Dropbox.ApiError.OVER_QUOTA:
-  	alert("You've reached the limit of your Dropbox space, remove some files or purches additional space")
+  	showFlashMessage('failure', "You've reached the limit of your Dropbox space, remove some files or purches additional space")
     break;
 
   case Dropbox.ApiError.RATE_LIMITED:
-    alert("You've sent too many request, please try again later.")
+    showFlashMessage('failure', "You've sent too many request, please try again later.")
     break;
 
   case Dropbox.ApiError.NETWORK_ERROR:
-		alert("You must be offline.")
+		showFlashMessage('failure', "You must be offline.")
     break;
 
   case Dropbox.ApiError.INVALID_PARAM:
   case Dropbox.ApiError.OAUTH_ERROR:
   case Dropbox.ApiError.INVALID_METHOD:
   default:
-    alert('An error occured, please refresh the page. '+error.status)
+    showFlashMessage('failure', 'An error occured, please refresh the page. '+error.status)
   }
 };
 
