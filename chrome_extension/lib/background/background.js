@@ -24,35 +24,45 @@ chrome.runtime.onInstalled.addListener(function(details){
         console.log("This is a first install!");
 
         try {
-			client.authenticate(function (err, client) {
-				if (err) return handleDBoxError(err)
+			    client.authenticate(function (err, client) {
+				    if (err) return handleDBoxError(err)
 				
-				console.log('Halo background page authenticated with Dropbox')	
-			    client.mkdir('currentHistory', function (err, res) {
-			    	if (err) return console.log(err); 
+				    console.log('Halo background page authenticated with Dropbox')	
+            // setup the history folder and query the history already storred in chrome
+			      client.mkdir('currentHistory', function (err, res) {
+			    	  if (err) return console.log(err); 
 
-			    	console.log(res)
-			    	getHistory(writeHistory)
-			    });
+  			    	console.log(res)
+  			    	getHistory(writeHistory)
+			      });
 		        
-		    	//client.copy('history.json', 'currentHistory/history.json', function (err, res) {if (err) return console.log(err); console.log(res)})	
+            client.mkdir('model', function (err, res) {
+              if (err) return console.log(err);
+
+              console.log('Successfuly created model folder ' + res)
+            })
+		    	//client.copy('chistory.json', 'currentHistory/history.json', function (err, res) {if (err) return console.log(err); console.log(res)})	
 			})  	
-		} catch (exception) {   // not giving authorization crashes the client, so trying to reset
-		  	console.log(exception+'\nReseting the client and trying to authenticate again')
-		  	client.reset()
-		  	client.authenticate(function (err, client) {
-				if (err) return handleDBoxError(err)
+		    } catch (exception) {   // not giving authorization crashes the client, so trying to reset
+  		  	console.log(exception+'\nReseting the client and trying to authenticate again')
+  		  	client.reset()
+  		  	client.authenticate(function (err, client) {
+  				if (err) return handleDBoxError(err)
 
-				console.log('Halo background page authenticated with Dropbox')
-			    //client.mkdir('currentHistory', function (err, res) {if (err) return console.log(err); console.log(res)});
-		        client.mkdir('currentHistory', function (err, res) {
-			    	if (err) return console.log(err); 
+  				console.log('Halo background page authenticated with Dropbox')
+  			    //client.mkdir('currentHistory', function (err, res) {if (err) return console.log(err); console.log(res)});
+  		        client.mkdir('currentHistory', function (err, res) {
+  			    	if (err) return console.log(err); 
 
-			    	console.log(res)
-			    	getHistory(writeHistory)
-			    });
-		    		
-			})  
+  			    	console.log(res)
+  			    	getHistory(writeHistory)
+  			    });
+            client.mkdir('model', function (err, res) {
+              if (err) return console.log(err);
+
+              console.log('Successfuly created model folder ' + res)
+            });  		    		
+  			})  
   		}	
 
     }else if(details.reason == "update"){

@@ -1,5 +1,5 @@
 #!/bin/sh
-REPO=https://raw.githubusercontent.com/OpenSensing/OpenPDS.Digital-Halo/fix2-PDS_ersatz/openPDS-2
+REPO=https://raw.githubusercontent.com/OpenSensing/OpenPDS.Digital-Halo/dev/openPDS-2
 
 PDSPATH=${HOME}/miniPDS
 mkdir ${PDSPATH}
@@ -7,7 +7,8 @@ mkdir ${PDSPATH}/parser
 mkdir ${PDSPATH}/answer_module
 
 
-#################### TODO  ##########
+
+##############################
 # copy parser, the AM and any other needed stuff
 
 
@@ -46,6 +47,15 @@ fi
 cp dk.dtu.openpds.json "${MESSAGE_HOST_DIR}"
 chmod 644 "${MESSAGE_HOST_DIR}/dk.dtu.openpds.json"
 rm -f dk.dtu.openpds.json
+
+########## copy model files
+DBOXPATH=`cat info.json| python -c 'import json,sys;obj=json.load(sys.stdin);z=obj["pesonal"] if obj.get("personal") else obj.get("business"); print z["path"];'`
+DBOXPATH=${DBOXPATH}/Apps/openPDS.Digital-Halo
+
+curl ${REPO}/resources/scrapped_uk.json --output ${DBOXPATH}/model/scrapped_uk.json
+curl ${REPO}/resources/scrapped_us.json --output ${DBOXPATH}/model/scrapped_us.json
+
+
 
 ###### initial run of the analysis
 
