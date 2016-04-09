@@ -4,8 +4,7 @@
   font-weight: 400;
   src: url(../lib/materialize/font/material-design-icons/Material-Design-Icons.eot);
   /* For IE6-8 */
-  src: local("Material Icons"), local("MaterialIcons-Regular"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff2) format("woff2"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff) format("woff"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.ttf) format("truetype");
-}
+  src: local("Material Icons"), local("MaterialIcons-Regular"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff2) format("woff2"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff) format("woff"), url(../lib/materialize/font/material-design-icons/Material-Design-Icons.ttf) format("truetype"); }
 
 .material-icons {
   font-family: 'Material Icons';
@@ -29,42 +28,33 @@
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
   /* Support for IE. */
-  font-feature-settings: 'liga';
-}
+  font-feature-settings: 'liga'; }
 
 body {
   font-family: Helvetica, sans-serif;
-  font-size: 12px;
-}
+  font-size: 12px; }
 
 h3 {
   font-size: 20px;
-  color: #8f3d3d;
-}
-
-h3 .tracker-name {
-  font-weight: bold;
-}
+  color: #8f3d3d; }
+  h3 .tracker-name {
+    font-weight: bold; }
 
 .demographic-bars {
-  display: block;
-}
+  display: block; }
 
 .axis path, .axis line {
   fill: none;
   stroke: black;
   shape-rendering: crispEdges;
-  visibility: hidden;
-}
+  visibility: hidden; }
 
 .axis text {
   font-family: Helvetica, sans-serif;
-  font-size: 11px;
-}
+  font-size: 11px; }
 
 .ordinal-axis path, .ordinal-axis line {
-  visibility: hidden;
-}
+  visibility: hidden; }
 
 circle {
   fill: #1f77b4;
@@ -72,36 +62,29 @@ circle {
   fill-opacity: .25;
   stroke: #1f77b4;
   stroke-width: 1px;
-  stroke: none;
-}
+  stroke: none; }
 
 .node.root circle {
-  fill: none;
-}
+  fill: none; }
 
 .node circle {
   fill: #b8732e;
-  fill-opacity: 1;
-}
+  fill-opacity: 1; }
 
 .node circle:hover {
   stroke: #000;
   stroke-width: 1.5px;
-  cursor: pointer;
-}
+  cursor: pointer; }
 
 .leaf circle {
   fill: #8f5b24;
-  fill-opacity: 1;
-}
+  fill-opacity: 1; }
 
 .node text {
-  fill: #ffff99;
-}
+  fill: #ffff99; }
 
 text {
-  font: 10px sans-serif;
-}
+  font: 10px sans-serif; }
 
 div.flash {
   position: absolute;
@@ -116,20 +99,17 @@ div.flash {
   padding: 0rem 0 0rem 0;
   font-size: 1rem;
   opacity: 1;
-  z-index: inherit;
-}
+  z-index: inherit; }
 
 div.flash.success {
   background-color: #b3c99c;
   border-color: #244224;
-  color: #244224;
-}
+  color: #244224; }
 
 div.flash.failure {
   background-color: #422424;
   border-color: #b87a7a;
-  color: #b87a7a;
-}
+  color: #b87a7a; }
 
 div#flash_container {
   position: fixed;
@@ -137,17 +117,13 @@ div#flash_container {
   width: 70vw;
   top: 4em;
   left: 15vw;
-  z-index: 1000;
-}
+  z-index: 1000; }
 
 tr:hover {
-  background: #f5f5f5;
-}
+  background: #f5f5f5; }
 
 .dtu-red {
-  background-color: #b50404;
-}
+  background-color: #b50404; }
 
 .dtu-red-text {
-  color: #b50404;
-}
+  color: #b50404; }
