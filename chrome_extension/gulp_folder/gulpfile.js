@@ -8,3 +8,8 @@ gulp.task('sass', function () {
 		.pipe(gulp.dest('../style'))
 })
 
+// create watcher
+
+gulp.task('watch', ['sass'], function(){
+	gulp.watch('../style/scss/*.scss', ['sass'])
+})
