@@ -9,21 +9,20 @@
       "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "web_accessible_resources": [
-    "scripts/vendor/jquery/jquery-2.0.3.min.map",
+    "bower_components/jquery/dist/jquery.min.map",
     "view/chrome_oauth_receiver.html"
   ],
 
   "background": {
     "scripts":    [
       "js/bg/store_localy.js",
-      "trackers/vendor/port/port.js",
-      "trackers/vendor/jquery/jquery.js",
-      "trackers/vendor/moment/moment.js",
-      "trackers/vendor/sitename/alttlds.js",
-      "trackers/vendor/sitename/tldpatch.js",
-      "trackers/vendor/sitename/sitename.js",
-      "trackers/services.js",
-      "trackers/catch.js",
+      "js/port/port.js",
+      "bower_components/jquery/dist/jquery.min.js",
+      "js/sitename/alttlds.js",
+      "js/sitename/tldpatch.js",
+      "js/sitename/sitename.js",
+      "js/trackers/services.js",
+      "js/trackers/catch.js",
       "js/external/dropbox.js",
       "js/dropboxMine.js",
       "js/bg/background.js"
