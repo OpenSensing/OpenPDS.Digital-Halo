@@ -3,13 +3,13 @@ var gulp = require('gulp')
  // create a task
 
 gulp.task('sass', function () {
-	return gulp.src('../style/scss/stylesheet.scss')
+	return gulp.src('../chrome_extension/style/scss/stylesheet.scss')
 		.pipe(sass())
-		.pipe(gulp.dest('../style'))
+		.pipe(gulp.dest('../chrome_extension/style'))
 })
 
 // create watcher
 
 gulp.task('watch', ['sass'], function(){
-	gulp.watch('../style/scss/*.scss', ['sass'])
+	gulp.watch('../chrome_extension/style/scss/*.scss', ['sass'])
 })

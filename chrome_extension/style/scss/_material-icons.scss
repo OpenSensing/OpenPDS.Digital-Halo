@@ -2,12 +2,12 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(../lib/materialize/font/material-design-icons/Material-Design-Icons.eot); /* For IE6-8 */
+  src: url(../bower_component/Materialize/font/material-design-icons/Material-Design-Icons.eot); /* For IE6-8 */
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
-       url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff2) format('woff2'),
-       url(../lib/materialize/font/material-design-icons/Material-Design-Icons.woff) format('woff'),
-       url(../lib/materialize/font/material-design-icons/Material-Design-Icons.ttf) format('truetype');
+       url(../bower_component/Materialize/font/material-design-icons/Material-Design-Icons.woff2) format('woff2'),
+       url(../bower_component/Materialize/font/material-design-icons/Material-Design-Icons.woff) format('woff'),
+       url(../bower_component/Materialize/font/material-design-icons/Material-Design-Icons.ttf) format('truetype');
 }
 
 .material-icons {
