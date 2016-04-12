@@ -16,6 +16,10 @@ setInterval(function () {
   }
   sendRecent() 
 
+  console.log('Running the mini pds')
+  chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content' : 'no message, just open app.'})
+
+
 }, 120 * MINUTE)
 
 

@@ -58,9 +58,13 @@ DBOXPATH=${DBOXPATH}/Apps/openPDS.Digital-Halo
 
 curl ${REPO}/resources/scrapped_uk.json --output ${DBOXPATH}/model/scrapped_uk.json
 curl ${REPO}/resources/scrapped_us.json --output ${DBOXPATH}/model/scrapped_us.json
-
+if [ -f ${REPO}/resources/config.json ];
+then 
+  curl ${REPO}/resources/config.json --output ${DBOXPATH}/config.json;
+fi
 
 
 ###### initial run of the analysis
 
+echo Parsing your history and running the analysis
 ${PDSPATH}/halo.py
