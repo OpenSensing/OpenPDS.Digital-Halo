@@ -4,27 +4,24 @@
 
   "name":  	 "Digital-Halo",
   "description": "It allows collection of your Digital Halo data",
-  "version":     "0.0.2",
+  "version":     "0.0.3",
 
   "content_security_policy":
       "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "web_accessible_resources": [
-    "bower_components/jquery/dist/jquery.min.map",
-    "src/view/chrome_oauth_receiver.html"
+    "html/chrome_oauth_receiver.html"
   ],
 
   "background": {
     "scripts":    [
-      "node_modules/dropbox/lib/dropbox.js",
-      "distro/background.js",
-      "js/port/port.js",
-      "bower_components/jquery/dist/jquery.min.js",
-      "js/sitename/alttlds.js",
-      "js/sitename/tldpatch.js",
-      "js/sitename/sitename.js",
-      "js/trackers/services.js",
-      "js/trackers/catch.js"
+      "vendor/dropbox.js",
+      "background.js",
+      "vendor/sitename/alttlds.js",
+      "vendor/sitename/tldpatch.js",
+      "vendor/sitename/sitename.js",
+      "vendor/services.js",
+      "catch.js"
     ],
     "persistent": true
   },
@@ -32,14 +29,14 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js":      ["js/get_data.js"],
+      "js":      ["get_data.js"],
       "run_at":  "document_start" 
     } 
   ],
 
   "browser_action": {
     "default_icon":  "icon-16.png",
-    "default_popup": "src/view/popup.html",
+    "default_popup": "html/popup.html",
     "default_title": "See your halo!"
   },
 

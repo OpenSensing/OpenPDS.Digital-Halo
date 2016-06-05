@@ -35,6 +35,7 @@ var trackerData = {"kids": {"No_Kids": [0.0004976500535313772, 0.990172554548404
 	updateBarcharts('xxx.com', trackerData)
 })
 */
+
 function updateBarcharts (trackerName, trackerData) {
 	/*	
 	nput: Dictionary of categories with follwoing keys gender, age, income, education, kids

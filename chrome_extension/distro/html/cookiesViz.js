@@ -39,5 +39,4 @@ function showCookieJar (trackerCounts, callback) {
 	callback()
 }
 
-
 module.exports = showCookieJar;

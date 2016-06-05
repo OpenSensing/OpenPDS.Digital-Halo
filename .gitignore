@@ -1,5 +1,7 @@
-*.DS_Store
+**.DS_Store
 node_modules
-*.pyc
+**.pyc
 *.ipynb_checkpoints
 *bower_components
+**/.idea
+.idea/vcs.xml

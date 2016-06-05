@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang='en'>
+ 	<head>
+ 		<!--link rel='stylesheet' type='text/css' href='../style/stylesheet.css'/-->
+ 		<meta charset='utf-8'>
+ 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 		<link rel='stylesheet' type='text/css' href='../../bower_components/Materialize/bin/materialize.css'/>
+ 		<link rel='stylesheet' type='text/css' href='../../style/stylesheet.css'>
+ 		<!--link rel='stylesheet' type='text/css' href='../style/d3style.css'-->
+
+ 		<script src='../../bower_components/jquery/dist/jquery.js'></script>
+ 		
+		<script src='../../bower_components/Materialize/bin/materialize.js'></script>
+ 		<!--script src='../trackers/vendor/sitename/alttlds.js'></script>
+ 		<script src='../trackers/vendor/sitename/tldpatch.js'></script>
+ 		<script src='../trackers/vendor/sitename/sitename.js'></script-->
+ 		<script src='../../js/external/dropbox.js'></script>
+ 		<script src='../../js/dropboxMine.js'></script>
+ 		<script src='../models/dboxModel.js'></script>
+
+
+ 		<!--script src='../lib/background/store_localy.js'></script-->
+ 	</head>
+ 	
+ 	<body>
+ 		<header>
+			<!--h1>Digital Halo: Cookie Jar</h1-->
+			<div class='navbar-fixed'>
+				<!--nav class='red darken-1' role='navigation'-->
+				<nav class='red darken-4' role='navigation'>
+					<div class='nav-wrapper container'>
+						<!--a id='logo-container' href='#' class='brand-logo right'>Digital Halo: Cookie Jar</a-->
+						<a id='logo-container' href='#' class='brand-logo left'>Digital Halo</a>
+						<a href="#" data-activates="mobile-menu" class="button-collapse right"><i class="mdi-navigation-menu"></i></a>
+						<ul id='nav-mobile' class='right hide-on-med-and-down'>
+						  <li><a id='log_in' href='#log_in'>Log in</a></li>
+						  <li><a id='log_out' href='#log_out'>Log out</a></li>
+						</ul>
+						<ul class='side-nav' id='mobile-menu'>	
+							<li><a id='mobile-log_in' href='#mobile-log_in'>Log in</a></li>
+							<li><a id='mobile-log_out' href='#mobile-log_out'>Log out</a></li>
+						</ul>
+	    	    	</div>
+	    	    </nav>
+	    	</div>
+		</header>
+		<div class='container' id='flash_container'>
+			<!-- flash messages go here -->
+		</div>
+		<section id='buttons'>
+			<!--h2>You can send your browsing history to YOUR dropbox account</h2>
+		  	<button type='button' id='sendSDK'>Send to Dropbox via SDK</button-->
+			<ul class="tabs">
+			    <li class="tab col s4 m1 l1" id="meetMonsters"><a href="#meetYourMonsters" class="active red-text text-darken-4">Meet your monsters</a></li>
+			    <li id="openYourPDS" class="tab col s4"><a href="#open_PDS" class="red-text text-darken-4">Open your Personal Data Store</a></li>
+			    <li class="tab col s4"><a href="#inviteAFriend" class="red-text text-darken-4">Invite your friend</a></li>
+			</ul>
+
+		  	<!--h2>You can see your profile by pushing the button below</h2>
+		  	<button type='button' id='showAnswer'>Show demographics</button>
+		  	<h2>You can send recent browsing history and tracker data to YOUR dropbox</h2>
+		  	<button type='button' id='sendRecent'>Send recent data</button>
+		  	<h2>Open your Open Personal Data Store application </h2>
+		  	<button type='button' id='openPDS'>Open PDS</button-->
+    	</section>
+    	<section id='viz-section'>
+    		<div id='meetYourMonsters' class='container'>
+    			<div class='row'>
+    				<div class='col s12 m6 l6'>
+    					<div class='card hoverable'>
+    						<section class='card-content' id='cookies-container'>
+    							
+    						</section>
+    					</div>
+    				</div>
+
+    				<div class='col s12 m6 l6'>   
+    					<div class='card hoverable'> 
+    						<section class='card-content' id='demographic-barcharts'>
+    							<h3>Your <span class='tracker-name'></span> cookie thinks that your are:</h3>
+    							<div><i class='mdi-navigation-refresh left'></i><svg id='gender-bars' class='demographic-bars gender'></svg></div>
+    							<svg id='age-bars' class='demographic-bars age'></svg>
+								<svg id='income-bars' class='demographic-bars income'></svg>
+								<svg id='education-bars' class='demographic-bars education'></svg>
+								<svg id='kids-bars' class='demographic-bars kids'></svg>
+
+
+		    					<!--table class='centered highlight'>
+		    						<caption class='center-align'>Your tracker thinks that you are:</caption>
+		    						<thead>
+		    							<tr>
+		    								<th data-field='category'>Category</th>
+		    								<th data-field='group'>Group</th>
+		    								<th data-field='probability'>Probability</th>
+		    							</tr>
+		    						</thead>
+
+		    						<tbody id='demographics-table'>
+		    							
+		    						</tbody>
+		    					</table-->
+		    				</section>
+		    			</div>
+		    			<!--ul id='demographics-ul'></ul-->
+    				</div>
+    			</div>	
+    		
+    		</div>
+    		<div id='open_PDS' class='container'>
+    			<p>Click on the OpenPDS icon in the dock or circle through your open windows to manage your Personal Data System</p>
+    		</div>
+    		<div id='inviteAFriend' class='container'>
+    			<p>Invite a friend</p>
+    		</div>
+    		
+    	</section>
+	<script src='../../bower_components/d3/d3.js'></script>
+	<script src='../../js/demobarsViz.js'></script>
+	<script src='../../js/cookiesViz.js'></script>
+    <script src='../../js/index.js'></script>
+  </body>
+</html>

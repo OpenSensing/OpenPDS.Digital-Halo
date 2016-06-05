@@ -5,7 +5,7 @@ function showFlashMessage (type, message) {
 
   $('#flash_container').append( '<div class="flash ' + type + '" id="flashNote">' + message + '</div>')
   // remove the notivification after 7 seconds
-  setTimeout(function(){$('#flashNote').remove()}, 10000)
+  setTimeout(function(){$('#flashNote').remove()}, 7000)
 }
 
 
