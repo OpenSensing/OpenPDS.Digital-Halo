@@ -23522,7 +23522,7 @@
 
 
 	function writeHistoryToCurrentHistory (history, filename) {
-	    client.writeFile(filename, history);
+	    client.writeFile(filename, JSON.stringify(history));
 	    setTimeout(function () {
 	        client.copy('history.json', 'currentHistory/history.json', function (err, res) {
 	            if (err) return console.log(err); 
