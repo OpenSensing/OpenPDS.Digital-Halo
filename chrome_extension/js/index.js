@@ -153,7 +153,7 @@ $('document').ready(function (e) {
   $('#log_in').click(authenticateWithDropbox) ;
   $('#log_out').click(signOutOfDropbox);
  
-  //document.querySelector('#sendSDK').addEventListener('click', writeHistory)//writeDropbox)
+  //document.querySelector('#sendSDK').addEventListener('click', writeHistoryToCurrentHistory)//writeDropbox)
   //document.querySelector('#showAnswer').addEventListener('click', read$)
   //document.querySelector('nav').classList.add('move')
   //document.querySelector('#sendRecent').addEventListener('click', sendRecent)

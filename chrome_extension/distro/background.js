@@ -23400,7 +23400,11 @@
 	  ,  sendRecent   = Halo.ctrl('sendRecent');
 	  // package sitename as a node modeule   , sitename = Halo.vendor('sitename')
 
-	//store loaded page 
+
+	// Require on install callsbacks
+	Halo.ctrl('onInstall')
+
+	//store loaded page
 	module.exports = function () {
 	  chrome.runtime.onMessage.addListener(function(message, sender, cb) {
 	    storePageInfoLocaly(message, sender);
@@ -23408,7 +23412,7 @@
 
 	  // send current browsing and tracking to dropbox
 
-	  setInterval(function () {   
+	  setInterval(function () {
 	    sendRecent();
 	    //run analysis
 	    console.log('Running the mini pds');
@@ -23457,15 +23461,17 @@
 /* 48 */
 /***/ function(module, exports) {
 
-	chrome.runtime.onInstalled.addListener(function(details) {
+	var client = Halo.client;
+
+	module.exports = chrome.runtime.onInstalled.addListener(function(details) {
 	    if(details.reason == "install"){
-	        console.log("This is the first install!");
+	        console.log("This is a fresh install of Digital Halo, version: " + chrome.runtime.getManifest().version + "!");
 
 	        try {
 	          client.authenticate(function (err, client) {
 	            if (err) return console.log(err)
 	            console.log('Halo background page authenticated with Dropbox')  
-	            // setup the history folder and query the history already storred in chrome
+	            // setup the history folder and query the history already stored in chrome
 	            initHaloFolder()
 	      })    
 	        } catch (exception) {   // not giving authorization crashes the client, so trying to reset
@@ -23488,14 +23494,14 @@
 	    client.mkdir('currentHistory', function (err, res) {
 	      if (err) return console.log(err); 
 
-	      console.log('Successfuly created "currentHistory" folder')
-	      getHistory(writeHistory)
+	      console.log('Successfully created "currentHistory" folder')
+	      getHistory(writeHistoryToCurrentHistory)
 	    });
 	  
 	    client.mkdir('model', function (err, res) {
 	        if (err) return console.log(err);
 
-	        console.log('Successfuly created model folder ')
+	        console.log('Successfully created model folder ')
 	    });
 	};
 
@@ -23514,7 +23520,7 @@
 	}
 
 
-	function writeHistory (history, filename) {
+	function writeHistoryToCurrentHistory (history, filename) {
 	    writeDropbox(history, filename);
 	    setTimeout(function () {
 	        client.copy('history.json', 'currentHistory/history.json', function (err, res) {

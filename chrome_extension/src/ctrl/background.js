@@ -10,6 +10,10 @@ var sendInterval = 120 * MINUTE
   ,  sendRecent   = Halo.ctrl('sendRecent');
   // package sitename as a node modeule   , sitename = Halo.vendor('sitename')
 
+
+// Require on install callsbacks
+Halo.ctrl('onInstall')
+
 //store loaded page
 module.exports = function () {
   chrome.runtime.onMessage.addListener(function(message, sender, cb) {

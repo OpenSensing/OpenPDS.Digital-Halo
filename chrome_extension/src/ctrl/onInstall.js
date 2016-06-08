@@ -1,12 +1,14 @@
-chrome.runtime.onInstalled.addListener(function(details) {
+var client = Halo.client;
+
+module.exports = chrome.runtime.onInstalled.addListener(function(details) {
     if(details.reason == "install"){
-        console.log("This is the first install!");
+        console.log("This is a fresh install of Digital Halo, version: " + chrome.runtime.getManifest().version + "!");
 
         try {
           client.authenticate(function (err, client) {
             if (err) return console.log(err)
             console.log('Halo background page authenticated with Dropbox')  
-            // setup the history folder and query the history already storred in chrome
+            // setup the history folder and query the history already stored in chrome
             initHaloFolder()
       })    
         } catch (exception) {   // not giving authorization crashes the client, so trying to reset
@@ -30,7 +32,7 @@ function initHaloFolder() {
       if (err) return console.log(err); 
 
       console.log('Successfully created "currentHistory" folder')
-      getHistory(writeHistory)
+      getHistory(writeHistoryToCurrentHistory)
     });
   
     client.mkdir('model', function (err, res) {
@@ -55,7 +57,7 @@ function getHistory (cb) {
 }
 
 
-function writeHistory (history, filename) {
+function writeHistoryToCurrentHistory (history, filename) {
     writeDropbox(history, filename);
     setTimeout(function () {
         client.copy('history.json', 'currentHistory/history.json', function (err, res) {
