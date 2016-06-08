@@ -23521,7 +23521,7 @@
 
 
 	function writeHistoryToCurrentHistory (history, filename) {
-	    writeDropbox(history, filename);
+	    client.writeFile(filename, history);
 	    setTimeout(function () {
 	        client.copy('history.json', 'currentHistory/history.json', function (err, res) {
 	            if (err) return console.log(err); 
