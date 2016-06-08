@@ -10,7 +10,7 @@ var sendInterval = 120 * MINUTE
   ,  sendRecent   = Halo.ctrl('sendRecent');
   // package sitename as a node modeule   , sitename = Halo.vendor('sitename')
 
-//store loaded page 
+//store loaded page
 module.exports = function () {
   chrome.runtime.onMessage.addListener(function(message, sender, cb) {
     storePageInfoLocaly(message, sender);
@@ -18,7 +18,7 @@ module.exports = function () {
 
   // send current browsing and tracking to dropbox
 
-  setInterval(function () {   
+  setInterval(function () {
     sendRecent();
     //run analysis
     console.log('Running the mini pds');

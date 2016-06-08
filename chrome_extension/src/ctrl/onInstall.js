@@ -1,4 +1,4 @@
-chrome.runtime.onInstalled.addListener(function(details
+chrome.runtime.onInstalled.addListener(function(details) {
     if(details.reason == "install"){
         console.log("This is the first install!");
 
@@ -29,15 +29,16 @@ function initHaloFolder() {
     client.mkdir('currentHistory', function (err, res) {
       if (err) return console.log(err); 
 
-      console.log('Successfuly created "currentHistory" folder')
+      console.log('Successfully created "currentHistory" folder')
       getHistory(writeHistory)
     });
   
     client.mkdir('model', function (err, res) {
-      if (err) return console.log(err);
+        if (err) return console.log(err);
 
-      console.log('Successfuly created model folder ')
-}
+        console.log('Successfully created model folder ')
+    });
+};
 
 function getHistory (cb) {
     var sitename = new Sitename()
@@ -56,5 +57,12 @@ function getHistory (cb) {
 
 function writeHistory (history, filename) {
     writeDropbox(history, filename);
-    setTimeout(function () {client.copy('history.json', 'currentHistory/history.json', function (err, res) {if (err) return console.log(err); console.log(res)})}, 15000);
+    setTimeout(function () {
+        client.copy('history.json', 'currentHistory/history.json', function (err, res) {
+            if (err) return console.log(err); 
+
+            console.log(res);
+        })
+    }, 15000);
 }
+
