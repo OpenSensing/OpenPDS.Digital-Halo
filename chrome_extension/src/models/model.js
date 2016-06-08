@@ -20,7 +20,7 @@ Model.deserialize = function (arg) {
 // for local storage functions i need to change how the webpages are stored
 Model.prototype.loadFromLocal = function () {
 	var self = this;
-
+//TODO : wont work for multiple storage keys
 	chrome.storage.local.get(self.storageKey, function (data) {
 		self.content = Model.deserialize(data[self.storageKey]);
 	});
