@@ -51,7 +51,7 @@ function mapCookie(cookie, storeId, url, domain, subdomains, paths) {
     cookie.url = url.replace('www', subdomain).replace('search', subdomain);
     cookie.domain = subdomain + domain;
     COOKIES.set(cookie);
-  }
+  };
 
   const PATH_COUNT = MINIMIZE(paths.length, 10);
       // Chrome won't persist more than 11 paths.

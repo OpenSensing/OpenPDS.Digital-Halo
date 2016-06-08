@@ -179,7 +179,7 @@ var moreRules = [];
 /* The active categories et al. */
 var servicePointer = moreServices;
 
-$.get((OPERA ? 'chrome/' : '') + 'trackers/data/services.json', function(data) {
+$.get((OPERA ? 'chrome/' : '') + 'vendor/sitename/data/services.json', function(data) {
   processServices(data);
 });
 

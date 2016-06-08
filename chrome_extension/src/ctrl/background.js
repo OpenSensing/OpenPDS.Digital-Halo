@@ -1,5 +1,7 @@
 const MINUTE = 60000
     , SECOND = 1000;
+
+//TODO: make a setter of the send interval in the Halo App
 var sendInterval = 120 * MINUTE
   , storeDelay   = 2 * SECOND
   //, client       = Halo.client
@@ -55,48 +57,6 @@ function storePageInfoLocaly(message, sender) {
     //alert(JSON.stringify(message)+'\n'+JSON.stringify(BAD_XDOMAIN_REQUESTS[sender.tab.id]))
   }, storeDelay)
 }
-
-
-
-/*
-function sendRecent () {
-  
-  Halo.innerState.loadFromLocal();
-  var recordedCount = Halo.innerState.content.recordedCount;
-    // check if anything got recorded, if not then return
-  if (!recordedCount) return updateDBoxLog('No current history stored, nothing sent');
-
-    // get recent history file count to append to file name
-  if (!client.isAuthenticated) client.authenitcate();
-
-      // create pointer Array
-  var pagePointers = []
-  for (var i = 1; i <= recordedCount; i++) {
-    pagePointers.push('page' + i);
-  } 
-
-  Halo.dboxState.loadFromDbox();  //update the files information
-  var nextFilesCount = Halo.dboxState.content.raw_data.currentHistoryAndTrackers.file_count + 1
-    , fileName        = 'currentHistory/currentHistoryAndTrackers' + nextFilesCount
-    , modelInitData   = {'key': pagePointers, filePath: fileName} 
-    , trackedHistory  = new PagesModel(modelInitData);
-  //trackedHistory.loadFromLocal();
-
-  // send stored pages
-  trackedHistory.saveToDbox();
-  console.log('sent recent history and trackers to Dropbox');
-  trackedHistory.deleteLocal();
-  conxole.log('deleted the tracked pages after sending');
-  // update the config object and file
-  Halo.dboxState.content.raw_data.currentHistoryAndTrackers.file_count = nextFilesCount;
-  Halo.dboxState.saveToDbox()
-  
-  // clear the pages from local storage and reset the counter
-  Halo.innerState.setContet({recordedCount : 0});
-  Halo.innerState.saveToLocal();
- 
-}
-*/
 
 
 

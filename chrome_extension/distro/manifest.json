@@ -17,6 +17,7 @@
     "scripts":    [
       "vendor/dropbox.js",
       "background.js",
+      "vendor/port/port.js",
       "vendor/sitename/alttlds.js",
       "vendor/sitename/tldpatch.js",
       "vendor/sitename/sitename.js",

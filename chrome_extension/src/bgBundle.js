@@ -3,4 +3,4 @@
  */
 require('./ctrl/dh.js');
 
-require('./ctrl/background.js');
+require('./ctrl/background.js')();
