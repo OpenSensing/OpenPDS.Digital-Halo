@@ -29,7 +29,7 @@ Model.prototype.loadFromLocal = function () {
 Model.prototype.saveToLocal = function () {
 	var data = {};
 	data[this.storageKey] = this.content;
-
+	
     chrome.storage.local.set(data);
 }
 

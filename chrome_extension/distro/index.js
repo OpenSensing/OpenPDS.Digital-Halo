@@ -9974,52 +9974,8 @@
 	client.authenticate();
 
 	module.exports = client;
-	/*function authenticateWithDropbox () {
-		try {
-			client.authenticate(function (err, client) {
-				if (err) return handleDBoxError(err)
-
-				getDropboxAccountInfo()
-				console.log('Halo authenticated with Dropbox')	
-			})  	
-	  } catch (exception) {   // not giving authorization crashes the client, so trying to reset
-	  	console.log(exception+'\nReseting the client and trying to authenticate again')
-	  	client.reset()
-	  	client.authenticate(function (err, client) {
-				if (err) return handleDBoxError(err)
 
 
-				getDropboxAccountInfo()
-				console.log('Halo authenticated with Dropbox')	
-			})  
-	  }
-
-	}*/
-	/*function signOutOfDropbox () {
-		client.signOut(function (err) {
-			if (err) return handleDBoxError(err)
-
-			window.location.reload()
-			showFlashMessage('success', 'Signed out from Dropbox')
-		})
-	}*/
-
-
-
-	/*// api functions
-	function getDropboxAccountInfo() {
-		client.getAccountInfo(function(error, accountInfo) {
-		  if (error) return handleDBoxError(error)
-
-		  showFlashMessage('success', "Hello, " + accountInfo.name + "!");
-		})
-	}*/
-
-
-
-
-
-	module.exports = client;
 
 /***/ },
 /* 4 */
@@ -10057,26 +10013,21 @@
 	function DBoxFileModel (initData) {
 		//check minimal init data
 		if (initData == undefined || initData.filePath == undefined && initData.content == undefined) throw 'DBoxFile initialized without conent nor filePath';
-		
+
 		Model.call(this, initData);
 		this.filePath = initData.filePath;
 
 		if (this.content == undefined) {
 			this.loadFromDBox()
 		}
-
-		/* *****TODO*****		
-				- consider not allowing to initialize without filePath (if allowed maka checker in load from dropbox)
-		*/
-	} 
+	}
 
 	DBoxFileModel.prototype = Object.create(Model.prototype);
 	DBoxFileModel.prototype.constructor = DBoxFileModel;
 
-	//  TODO  
 
 	DBoxFileModel.prototype.loadFromDBox = function (mode) {
-		mode ? mode : mode = 'ball'   //set default mode to whole json ball
+		mode ? mode : mode = 'ball';   //set default mode to whole json ball
 
 		var self = this;
 		return new Promise(function (resolve, reject) {
@@ -10089,19 +10040,20 @@
 			if (mode == 'parse') { // add parsing code per data object if ever needed
 			} else if (mode == 'ball') {
 				self.content =  Model.deserialize(data);
+				return self
 			}
 		}, function (err) { DBoxFileModel.handleDBoxError(err)})
 	};
 
 
 	DBoxFileModel.prototype.saveToDbox = function () {
-		
+		var self = this;
 		var serializedContent = this.serialize();
-		Halo.client.writeFile(this.filePath, serializedContent, function (err, state) {
+		Halo.client.writeFile(self.filePath, serializedContent, function (err, state) {
 			if (err) return DBoxFileModel.handleDBoxError(err)
 
 			//update dropbox log
-			console.log('File ' + this.filePath + ' saved ' + state.versionTag)
+			console.log('File ' + self.filePath + ' saved ' + state.versionTag)
 		})
 
 	}
@@ -10170,7 +10122,7 @@
 	// for local storage functions i need to change how the webpages are stored
 	Model.prototype.loadFromLocal = function () {
 		var self = this;
-
+	//TODO : wont work for multiple storage keys
 		chrome.storage.local.get(self.storageKey, function (data) {
 			self.content = Model.deserialize(data[self.storageKey]);
 		});
@@ -10179,7 +10131,7 @@
 	Model.prototype.saveToLocal = function () {
 		var data = {};
 		data[this.storageKey] = this.content;
-
+		
 	    chrome.storage.local.set(data);
 	}
 
@@ -10197,7 +10149,8 @@
 /* 7 */
 /***/ function(module, exports) {
 
-	var DboxModel = Halo.model('dboxModel');
+	var DboxModel = Halo.model('dboxModel'),
+		Model     = Halo.model('model');
 
 	function trackedPagesModel (initData) {
 		initData && DboxModel.call(this, initData);
@@ -10207,17 +10160,19 @@
 	trackedPagesModel.prototype = Object.create(DboxModel.prototype);
 	trackedPagesModel.prototype.constructor = trackedPagesModel;
 
-	/*trackedPagesModel.prototype.loadFromLocal = function () {
+
+	trackedPagesModel.prototype.loadFromLocal = function () {
 		var self = this;
 
-		chrome.storage.local.get(self.storageKey, function (data) {
+		chrome.storage.local.get(self.storageKey, function (pages) {
 			var content = [];
-			  for (page in data) {
-		    	content.push(data[page])
+			  for (page in pages) {
+		    	content.push(pages[page])
 		  	}
-			self.content = Model.deserialize(content);
+			console.log('Tracked pages, loading content from local\n' + JSON.stringify(content))
+			self.content = content;
 		})
-	} */
+	}
 
 	module.exports = trackedPagesModel;
 
@@ -23399,11 +23354,11 @@
 	  , Model        = Halo.model('model')
 	  //, PagesModel   = Halo.model('trackedPages')
 	  ,  sendRecent   = Halo.ctrl('sendRecent');
-	  // package sitename as a node modeule   , sitename = Halo.vendor('sitename')
+	  //TODO: package sitename as a node module   , sitename = Halo.vendor('sitename')
 
 
-	// Require on install callsbacks
-	Halo.ctrl('onInstall')
+	// Require on install callbacks
+	Halo.ctrl('onInstall');
 
 	//store loaded page
 	module.exports = function () {
@@ -23549,19 +23504,20 @@
 	    Halo.innerState.loadFromLocal();
 	    var recordedCount = Halo.innerState.content;
 	    // check if anything got recorded, if not then return
-	    if (!recordedCount) return updateDBoxLog('No current history stored, nothing sent');
+	    if (!recordedCount) return //updateDBoxLog('No current history stored, nothing sent');
 
 	    // get recent history file count to append to file name
 	    if (!client.isAuthenticated) client.authenitcate();
 
 	    // create pointer Array
 	    var pagePointers = [];
-	    for (var i = 1; i <= recordedCount; i++) {
+	    for (var i = 0  ; i <= recordedCount; i++) {
 	        pagePointers.push('page' + i);
 	    }
 
 
-	    Halo.dboxState.loadFromDBox().then(function () {
+	    Halo.dboxState.loadFromDBox()
+	    .then(function () {
 	        var nextFilesCount = Halo.dboxState.content.raw_data.currentHistoryAndTrackers.file_count + 1
 	            , fileName = 'currentHistory/currentHistoryAndTrackers' + nextFilesCount + ".json"
 	            , modelInitData = {'key': pagePointers, filePath: fileName};
@@ -23569,18 +23525,21 @@
 	        Halo.dboxState.content.raw_data.currentHistoryAndTrackers.file_count++;
 	        Halo.dboxState.saveToDbox();
 
-	        return new PagesModel(modelInitData);
+	        return new PagesModel(modelInitData)
+
 	    }).then(function (trackedHistory) {
 
 	        // send stored pages
-	        trackedHistory.saveToDbox();
-	        console.log('sent recent history and trackers to Dropbox');
-	        trackedHistory.deleteLocal();
-	        console.log('deleted the tracked pages after sending');
+	        setTimeout(function () {
+	            trackedHistory.saveToDbox();
+	            console.log('sent recent history and trackers to Dropbox');
+	            trackedHistory.deleteLocal();
+	            console.log('deleted the tracked pages after sending');
 
-	        // clear the pages from local storage and reset the counter
-	        Halo.innerState.setContent(0);
-	        Halo.innerState.saveToLocal();
+	            // clear the pages from local storage and reset the counter
+	            Halo.innerState.setContent(0);
+	            Halo.innerState.saveToLocal();
+	        }, 4000);
 	    })
 	};
 

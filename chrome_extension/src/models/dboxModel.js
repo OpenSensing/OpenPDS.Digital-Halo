@@ -7,26 +7,21 @@ var Model  = require('./model')
 function DBoxFileModel (initData) {
 	//check minimal init data
 	if (initData == undefined || initData.filePath == undefined && initData.content == undefined) throw 'DBoxFile initialized without conent nor filePath';
-	
+
 	Model.call(this, initData);
 	this.filePath = initData.filePath;
 
 	if (this.content == undefined) {
 		this.loadFromDBox()
 	}
-
-	/* *****TODO*****		
-			- consider not allowing to initialize without filePath (if allowed maka checker in load from dropbox)
-	*/
-} 
+}
 
 DBoxFileModel.prototype = Object.create(Model.prototype);
 DBoxFileModel.prototype.constructor = DBoxFileModel;
 
-//  TODO  
 
 DBoxFileModel.prototype.loadFromDBox = function (mode) {
-	mode ? mode : mode = 'ball'   //set default mode to whole json ball
+	mode ? mode : mode = 'ball';   //set default mode to whole json ball
 
 	var self = this;
 	return new Promise(function (resolve, reject) {
@@ -39,19 +34,20 @@ DBoxFileModel.prototype.loadFromDBox = function (mode) {
 		if (mode == 'parse') { // add parsing code per data object if ever needed
 		} else if (mode == 'ball') {
 			self.content =  Model.deserialize(data);
+			return self
 		}
 	}, function (err) { DBoxFileModel.handleDBoxError(err)})
 };
 
 
 DBoxFileModel.prototype.saveToDbox = function () {
-	
+	var self = this;
 	var serializedContent = this.serialize();
-	Halo.client.writeFile(this.filePath, serializedContent, function (err, state) {
+	Halo.client.writeFile(self.filePath, serializedContent, function (err, state) {
 		if (err) return DBoxFileModel.handleDBoxError(err)
 
 		//update dropbox log
-		console.log('File ' + this.filePath + ' saved ' + state.versionTag)
+		console.log('File ' + self.filePath + ' saved ' + state.versionTag)
 	})
 
 }

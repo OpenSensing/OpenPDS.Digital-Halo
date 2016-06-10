@@ -1,4 +1,5 @@
-var DboxModel = Halo.model('dboxModel');
+var DboxModel = Halo.model('dboxModel'),
+	Model     = Halo.model('model');
 
 function trackedPagesModel (initData) {
 	initData && DboxModel.call(this, initData);
@@ -8,16 +9,18 @@ function trackedPagesModel (initData) {
 trackedPagesModel.prototype = Object.create(DboxModel.prototype);
 trackedPagesModel.prototype.constructor = trackedPagesModel;
 
-/*trackedPagesModel.prototype.loadFromLocal = function () {
+
+trackedPagesModel.prototype.loadFromLocal = function () {
 	var self = this;
 
-	chrome.storage.local.get(self.storageKey, function (data) {
+	chrome.storage.local.get(self.storageKey, function (pages) {
 		var content = [];
-		  for (page in data) {
-	    	content.push(data[page])
+		  for (page in pages) {
+	    	content.push(pages[page])
 	  	}
-		self.content = Model.deserialize(content);
+		console.log('Tracked pages, loading content from local\n' + JSON.stringify(content))
+		self.content = content;
 	})
-} */
+}
 
 module.exports = trackedPagesModel;

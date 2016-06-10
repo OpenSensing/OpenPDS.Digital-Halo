@@ -8,11 +8,11 @@ var sendInterval = 120 * MINUTE
   , Model        = Halo.model('model')
   //, PagesModel   = Halo.model('trackedPages')
   ,  sendRecent   = Halo.ctrl('sendRecent');
-  // package sitename as a node modeule   , sitename = Halo.vendor('sitename')
+  //TODO: package sitename as a node module   , sitename = Halo.vendor('sitename')
 
 
-// Require on install callsbacks
-Halo.ctrl('onInstall')
+// Require on install callbacks
+Halo.ctrl('onInstall');
 
 //store loaded page
 module.exports = function () {
