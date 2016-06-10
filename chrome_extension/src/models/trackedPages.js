@@ -18,7 +18,7 @@ trackedPagesModel.prototype.loadFromLocal = function () {
 		  for (page in pages) {
 	    	content.push(pages[page])
 	  	}
-		console.log('Tracked pages, loading content from local\n' + JSON.stringify(content))
+		console.log('Tracked pages, loading content from local, to model n = '+pages.length)
 		self.content = content;
 	})
 }

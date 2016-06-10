@@ -4,7 +4,7 @@
 
   "name":  	 "Digital-Halo",
   "description": "It allows collection of your Digital Halo data",
-  "version":     "0.0.3",
+  "version":     "0.0.4",
 
   "content_security_policy":
       "script-src 'self' 'unsafe-eval'; object-src 'self'",
