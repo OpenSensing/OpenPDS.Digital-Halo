@@ -84,7 +84,7 @@
 	   		return require('../vendor/' + filePath)
 	    }*/
 	};
-
+	Halo.setSendInterval = __webpack_require__(47).setSendInterval;
 
 	//var Model     = require('../models/model.js')
 	var Model     = Halo.model('model')
@@ -10169,7 +10169,7 @@
 			  for (page in pages) {
 		    	content.push(pages[page])
 		  	}
-			console.log('Tracked pages, loading content from local\n' + JSON.stringify(content))
+			console.log('Tracked pages, loading content from local, to model n = '+pages.length)
 			self.content = content;
 		})
 	}
@@ -23348,8 +23348,8 @@
 	    , SECOND = 1000;
 
 	//TODO: make a setter of the send interval in the Halo App
-	var sendInterval = 120 * MINUTE
-	  , storeDelay   = 2 * SECOND
+	var defaultSendInterval = 120 * MINUTE
+	  , defaultDelay = 3 * SECOND
 	  //, client       = Halo.client
 	  , Model        = Halo.model('model')
 	  //, PagesModel   = Halo.model('trackedPages')
@@ -23361,19 +23361,28 @@
 	Halo.ctrl('onInstall');
 
 	//store loaded page
-	module.exports = function () {
-	  chrome.runtime.onMessage.addListener(function(message, sender, cb) {
+	module.exports.setupLocalStorageListener = function () {
+	  chrome.runtime.onMessage.addListener(function (message, sender, cb) {
 	    storePageInfoLocaly(message, sender);
 	  })
+	};
 
+	module.exports.setSendInterval = function (interval) {
+	  interval = interval * MINUTE || defaultSendInterval;
 	  // send current browsing and tracking to dropbox
 
-	  setInterval(function () {
-	    sendRecent();
-	    //run analysis
+	  sendRecentData();
+	  
+	  setInterval(sendRecentData, interval)
+	}
+
+	function sendRecentData () {
+	  sendRecent();
+	  //run analysis
+	  setTimeout(function () {
 	    console.log('Running the mini pds');
-	    chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content' : 'no message, just open app.'})
-	  }, sendInterval)
+	    chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
+	  }, defaultDelay)
 	}
 
 	//chrome.runtime.onMessage.addListener(function(message,sender, cb) {
@@ -23405,7 +23414,7 @@
 
 	    console.log('Saved data to Dropbox for: page'+n +' ---'+ message.title)
 	    //alert(JSON.stringify(message)+'\n'+JSON.stringify(BAD_XDOMAIN_REQUESTS[sender.tab.id]))
-	  }, storeDelay)
+	  }, defaultDelay)
 	}
 
 

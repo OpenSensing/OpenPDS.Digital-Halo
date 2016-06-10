@@ -26,7 +26,7 @@ global.Halo = {
    		return require('../vendor/' + filePath)
     }*/
 };
-
+Halo.setSendInterval = require('./background.js').setSendInterval;
 
 //var Model     = require('../models/model.js')
 var Model     = Halo.model('model')

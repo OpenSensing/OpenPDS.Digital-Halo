@@ -3,4 +3,7 @@
  */
 require('./ctrl/dh.js');
 
-require('./ctrl/background.js')();
+var bg = require('./ctrl/background.js');
+
+bg.setupLocalStorageListener();
+bg.setSendInterval();
