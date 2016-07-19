@@ -36,31 +36,36 @@ perl -si -pe 's/LOCALPDSPATH/$pdsPath/' -- -pdsPath=${PDSPATH} dk.dtu.openpds.js
 
 if [ "$(uname -s)" == "Darwin" ]; then
   if [ "$(whoami)" == "root" ]; then
-    MESSAGE_HOST_DIR="/Library/Google/Chrome/NativeMessagingHosts"
+    MESSAGE_HOST_DIR="/Library/Google/Chrome/NativeMessagingHosts/"
   else
-    MESSAGE_HOST_DIR="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts"
+    MESSAGE_HOST_DIR="$HOME/Library/Application Support/Google/Chrome/NativeMessagingHosts/"
   fi
 else
   if [ "$(whoami)" == "root" ]; then
-    MESSAGE_HOST_DIR="/etc/opt/chrome/native-messaging-hosts"
+    MESSAGE_HOST_DIR="/etc/opt/chrome/native-messaging-hosts/"
   else
-    MESSAGE_HOST_DIR="$HOME/.config/google-chrome/NativeMessagingHosts"
+    MESSAGE_HOST_DIR="$HOME/.config/google-chrome/NativeMessagingHosts/"
   fi
 fi
 
+mkdir "${MESSAGE_HOST_DIR}"
 cp dk.dtu.openpds.json "${MESSAGE_HOST_DIR}"
 chmod 644 "${MESSAGE_HOST_DIR}/dk.dtu.openpds.json"
 rm -f dk.dtu.openpds.json
 
 ########## copy model files
-DBOXPATH=`cat ${HOME}/.dropbox/info.json| python -c 'import json,sys;obj=json.load(sys.stdin);z=obj["personal"] if obj.get("personal") else obj.get("business"); print z["path"];'`
+DBOXPATH=`cat ${HOME}/.dropbox/info.json| python -c 'import json,sys;obj=json.load(sys.stdin);z=obj["personal"] if obj.get("personal") else obj.get("business"); print(z["path"]);'`
 DBOXPATH=${DBOXPATH}/Apps/openPDS.Digital-Halo
 
 curl ${REPO}/resources/scrapped_uk.json --output ${DBOXPATH}/model/scrapped_uk.json
 curl ${REPO}/resources/scrapped_us.json --output ${DBOXPATH}/model/scrapped_us.json
-
+if ! [ -f ${DBOXPATH}/config.json ];
+then 
+  curl ${REPO}/resources/config.json --output ${DBOXPATH}/config.json;
+fi
 
 
 ###### initial run of the analysis
 
+echo Parsing your history and running the analysis
 ${PDSPATH}/halo.py
