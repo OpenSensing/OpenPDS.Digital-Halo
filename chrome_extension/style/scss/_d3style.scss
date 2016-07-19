@@ -1,0 +1,85 @@
+$fonts :  Helvetica, sans-serif;
+
+
+body {
+	font-family: $fonts;
+	font-size:   12px;
+}
+
+h3 {
+	font-size: 20px;
+	color:	hsl(0, 40%, 40%);
+
+	.tracker-name {
+		font-weight: bold;
+	}
+}
+
+.demographic-bars {
+	display: block;
+}
+	
+.axis {
+	path, line {
+		fill:            none;
+		stroke:          black;
+		shape-rendering: crispEdges;
+		visibility:      hidden;
+	}
+	
+	text {
+		font-family: $fonts;
+		font-size:   11px;
+	}
+}
+
+.ordinal-axis {
+	path, line {
+		visibility: hidden;
+	}
+}
+
+
+circle {
+  fill: rgb(31, 119, 180);
+  fill: none;
+  fill-opacity: .25;
+  stroke: rgb(31, 119, 180);
+  stroke-width: 1px;
+  stroke: none;
+}
+
+
+.node.root circle {
+	fill: none;
+}
+
+.node  {
+	circle {
+		fill: hsl(30, 60%, 45%);
+		fill-opacity: 1;
+	}
+	circle:hover {
+		stroke: #000;
+		stroke-width: 1.5px;
+		cursor: pointer;
+	}
+}
+
+
+
+.leaf  {
+	circle {
+		fill: hsl(31, 60%, 35%);
+  		fill-opacity: 1;
+	}
+} 
+
+
+.node text {
+	fill: hsl(60, 100%, 80%);
+}
+
+text {
+  font: 10px sans-serif;
+}

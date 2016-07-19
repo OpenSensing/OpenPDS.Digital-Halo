@@ -8,11 +8,24 @@ except OSError, e:
 	if e.errno != 2:
 		raise
 
-print 'Trying to create the model directory in dropbox app folder'
+# sys.stdout.write instead of print to avoid newline
+shutil.sys.stdout.write('Trying to create the model directory in dropbox app folder. ')
 try:	
 	#shutil.os.mkdir(MODEL_PATH)
-	shutil.copytree(REPO_PATH + 'analytics/model', MODEL_PATH)
+	shutil.copytree(REPO_PATH + 'resources/model', MODEL_PATH)
 	print 'Success'
 except OSError, e:
-	print 'Error while creating the model:', e.errno, e.strerror
+	print '\nError while creating the model:', e.errno, e.strerror
+
+###  copy config as well
+
+shutil.sys.stdout.write('Copying the config file : config.json. ')
+try:
+    shutil.copy(REPO_PATH + 'resources/config.json', APP_PATH)
+    print 'Success'
+except OSError, e:
+    print "\nCan't copy the config file:", e.errno, e.strerror
+
+## and create the curren history tem results folder
+shutil.os.mkdir(APP_PATH + 'currentHistory')
 

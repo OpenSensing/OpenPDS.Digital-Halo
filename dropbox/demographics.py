@@ -26,6 +26,7 @@ def count_score (data, model, prior = 0.5):
 			           #from index to odds ration
 			score[0] *= Decimal(model[d] / 100.0) ** count
 			score[1] += count
+	score[0] = float(score[0])
 	return score
 
 ######### 
@@ -41,35 +42,35 @@ else:
 ### age
 age_scores = {}
 for age_group in age_weights:
-	age_scores[age_group] = count_score(browsing_history, age_weights[age_group])
+	age_scores[age_group] = count_score(browsing_history, age_weights[age_group], age_priors[age_group])
 flat_age = [(l,v[0]) for l,v in age_scores.iteritems()]
 age = max(flat_age, key = operator.itemgetter(1))
 
 ### edu
 edu_scores = {}
 for edu_group in weights['education']:
-	edu_scores[edu_group] = count_score(browsing_history, weights['education'][edu_group])
+	edu_scores[edu_group] = count_score(browsing_history, weights['education'][edu_group], edu_priors[edu_group])
 flat_edu = [(l,v[0]) for l,v in edu_scores.iteritems()]
 edu      = max(flat_edu, key= operator.itemgetter(1))
 
 ### kids
 kids_scores = {}
 for kids_group in weights['kids']:
-	kids_scores[kids_group] = count_score(browsing_history, weights['kids'][kids_group])
+	kids_scores[kids_group] = count_score(browsing_history, weights['kids'][kids_group], kids_priors[kids_group])
 flat_kids = [(l,v[0]) for l,v in kids_scores.iteritems()]
 kids = max(flat_kids, key = operator.itemgetter(1))
 
 ### income
 inc_scores = {}
 for inc_group in weights['income']:
-	inc_scores[inc_group] = count_score(browsing_history, weights['income'][inc_group])
+	inc_scores[inc_group] = count_score(browsing_history, weights['income'][inc_group], inc_priors[inc_group])
 flat_inc = [(l,v[0]) for l,v in inc_scores.iteritems()]
 inc      = max(flat_inc, key= operator.itemgetter(1))
 
 ### ethnicity
 eth_scores = {}
 for eth_group in weights['race_US']:
-	eth_scores[eth_group] = count_score(browsing_history, weights['race_US'][eth_group])
+	eth_scores[eth_group] = count_score(browsing_history, weights['race_US'][eth_group], etn_priors[eth_group])
 flat_eth = [(l,v[0]) for l,v in eth_scores.iteritems()]
 eth      = max(flat_eth, key= operator.itemgetter(1))
 
@@ -84,4 +85,14 @@ file_io.saveToDropbox({
 	'kids'     : kids[0],
 	'createdAt': int(time.time()*1000)
 }, 'test_res.json')
+
+file_io.saveToDropbox({
+	'gender'   : {'Male': male_score, 'Female': female_score},
+	'age'      : age_scores,
+	'education': edu_scores,
+	'race'     : eth_scores,
+	'income'   : inc_scores,
+	'kids'     : kids_scores,
+	'createdAt': int(time.time()*1000)
+}, 'test_res_details.json')
 

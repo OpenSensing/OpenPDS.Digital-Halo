@@ -1,29 +1,28 @@
 {
   "manifest_version": 2,
 
+
   "name":  	 "Digital-Halo",
   "description": "It allows collection of your Digital Halo data",
-  "version":     "0.0.2",
+  "version":     "0.0.5",
 
   "content_security_policy":
       "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
   "web_accessible_resources": [
-    "scripts/vendor/jquery/jquery-2.0.3.min.map",
-    "dropbox/chrome_oauth_receiver.html"
+    "html/chrome_oauth_receiver.html"
   ],
 
   "background": {
     "scripts":    [
-      "send_data.js",
-      "trackers/vendor/port/port.js",
-      "trackers/vendor/jquery/jquery.js",
-      "trackers/vendor/moment/moment.js",
-      "trackers/vendor/sitename/alttlds.js",
-      "trackers/vendor/sitename/tldpatch.js",
-      "trackers/vendor/sitename/sitename.js",
-      "trackers/services.js",
-      "trackers/catch.js"
+      "vendor/dropbox.js",
+      "background.js",
+      "vendor/port/port.js",
+      "vendor/sitename/alttlds.js",
+      "vendor/sitename/tldpatch.js",
+      "vendor/sitename/sitename.js",
+      "vendor/services.js",
+      "catch.js"
     ],
     "persistent": true
   },
@@ -38,14 +37,13 @@
 
   "browser_action": {
     "default_icon":  "icon-16.png",
-    "default_popup": "popup.html",
+    "default_popup": "html/popup.html",
     "default_title": "See your halo!"
   },
 
   "permissions": [
     "activeTab",
     "tabs",
-    "http://dev.sensible.dtu.dk:9090/",
     "chrome://favicon/",
     "cookies",
     "history",
@@ -56,7 +54,13 @@
     "http://*/*",
     "https://*/*",
     "history",
-    "storage"
-  ]
+    "storage",
+    "nativeMessaging"
+  ],
+
+  "icons": { "16" : "icon-16.png",
+             "48" : "icon-16.png",
+             "128": "icon-16.png" 
+  }
 
 }
