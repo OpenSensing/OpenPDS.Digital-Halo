@@ -10470,7 +10470,6 @@
 
 	//Dropbox inout
 
-	//TODO: remove fucking deserialize and Halo.client.readFile and replace with a MODEL
 
 	function deserialize (obj) {
 	    return typeof(obj) == 'string' ? JSON.parse(obj) : obj
@@ -10556,6 +10555,7 @@
 	        $('#mobile-log_out').on('click', Halo.client.signOut);
 	    })
 	}
+
 
 /***/ },
 /* 12 */

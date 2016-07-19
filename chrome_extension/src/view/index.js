@@ -20,7 +20,6 @@ function showFlashMessage (type, message) {
 
 //Dropbox inout
 
-//TODO: remove fucking deserialize and Halo.client.readFile and replace with a MODEL
 
 function deserialize (obj) {
     return typeof(obj) == 'string' ? JSON.parse(obj) : obj
