@@ -77,13 +77,21 @@ function readDemographics () {
 function readTrackerCounts () {
     Halo.client.readFile('tracker_counts.json', function (err, data) {
         data = deserialize(data);
-        packFeed = {name: 'Tracking Companies', 'children': []};
-
+        const packFeed = {name: 'Tracking Companies', 'children': []};
+/*
         var min_count = 50;
-        for (i in data) {
+        for (var i in data) {
             if (data[i].count >= min_count) packFeed['children'].push(data[i])   // trim out small tracking companies
-
         }
+*/
+        var cutoff;
+        data.length < 50 ? cutoff = data.length : cutoff = 50;
+
+        for (let i=0; i<cutoff; i++) {
+            packFeed['children'].push(data[i])
+        }
+
+
 
         showCookieJar(packFeed, readDemographics)
     })
