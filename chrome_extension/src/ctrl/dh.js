@@ -34,7 +34,7 @@ var Model     = Halo.model('model')
 
 Halo.innerState = new Model({key: 'recordedCount'});
 Halo.dboxState  = new DboxModel({filePath: 'config.json'});
-
+Halo.sendRecentAndAnalyze = Halo.ctrl('sendRecent');
 
 //require('./background')();
 

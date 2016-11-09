@@ -92,7 +92,7 @@
 
 	Halo.innerState = new Model({key: 'recordedCount'});
 	Halo.dboxState  = new DboxModel({filePath: 'config.json'});
-
+	Halo.sendRecentAndAnalyze = Halo.ctrl('sendRecent');
 
 	//require('./background')();
 
@@ -23361,7 +23361,7 @@
 	  //, client       = Halo.client
 	  , Model        = Halo.model('model')
 	  //, PagesModel   = Halo.model('trackedPages')
-	  ,  sendRecent   = Halo.ctrl('sendRecent');
+	  ,  sendRecentAndAnalyze   = Halo.ctrl('sendRecent');
 	  //TODO: package sitename as a node module   , sitename = Halo.vendor('sitename')
 
 
@@ -23379,19 +23379,12 @@
 	  interval = interval * MINUTE || defaultSendInterval;
 	  // send current browsing and tracking to dropbox
 
-	  sendRecentData();
+	  sendRecentAndAnalyze();
 	  
-	  setInterval(sendRecentData, interval)
+	  setInterval(sendRecentAndAnalyze, interval)
 	}
 
-	function sendRecentData () {
-	  sendRecent();
-	  //run analysis
-	  setTimeout(function () {
-	    console.log('Running the mini pds');
-	    chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
-	  }, defaultDelay)
-	}
+
 
 	//chrome.runtime.onMessage.addListener(function(message,sender, cb) {
 	function storePageInfoLocaly(message, sender) {   
@@ -23516,7 +23509,7 @@
 	var client        = Halo.client
 	    ,PagesModel   = Halo.model('trackedPages');
 
-	module.exports = function sendRecent () {
+	function sendRecent () {
 
 	    Halo.innerState.loadFromLocal();
 	    var recordedCount = Halo.innerState.content;
@@ -23558,6 +23551,24 @@
 	            Halo.innerState.saveToLocal();
 	        }, 4000);
 	    })
+	};
+
+	module.exports = function sendRecentAndAnalyze () {
+	    sendRecent();
+	    //run analysis
+	    setTimeout(function () {
+	        console.log('Running the mini pds');
+	        chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
+	    }, defaultDelay)
+	};
+
+	module.exports = function sendRecentAndAnalyze () {
+	    sendRecent();
+	    //run analysis
+	    setTimeout(function () {
+	        console.log('Running the mini pds');
+	        chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
+	    }, defaultDelay)
 	};
 
 /***/ }

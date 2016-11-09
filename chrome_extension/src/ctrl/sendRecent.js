@@ -4,7 +4,7 @@
 var client        = Halo.client
     ,PagesModel   = Halo.model('trackedPages');
 
-module.exports = function sendRecent () {
+function sendRecent () {
 
     Halo.innerState.loadFromLocal();
     var recordedCount = Halo.innerState.content;
@@ -46,4 +46,22 @@ module.exports = function sendRecent () {
             Halo.innerState.saveToLocal();
         }, 4000);
     })
+};
+
+module.exports = function sendRecentAndAnalyze () {
+    sendRecent();
+    //run analysis
+    setTimeout(function () {
+        console.log('Running the mini pds');
+        chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
+    }, defaultDelay)
+};
+
+module.exports = function sendRecentAndAnalyze () {
+    sendRecent();
+    //run analysis
+    setTimeout(function () {
+        console.log('Running the mini pds');
+        chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
+    }, defaultDelay)
 };

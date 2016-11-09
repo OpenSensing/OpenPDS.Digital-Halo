@@ -7,7 +7,7 @@ var defaultSendInterval = 120 * MINUTE
   //, client       = Halo.client
   , Model        = Halo.model('model')
   //, PagesModel   = Halo.model('trackedPages')
-  ,  sendRecent   = Halo.ctrl('sendRecent');
+  ,  sendRecentAndAnalyze   = Halo.ctrl('sendRecent');
   //TODO: package sitename as a node module   , sitename = Halo.vendor('sitename')
 
 
@@ -25,19 +25,12 @@ module.exports.setSendInterval = function (interval) {
   interval = interval * MINUTE || defaultSendInterval;
   // send current browsing and tracking to dropbox
 
-  sendRecentData();
+  sendRecentAndAnalyze();
   
-  setInterval(sendRecentData, interval)
+  setInterval(sendRecentAndAnalyze, interval)
 }
 
-function sendRecentData () {
-  sendRecent();
-  //run analysis
-  setTimeout(function () {
-    console.log('Running the mini pds');
-    chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content': 'no message, just open app.'});
-  }, defaultDelay)
-}
+
 
 //chrome.runtime.onMessage.addListener(function(message,sender, cb) {
 function storePageInfoLocaly(message, sender) {   
