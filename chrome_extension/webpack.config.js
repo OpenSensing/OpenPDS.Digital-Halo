@@ -24,7 +24,8 @@ module.exports = {
     new CopyPlugin([
         {from: 'manifest.json', to: 'manifest.json'},
         {from: 'html/', to: 'html/'},
-        {from: 'node_modules/dropbox/lib/dropbox.js', to: 'vendor/dropbox.js'},
+        //{from: 'node_modules/dropbox/lib/dropbox.js', to: 'vendor/dropbox.js'},
+        {from: 'src/vendor/dropbox.js', to: 'vendor/dropbox.js'},
         {from: 'js/popup.js', to:'popup.js'},
         {from: 'js/chrome_oauth_receiver.js', to: 'chrome_oauth_receiver.js'},
         {from: 'js/sitename/', to: 'vendor/sitename/'},

@@ -94,17 +94,12 @@
 	Halo.dboxState  = new DboxModel({filePath: 'config.json'});
 	Halo.sendRecentAndAnalyze = Halo.ctrl('sendRecent');
 
-	//require('./background')();
 
 
 	/*///////  views config  // this will be handle by separate webpack bundles
 	var mainUrl   = chrome.extension.getURL('views/index.html') 
-	  , bgPageUrl = chrome.extension.getURL('_generated_background_page.html'); 
+	  , bgPageUrl = chrome.extension.getURL('_generated_background_page.html'); */
 
-	  
-	if (location.href == bgPageUrl) Halo.require('ctrl/background')();
-	if (location.href == mainUrl) Halo.view('index.js');	
-	*/
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
@@ -9966,12 +9961,12 @@
 	var client = new Dropbox.Client({key: '3z9vnky7whz2dmn'});
 
 	client.authDriver(new Dropbox.AuthDriver.ChromeExtension({
-		  rememberUser: false,
+		  rememberUser: true,
 			receiverPath: 'html/chrome_oauth_receiver.html'
 		})
 	);
 
-	client.authenticate();
+	//client.authenticate();
 
 	module.exports = client;
 
@@ -10555,7 +10550,8 @@
 	module.exports = function () {
 	    $('document').ready(function (e) {
 	        $('#log_in').click(Halo.client.authenticate);
-	        $('#log_out').click(Halo.client.signOut);
+	        //$('#log_out').click(Halo.client.signOff);
+	        $('#log_out').click(()=>{chrome.tabs.getCurrent((t)=>{chrome.tabs.remove(t.id)})});
 	        $('#meetMonsters').click(readTrackerCounts);
 	        $('#openYourPDS').click(openPDS);
 	        $(".button-collapse").sideNav({edge: 'right'});
@@ -23433,22 +23429,24 @@
 	    if(details.reason == "install"){
 	        console.log("This is a fresh install of Digital Halo, version: " + chrome.runtime.getManifest().version + "!");
 
-	        try {
-	          client.authenticate(function (err, client) {
-	            if (err) return console.log(err)
-	            console.log('Halo background page authenticated with Dropbox')  
-	            // setup the history folder and query the history already stored in chrome
-	            initHaloFolder()
-	      })    
-	        } catch (exception) {   // not giving authorization crashes the client, so trying to reset
-	          console.log(exception+'\nReseting the client and trying to authenticate again')
-	          client.reset()
-	          client.authenticate(function (err, client) {
-	            if (err) return err;
+	        if (!client.isAuthenticated()) {
+	            try {
+	              client.authenticate(function (err, client) {
+	                if (err) return console.log(err)
+	                console.log('Halo background page authenticated with Dropbox')
+	                // setup the history folder and query the history already stored in chrome
+	                initHaloFolder()
+	              })
+	            } catch (exception) {   // not giving authorization crashes the client, so trying to reset
+	                console.log(exception + '\nReseting the client and trying to authenticate again')
+	                client.reset()
+	                client.authenticate(function (err, client) {
+	                    if (err) return err;
 
-	            initHaloFolder()   
-	          })  
-	      } 
+	                    initHaloFolder()
+	                })
+	            }
+	        }
 
 	    }else if(details.reason == "update"){
 	        var thisVersion = chrome.runtime.getManifest().version;

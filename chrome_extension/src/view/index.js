@@ -105,7 +105,8 @@ function openPDS (e) {
 module.exports = function () {
     $('document').ready(function (e) {
         $('#log_in').click(Halo.client.authenticate);
-        $('#log_out').click(Halo.client.signOut);
+        //$('#log_out').click(Halo.client.signOff);
+        $('#log_out').click(()=>{chrome.tabs.getCurrent((t)=>{chrome.tabs.remove(t.id)})});
         $('#meetMonsters').click(readTrackerCounts);
         $('#openYourPDS').click(openPDS);
         $(".button-collapse").sideNav({edge: 'right'});

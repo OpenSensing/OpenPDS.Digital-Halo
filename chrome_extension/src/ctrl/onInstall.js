@@ -4,22 +4,24 @@ module.exports = chrome.runtime.onInstalled.addListener(function(details) {
     if(details.reason == "install"){
         console.log("This is a fresh install of Digital Halo, version: " + chrome.runtime.getManifest().version + "!");
 
-        try {
-          client.authenticate(function (err, client) {
-            if (err) return console.log(err)
-            console.log('Halo background page authenticated with Dropbox')  
-            // setup the history folder and query the history already stored in chrome
-            initHaloFolder()
-      })    
-        } catch (exception) {   // not giving authorization crashes the client, so trying to reset
-          console.log(exception+'\nReseting the client and trying to authenticate again')
-          client.reset()
-          client.authenticate(function (err, client) {
-            if (err) return err;
+        if (!client.isAuthenticated()) {
+            try {
+              client.authenticate(function (err, client) {
+                if (err) return console.log(err)
+                console.log('Halo background page authenticated with Dropbox')
+                // setup the history folder and query the history already stored in chrome
+                initHaloFolder()
+              })
+            } catch (exception) {   // not giving authorization crashes the client, so trying to reset
+                console.log(exception + '\nReseting the client and trying to authenticate again')
+                client.reset()
+                client.authenticate(function (err, client) {
+                    if (err) return err;
 
-            initHaloFolder()   
-          })  
-      } 
+                    initHaloFolder()
+                })
+            }
+        }
 
     }else if(details.reason == "update"){
         var thisVersion = chrome.runtime.getManifest().version;

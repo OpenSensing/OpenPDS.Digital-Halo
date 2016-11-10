@@ -40,4 +40,4 @@ Halo.sendRecentAndAnalyze = Halo.ctrl('sendRecent');
 
 /*///////  views config  // this will be handle by separate webpack bundles
 var mainUrl   = chrome.extension.getURL('views/index.html') 
-  , bgPageUrl = chrome.extension.getURL('_generated_background_page.html'); 
+  , bgPageUrl = chrome.extension.getURL('_generated_background_page.html'); */

@@ -5,12 +5,12 @@
 var client = new Dropbox.Client({key: '3z9vnky7whz2dmn'});
 
 client.authDriver(new Dropbox.AuthDriver.ChromeExtension({
-	  rememberUser: false,
+	  rememberUser: true,
 		receiverPath: 'html/chrome_oauth_receiver.html'
 	})
 );
 
-client.authenticate();
+//client.authenticate();
 
 module.exports = client;
 
