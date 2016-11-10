@@ -1,3 +1,4 @@
+from __future__ import division
 import sys
 import json
 from os import path
@@ -32,6 +33,14 @@ DEMOGROUPS = {
     'race_US'  : ('Caucasian', 'African_American', 'Asian' , 'Hispanic')
 }
 
+PRIORS = {"25-34": 0.173, "18": 0.181, "55-64": 0.102, "65": 0.052, "18-24": 0.127, "45-54": 0.175, "35-44": 0.193,
+    'No_College': 0.447, 'College': 0.408, 'Grad_School': 0.145,
+    'Female': 0.5, 'Male': 0.5,
+    '0-50k': 0.512, '50-100k': 0.283, '100-150k': 0.118, '150k': 0.082,
+    'Has_Kids': 0.507, 'No_Kids': 0.493,
+    'Caucasian': 0.762, 'African_American': 0.095, 'Asian': 0.047, 'Hispanic': 0.096
+}
+
 priors = {
     'age'  : {"25_34": 0.173, "18": 0.181, "55_64": 0.102, "65": 0.052, "18_24": 0.127, "45_54": 0.175, "35_44": 0.193},
     'edu'  : {'No_College': 0.447, 'College': 0.408, 'Grad_School': 0.145},
@@ -49,13 +58,24 @@ def loadModel (model_file):
         model_dic = json.load(data_fh)
         
     return model_dic
+   
+############ CALCULATION ALGORITHMS #############
+#################################################
+def probabilites_sum(results, domain, count):
+    for cat_gr, cats in results.iteritems():
 
-##### count the scores
-def normalize_products(categories_group):
-    total = sum(categories_group.values())
-    if total: 
-        for category, product in categories_group.iteritems():
-            categories_group[category] = [product, float(product/total)]
+        for cat in cats.keys():
+            
+            if cat in domain:
+                
+                vals = domain[cat]
+                if cats[cat]:   # some data for the category already exists
+                    cats[cat][0] += vals[1] * count
+                    cats[cat][1] += count
+                    
+                else:           # no data for the cat so initalize it 
+                    cats[cat].append(vals[1] * count)
+                    cats[cat].append(count)
 
 def average_probability(categories_group):
     '''takes categories group as input to keep consistent with normalize_products()'''
@@ -65,12 +85,78 @@ def average_probability(categories_group):
             categories_group[category] = sum_of_probs/count
         except ValueError:   # missing data
             categories_group[category] = 'NA'
-        
-        
+
+##########
+def odds_product_with_prior(results, domain, count):
+    for cat_gr, cats in results.iteritems():
+
+        for cat in cats.keys():
+            
+            if cat in domain:
+                
+                vals = domain[cat]
+                odds = vals[0] / 100  # stored as 'index' which is odds * 100
+                if cats[cat]:   # some data for the category already exists
+                    #cats[cat]*= odds ** count
+                    cats[cat]*= odds
+
+                    print "odds: {} product: {}".format(odds, cats[cat])
+                else:           # no data for the cat so initalize it 
+                    prior = PRIORS[cat]
+                    #cats[cat]=(prior * odds**count)
+                    cats[cat]=(prior * odds)
+
+def normalize_products(categories_group):
+    
+    try:
+        total = sum(categories_group.values())
+    except TypeError as e:
+        print categories_group
+        print categories_group.values()
+        return
+        #raise e
+
+    if total: 
+        for category, product in categories_group.iteritems():
+            try:
+                categories_group[category] = product/total
+            except ValueError: #missing data
+                categories_group[category] = 'NA'
+
+########
+def odds_sum(results, domain, count):
+    for cat_gr, cats in results.iteritems():
+
+        for cat in cats.keys():
+            
+            if cat in domain:
+                
+                vals = domain[cat]
+                odds = vals[0] / 100  # stored as 'index' which is odds * 100
+                if cats[cat]:   # some data for the category already exists
+                    cats[cat][0]+= odds * count
+                    cats[cat][1]+= count
+                else:           # no data for the cat so initalize it 
+                    cats[cat].append(odds * count)
+                    cats[cat].append(count)
+
+def average_odds(categories_group):
+    '''takes categories group as input to keep consistent with normalize_products()'''
+    for category, sum_and_count in categories_group.iteritems():
+        try:
+            sum_of_odds, count = sum_and_count
+            categories_group[category] = (sum_of_odds/count) * PRIORS[category]          
+        except ValueError:   # missing data
+            categories_group[category] = 'NA'
+
+
+
+########### 
+###########       
 def count_score (data):
     '''
     ins: data - dictionary containing domain names as keys and number of visits as values
-    outs: results - dictionary with category_groups -> categories -> [product of probs, normalized 'probability'] 
+    outs: results - dictionary with category_groups -> categories -> [sum of probs, normalized 'probability'] 
     ''' 
     #initialize results dict
     results = {}
@@ -85,25 +171,14 @@ def count_score (data):
         else:
             domain = model[domain]
             any_data_in_model = True
-            
-        for cat_gr, cats in results.iteritems():
-
-            for cat in cats.keys():
-                
-                if cat in domain:
-                    
-                    vals = domain[cat]
-                    if cats[cat]:   # some data for the category already exists
-                        cats[cat][0] += vals[1] * count
-                        cats[cat][1] += count
-                        
-                    else:           # no data for the cat so initalize it 
-                        cats[cat].append(vals[1] * count)
-                        cats[cat].append(count)
+    
+        odds_product_with_prior(results, domain, count)
+        #odds_sum(results, domain, count)
     #normalize to percentage like values and convert Decimal to float
     if any_data_in_model:
         for group in results.values():
-            average_probability(group)
+            normalize_products(group)
+            #average_odds(group)
             #for cat_name, vals in group.iteritems():
             #   if type(vals) == list:
             #        vals[0] = float(vals[0])
@@ -126,15 +201,17 @@ def get_top_categories(detailed_results):
             for group_name, cats in cat_groups.iteritems():
                 
                 try:
-                    top_cat = max(cats.keys(), key= lambda cat_name: cats[cat_name][1])
-                    results[tracker_name][group_name] = (top_cat, cats[top_cat][1])
+                    top_cat = max(cats.keys(), key= lambda cat_name: cats[cat_name])
+                    results[tracker_name][group_name] = (top_cat, cats[top_cat])
+                    #top_cat = max(cats.keys(), key= lambda cat_name: cats[cat_name][1])
+                    #results[tracker_name][group_name] = (top_cat, cats[top_cat][1])
                 except TypeError:
                     results[tracker_name][group_name] = 'NA'
     
     return results
                 
-
-
+###########################################
+###########################################
 ##### Function for tracker counts 
 
 def get_tracking_company_details (company_name):
@@ -225,6 +302,10 @@ for tracker, domains in trackerdb_cur.fetchall():
     '''for each tracker fetch all visits to tracked domains'''
     domains = ast.literal_eval(domains)
     
+
+    if len(domains) > 999:
+        domains = domains[:999]
+
     select_tracked = 'SELECT name, total FROM domain WHERE name in ({seq})'.format(
         seq=','.join(['?']*len(domains)))
     domaindb_cur.execute(select_tracked, domains)

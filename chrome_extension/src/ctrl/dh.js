@@ -36,14 +36,8 @@ Halo.innerState = new Model({key: 'recordedCount'});
 Halo.dboxState  = new DboxModel({filePath: 'config.json'});
 Halo.sendRecentAndAnalyze = Halo.ctrl('sendRecent');
 
-//require('./background')();
 
 
 /*///////  views config  // this will be handle by separate webpack bundles
 var mainUrl   = chrome.extension.getURL('views/index.html') 
   , bgPageUrl = chrome.extension.getURL('_generated_background_page.html'); 
-
-  
-if (location.href == bgPageUrl) Halo.require('ctrl/background')();
-if (location.href == mainUrl) Halo.view('index.js');	
-*/
