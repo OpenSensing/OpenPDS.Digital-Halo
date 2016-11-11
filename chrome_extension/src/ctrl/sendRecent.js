@@ -2,7 +2,8 @@
  * Created by mpio on 11/05/16.
  */
 var client        = Halo.client
-    ,PagesModel   = Halo.model('trackedPages');
+    ,PagesModel   = Halo.model('trackedPages')
+    ,defaultDelay = 10 * 1000;
 
 function sendRecent () {
 
