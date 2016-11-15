@@ -12,7 +12,7 @@ from copy import deepcopy
 
 
 
-#inouts              = json.loads(sys.argv[1])
+inouts              = json.loads(sys.argv[1])
 dbs                 = inouts.get('dbs')
 results_folder      = inouts.get('results')
 model_file_name     = 'scrapped_us.json'
