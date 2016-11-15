@@ -12,7 +12,7 @@ from copy import deepcopy
 
 
 
-inouts              = json.loads(sys.argv[1])
+#inouts              = json.loads(sys.argv[1])
 dbs                 = inouts.get('dbs')
 results_folder      = inouts.get('results')
 model_file_name     = 'scrapped_us.json'
@@ -21,6 +21,7 @@ model_path          = path.join(results_folder, 'model', model_file_name)
 RES_PATH            = path.join(results_folder, 'res_per_tracker.json')
 RES_DETAILS_PATH    = path.join(results_folder, 'res_per_tracker_details.json')
 TRACKER_COUNTS_PATH = path.join(results_folder, 'tracker_counts.json')
+COMPANY_COUNTS_PATH = path.join(results_folder, 'res_per_company_details.json')
 
 
 
@@ -100,7 +101,6 @@ def odds_product_with_prior(results, domain, count):
                     #cats[cat]*= odds ** count
                     cats[cat]*= odds
 
-                    print "odds: {} product: {}".format(odds, cats[cat])
                 else:           # no data for the cat so initalize it 
                     prior = PRIORS[cat]
                     #cats[cat]=(prior * odds**count)
@@ -111,10 +111,7 @@ def normalize_products(categories_group):
     try:
         total = sum(categories_group.values())
     except TypeError as e:
-        print categories_group
-        print categories_group.values()
         return
-        #raise e
 
     if total: 
         for category, product in categories_group.iteritems():
@@ -247,12 +244,66 @@ def get_all_tracking_companies_details ():
 
     return all_details
 
+########## init result dictionary
+def init_results(init_value=0.0):
+    dictionary = {}
+    for group, cats in DEMOGROUPS.items():
+        dictionary[group] = {}
+        for cat in cats:
+            dictionary[group][cat] = init_value
+    return dictionary
+
                     
-######### 
+############# HELPERS FOR PER COMPANY COUNTS ############# 
 
+def weighted_addition(augend ,addend , weight):
+    local_augend = deepcopy(augend)
+    for group, cats in local_augend.items():
+        for cat in cats:    
+            local_augend[group][cat] += addend[group][cat] * weight
 
+    return local_augend
 
+def divide_by_weights(weighted_sum, sum_of_weights):
+    result = init_results()
+    for group, cats in weighted_sum.items():
+        for cat in cats:
+            result[group][cat] = weighted_sum[group][cat] / sum_of_weights
+    
+    return result
 
+def is_tracker_data_complete(data):
+    if data == 'NA': return False
+        
+    for group, cats in data.items():
+        for val in cats.values():
+            if type(val) != float:
+                return False    
+    return True
+
+def compute_per_company(firm, ress):
+    
+    name          = firm['name']
+    result        = init_results()
+    total_weights = 0
+    for child in firm['children']:
+        weight = child['count']
+        tracker = child['name']
+        # if any demographic data available for tracker
+        if is_tracker_data_complete(ress[tracker]): 
+            
+            print name, tracker
+            
+            result = weighted_addition(result, ress[tracker], weight)
+            total_weights += weight
+    
+    if total_weights:
+        return divide_by_weights(result, total_weights)
+    else:
+        return 'NA'
+
+##################################################
+##################################################
 
 ## open dbs
 for dbpath in dbs:
@@ -329,6 +380,12 @@ simple_results = get_top_categories(results)
 ## get number of occurances of each tracker and aggregate them over owning companies
 tracker_and_company_counts = get_all_tracking_companies_details()
 
+## compute demographic data per company (weighted mean)
+res_per_company = {}
+for firm in tracker_and_company_counts: 
+    
+    res_per_company[firm['name']] = compute_per_company(firm, results)
+
 ################################################  Save results
 
 with open (RES_PATH, 'w') as res_file:
@@ -337,3 +394,5 @@ with open (RES_DETAILS_PATH, 'w') as res_det_file:
     json.dump(results, res_det_file)
 with open (TRACKER_COUNTS_PATH, 'w') as tr_counts_file:
     json.dump(tracker_and_company_counts, tr_counts_file)
+with open(COMPANY_COUNTS_PATH, 'w') as res_per_comp_file:
+    json.dump(res_per_company, res_per_comp_file)

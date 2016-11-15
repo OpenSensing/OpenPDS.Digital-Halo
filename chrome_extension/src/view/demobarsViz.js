@@ -39,22 +39,34 @@
  })
  */
 
-function updateBarcharts (trackerName, trackerData) {
+function updateBarcharts (trackerName, trackerData, init) {
     /*
-     nput: Dictionary of categories with follwoing keys gender, age, income, education, kids
+     Input: Dictionary of categories with following keys gender, age, income, education, kids
      Outpu: Title-tracker name(cookie monster image later) and all barcharts updated with new data
      */
-    //*****************************   TODO
+    //*****************************
+
+    var width, height;
+    if (init) {
+        var containerWidth = $('#demographic-barcharts')[0].offsetWidth;
+        width          = containerWidth * 0.85;
+        height         = width * 0.35;
+    } else {
+        width          = $('#age-bars')[0].width.baseVal.value; // take any of the 5 barcharts
+        height         = width * 0.35;
+    }
+
     d3.selectAll('.tracker-name')
-        .html(trackerName)
+        .html(trackerName);
 
     var demographicCatGroups = [ 'gender',
         'age',
         'income',
         'education',
-        'kids']
+        'kids'];
 
-    var showDemoBars = showDemoBarchartFactory(350, 120)
+
+    var showDemoBars = showDemoBarchartFactory(width, height);
 
     for (var i in demographicCatGroups) {
         var category    = demographicCatGroups[i]
@@ -76,7 +88,7 @@ function showDemoBarchartFactory(svgWidth, svgHeight) {
          groupData: Array of 2 element arrays. Sub arrays consist of category name and p-value e.g [college, 0.07]
          delayDuration: optional variable for the duration of the delay of transition to cascade through vis
          */
-        svgWidth <= 300 ? svgWidth = 300 : svgWidth = svgWidth;
+        //svgWidth <= 300 ? svgWidth = 300 : svgWidth = svgWidth;
         delayDuration = delayDuration || 0;
         selectedSVG.attr('width', svgWidth);
         selectedSVG.attr('height', svgHeight);
@@ -122,7 +134,7 @@ function showDemoBarchartFactory(svgWidth, svgHeight) {
             .attr('y', function (d) {return yScale(d[1])})
             .attr('height', function (d) {return h - yScale(d[1])})
             .attr('fill', 'hsl(0, 0%, 41%)')
-            .filter(function (d, i) {return i == topCatIndex})
+            .filter(function (d, i) {return i === topCatIndex})
             .attr('fill', 'hsl(0, 25%, 52%)');
 
 
@@ -165,11 +177,11 @@ function showDemoBarchartFactory(svgWidth, svgHeight) {
         myXAxisLabels.transition()
             .duration(2000)
             .delay(delayDuration)
-            .attr('font-weight', 'normal')
+            .style('font-weight', 'normal')
             .transition()
             .duration(2000)
-            .filter(function (d, i) {return i == topCatIndex})
-            .attr('font-weight', 'bold')
+            .filter(function (d, i) {return i === topCatIndex})
+            .style('font-weight', 'bold')
 
     }
 }
@@ -179,6 +191,26 @@ function parseDemographicCategoriesData (dataObj) {
     //dataArray = typeof(dataObj) == 'object' ? $.map(dataObj, function (val, key) {return [[key, val[1]]]})
     dataArray = typeof(dataObj) == 'object' ? $.map(dataObj, function (val, key) {return [[key, val]]})
         : dataObj
+
+
+    if('150k' in dataObj) {
+        const sortIncome = (a,b) => {
+        a = a[0], b = b[0];
+        const rank = {'0-50k':0, '50-100k':1, '100-150k':2, '150k':3};
+        return (rank[a] < rank[b])? -1: (rank[a]>rank[b])? 1: 0
+        };
+        dataArray.sort(sortIncome)
+    } else if('College' in dataObj) {
+        const sortEducation = (a,b) => {
+            a = a[0], b = b[0];
+            const rank = {'No_College':0, 'College':1, 'Grad_School':2};
+            return (rank[a] < rank[b])? -1: (rank[a]>rank[b])? 1: 0
+        };
+        dataArray.sort(sortEducation)
+    } else {
+        dataArray.sort()
+    }
+
     return dataArray;
 }
 

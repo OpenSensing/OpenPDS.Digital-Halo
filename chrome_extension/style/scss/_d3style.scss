@@ -15,8 +15,11 @@ h3 {
 	}
 }
 
+
+
 .demographic-bars {
 	display: block;
+	margin-top: 3em;
 }
 	
 .axis {
@@ -51,7 +54,8 @@ circle {
 
 
 .node.root circle {
-	fill: none;
+	/*fill: none;*/
+	fill: whitesmoke;
 }
 
 .node  {
@@ -83,3 +87,4 @@ circle {
 text {
   font: 10px sans-serif;
 }
+

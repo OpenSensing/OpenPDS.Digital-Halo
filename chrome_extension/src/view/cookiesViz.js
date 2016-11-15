@@ -1,14 +1,22 @@
 function showCookieJar (trackerCounts, callback) {
 
-	var diameter = 400,
-	    format = d3.format(",d")
+	var containerWidth = $('#cookies-container')[0].offsetWidth;
+
+	console.log(containerWidth)
+
+	//var diameter = 400,
+	var diameter = containerWidth * 0.9,
+		format = d3.format(",d"),
 	    margin = 4;
 
 	var pack = d3.layout.pack()
 	    .size([diameter - margin, diameter - margin])
 	    .value(function(d) { return Math.sqrt(d.count); });
 
-	var cookieJar = d3.select('#cookies-container').append('svg')
+	var cookieJar = d3.select('#cookies-container').selectAll('svg')
+		.data(['cookies-svg'])
+		.enter()
+		.append('svg')
 		.attr('width', diameter)
 		.attr('height', diameter)
 	  .append('g')

@@ -52,6 +52,7 @@
 	__webpack_require__(11)();
 
 
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -10200,15 +10201,23 @@
 
 	function showCookieJar (trackerCounts, callback) {
 
-		var diameter = 400,
-		    format = d3.format(",d")
+		var containerWidth = $('#cookies-container')[0].offsetWidth;
+
+		console.log(containerWidth)
+
+		//var diameter = 400,
+		var diameter = containerWidth * 0.9,
+			format = d3.format(",d"),
 		    margin = 4;
 
 		var pack = d3.layout.pack()
 		    .size([diameter - margin, diameter - margin])
 		    .value(function(d) { return Math.sqrt(d.count); });
 
-		var cookieJar = d3.select('#cookies-container').append('svg')
+		var cookieJar = d3.select('#cookies-container').selectAll('svg')
+			.data(['cookies-svg'])
+			.enter()
+			.append('svg')
 			.attr('width', diameter)
 			.attr('height', diameter)
 		  .append('g')
@@ -10286,22 +10295,34 @@
 	 })
 	 */
 
-	function updateBarcharts (trackerName, trackerData) {
+	function updateBarcharts (trackerName, trackerData, init) {
 	    /*
-	     nput: Dictionary of categories with follwoing keys gender, age, income, education, kids
+	     Input: Dictionary of categories with following keys gender, age, income, education, kids
 	     Outpu: Title-tracker name(cookie monster image later) and all barcharts updated with new data
 	     */
-	    //*****************************   TODO
+	    //*****************************
+
+	    var width, height;
+	    if (init) {
+	        var containerWidth = $('#demographic-barcharts')[0].offsetWidth;
+	        width          = containerWidth * 0.85;
+	        height         = width * 0.35;
+	    } else {
+	        width          = $('#age-bars')[0].width.baseVal.value; // take any of the 5 barcharts
+	        height         = width * 0.35;
+	    }
+
 	    d3.selectAll('.tracker-name')
-	        .html(trackerName)
+	        .html(trackerName);
 
 	    var demographicCatGroups = [ 'gender',
 	        'age',
 	        'income',
 	        'education',
-	        'kids']
+	        'kids'];
 
-	    var showDemoBars = showDemoBarchartFactory(350, 120)
+
+	    var showDemoBars = showDemoBarchartFactory(width, height);
 
 	    for (var i in demographicCatGroups) {
 	        var category    = demographicCatGroups[i]
@@ -10323,7 +10344,7 @@
 	         groupData: Array of 2 element arrays. Sub arrays consist of category name and p-value e.g [college, 0.07]
 	         delayDuration: optional variable for the duration of the delay of transition to cascade through vis
 	         */
-	        svgWidth <= 300 ? svgWidth = 300 : svgWidth = svgWidth;
+	        //svgWidth <= 300 ? svgWidth = 300 : svgWidth = svgWidth;
 	        delayDuration = delayDuration || 0;
 	        selectedSVG.attr('width', svgWidth);
 	        selectedSVG.attr('height', svgHeight);
@@ -10369,7 +10390,7 @@
 	            .attr('y', function (d) {return yScale(d[1])})
 	            .attr('height', function (d) {return h - yScale(d[1])})
 	            .attr('fill', 'hsl(0, 0%, 41%)')
-	            .filter(function (d, i) {return i == topCatIndex})
+	            .filter(function (d, i) {return i === topCatIndex})
 	            .attr('fill', 'hsl(0, 25%, 52%)');
 
 
@@ -10412,11 +10433,11 @@
 	        myXAxisLabels.transition()
 	            .duration(2000)
 	            .delay(delayDuration)
-	            .attr('font-weight', 'normal')
+	            .style('font-weight', 'normal')
 	            .transition()
 	            .duration(2000)
-	            .filter(function (d, i) {return i == topCatIndex})
-	            .attr('font-weight', 'bold')
+	            .filter(function (d, i) {return i === topCatIndex})
+	            .style('font-weight', 'bold')
 
 	    }
 	}
@@ -10426,6 +10447,26 @@
 	    //dataArray = typeof(dataObj) == 'object' ? $.map(dataObj, function (val, key) {return [[key, val[1]]]})
 	    dataArray = typeof(dataObj) == 'object' ? $.map(dataObj, function (val, key) {return [[key, val]]})
 	        : dataObj
+
+
+	    if('150k' in dataObj) {
+	        const sortIncome = (a,b) => {
+	        a = a[0], b = b[0];
+	        const rank = {'0-50k':0, '50-100k':1, '100-150k':2, '150k':3};
+	        return (rank[a] < rank[b])? -1: (rank[a]>rank[b])? 1: 0
+	        };
+	        dataArray.sort(sortIncome)
+	    } else if('College' in dataObj) {
+	        const sortEducation = (a,b) => {
+	            a = a[0], b = b[0];
+	            const rank = {'No_College':0, 'College':1, 'Grad_School':2};
+	            return (rank[a] < rank[b])? -1: (rank[a]>rank[b])? 1: 0
+	        };
+	        dataArray.sort(sortEducation)
+	    } else {
+	        dataArray.sort()
+	    }
+
 	    return dataArray;
 	}
 
@@ -10448,7 +10489,7 @@
 
 	var d3              = __webpack_require__(42)
 	  , materialize     = __webpack_require__(43)
-	    ,showCookieJar  = __webpack_require__(9)
+	  ,showCookieJar  = __webpack_require__(9)
 	  , updateBarcharts = __webpack_require__(10);
 
 
@@ -10457,10 +10498,10 @@
 	function showFlashMessage (type, message) {
 	    if ((type != 'success') && (type != 'failure')) throw 'Wrong flash message type, can only be "success" or "failure"'
 
-	    $('#flash_container').append( '<div class="flash ' + type + '" id="flashNote">' + message + '</div>')
-	    // remove the notivification after 7 seconds
+	    $('#flash_container').append('<div class="flash ' + type + '" id="flashNote">' + message + '</div>')
+	    // remove the notification after 7 seconds
 	    setTimeout(function(){$('#flashNote').remove()}, 7000)
-	}
+	};
 
 
 	//Dropbox inout
@@ -10477,29 +10518,39 @@
 	        totals = demographics['total'];
 
 	        //initial render of totals
-	        updateBarcharts('total', totals);
+	        updateBarcharts('total', totals, true);
 
 
 
 
 	        var trackerList = ['total'];
-	        for (trackerName in demographics) {
+	        for (let trackerName in demographics) {
 	            if (demographics[trackerName] != 'No data available in model') {
 	                trackerList.push(trackerName);
 	            }
 	        };
 
+	        // wire the chocolate chips (individual trackers)
+
 	        d3.select('#cookies-container').selectAll('.leaf')
 	            .filter(function (d) {return (trackerList.indexOf(d.name) > -1)})
 	            .on('click', function (d) {updateBarcharts(d.name, demographics[d.name])})
-	    })
+
+	        // wire the big circle
+
+	        d3.select('#cookies-container .node.root')
+	            .on('click', (d) => {updateBarcharts('total', totals)});
+
+	    });
 
 	    var demoPerCompanyFile = 'res_per_company_details.json'
 	    Halo.client.readFile(demoPerCompanyFile, function showDemographics(err, demographics) {
 	        demographics = deserialize(demographics);
 
+	        // wire the cookies (companies)
+
 	        var companyList = [];
-	        for (companyName in demographics) {
+	        for (let companyName in demographics) {
 	            if (demographics[companyName] != 'No data available in model') {
 	                companyList.push(companyName);
 	            }
@@ -10509,17 +10560,10 @@
 	            .filter(function (d) {return (companyList.indexOf(d.name) > -1)})
 	            .on('click', function (d) {updateBarcharts(d.name, demographics[d.name])})
 
-
-	        /*        var trackerLinks = d3.select('#cookies-container').selectAll('p')
-	         .data(trackerList)
-	         .enter().append('p')
-	         .html(function (d) {return d})
-	         .on('click', function (d) { updateBarcharts(d, demographics[d])});
-	         */
 	    })
 	}
 
-	function readTrackerCounts () {
+	function readTrackers() {
 	    Halo.client.readFile('tracker_counts.json', function (err, data) {
 	        data = deserialize(data);
 	        const packFeed = {name: 'Tracking Companies', 'children': []};
@@ -10542,13 +10586,21 @@
 	    })
 	}
 
-	function openPDS (e) {
+	function readTrackerCounts () {
+	    if (Halo.client.isAuthenticated()) {
+	        readTrackers()
+	    } else {
+	        Halo.client.authenticate(readTrackers)
+	    }
+	}
+
+	function openPDS () {
 	    chrome.runtime.sendNativeMessage("dk.dtu.openpds", {'content' : 'no message, just open app.'})
 	}
 
 	// register
 	module.exports = function () {
-	    $('document').ready(function (e) {
+	    $('document').ready(function () {
 	        $('#log_in').click(Halo.client.authenticate);
 	        //$('#log_out').click(Halo.client.signOff);
 	        $('#log_out').click(()=>{chrome.tabs.getCurrent((t)=>{chrome.tabs.remove(t.id)})});
@@ -10557,8 +10609,10 @@
 	        $(".button-collapse").sideNav({edge: 'right'});
 	        $('#mobile-log_in').on('click', Halo.client.authenticate);
 	        $('#mobile-log_out').on('click', Halo.client.signOut);
+	        $(window).load(readTrackerCounts);
+
 	    })
-	}
+	};
 
 
 /***/ },
@@ -11064,7 +11118,7 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(38) + ");\n  /* For IE6-8 */\n  src: local(\"Material Icons\"), local(\"MaterialIcons-Regular\"), url(" + __webpack_require__(39) + ") format(\"woff2\"), url(" + __webpack_require__(40) + ") format(\"woff\"), url(" + __webpack_require__(41) + ") format(\"truetype\"); }\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  /* Preferred icon size */\n  display: inline-block;\n  width: 1em;\n  height: 1em;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n  /* Support for IE. */\n  font-feature-settings: 'liga'; }\n\nbody {\n  font-family: Helvetica, sans-serif;\n  font-size: 12px; }\n\nh3 {\n  font-size: 20px;\n  color: #8f3d3d; }\n  h3 .tracker-name {\n    font-weight: bold; }\n\n.demographic-bars {\n  display: block; }\n\n.axis path, .axis line {\n  fill: none;\n  stroke: black;\n  shape-rendering: crispEdges;\n  visibility: hidden; }\n\n.axis text {\n  font-family: Helvetica, sans-serif;\n  font-size: 11px; }\n\n.ordinal-axis path, .ordinal-axis line {\n  visibility: hidden; }\n\ncircle {\n  fill: #1f77b4;\n  fill: none;\n  fill-opacity: .25;\n  stroke: #1f77b4;\n  stroke-width: 1px;\n  stroke: none; }\n\n.node.root circle {\n  fill: none; }\n\n.node circle {\n  fill: #b8732e;\n  fill-opacity: 1; }\n\n.node circle:hover {\n  stroke: #000;\n  stroke-width: 1.5px;\n  cursor: pointer; }\n\n.leaf circle {\n  fill: #8f5b24;\n  fill-opacity: 1; }\n\n.node text {\n  fill: #ffff99; }\n\ntext {\n  font: 10px sans-serif; }\n\ndiv.flash {\n  position: absolute;\n  display: block;\n  height: 2rem;\n  width: 95%;\n  margin: 0 auto;\n  border-radius: 10px;\n  border-width: 3px;\n  border-style: solid;\n  text-align: center;\n  padding: 0rem 0 0rem 0;\n  font-size: 1rem;\n  opacity: 0.8;\n  z-index: inherit; }\n\ndiv.flash.success {\n  background-color: #b3c99c;\n  border-color: #244224;\n  color: #244224; }\n\ndiv.flash.failure {\n  background-color: #422424;\n  border-color: #b87a7a;\n  color: #b87a7a; }\n\ndiv#flash_container {\n  position: fixed;\n  height: 3em;\n  width: 70vw;\n  top: 4em;\n  left: 15vw;\n  z-index: 1000; }\n\ntr:hover {\n  background: #f5f5f5; }\n\n.dtu-red {\n  background-color: #b50404; }\n\n.dtu-red-text {\n  color: #b50404; }\n", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(38) + ");\n  /* For IE6-8 */\n  src: local(\"Material Icons\"), local(\"MaterialIcons-Regular\"), url(" + __webpack_require__(39) + ") format(\"woff2\"), url(" + __webpack_require__(40) + ") format(\"woff\"), url(" + __webpack_require__(41) + ") format(\"truetype\"); }\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  /* Preferred icon size */\n  display: inline-block;\n  width: 1em;\n  height: 1em;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n  /* Support for IE. */\n  font-feature-settings: 'liga'; }\n\nbody {\n  font-family: Helvetica, sans-serif;\n  font-size: 12px; }\n\nh3 {\n  font-size: 20px;\n  color: #8f3d3d; }\n  h3 .tracker-name {\n    font-weight: bold; }\n\n.demographic-bars {\n  display: block;\n  margin-top: 3em; }\n\n.axis path, .axis line {\n  fill: none;\n  stroke: black;\n  shape-rendering: crispEdges;\n  visibility: hidden; }\n\n.axis text {\n  font-family: Helvetica, sans-serif;\n  font-size: 11px; }\n\n.ordinal-axis path, .ordinal-axis line {\n  visibility: hidden; }\n\ncircle {\n  fill: #1f77b4;\n  fill: none;\n  fill-opacity: .25;\n  stroke: #1f77b4;\n  stroke-width: 1px;\n  stroke: none; }\n\n.node.root circle {\n  /*fill: none;*/\n  fill: whitesmoke; }\n\n.node circle {\n  fill: #b8732e;\n  fill-opacity: 1; }\n\n.node circle:hover {\n  stroke: #000;\n  stroke-width: 1.5px;\n  cursor: pointer; }\n\n.leaf circle {\n  fill: #8f5b24;\n  fill-opacity: 1; }\n\n.node text {\n  fill: #ffff99; }\n\ntext {\n  font: 10px sans-serif; }\n\ndiv.flash {\n  position: absolute;\n  display: block;\n  height: 2rem;\n  width: 95%;\n  margin: 0 auto;\n  border-radius: 10px;\n  border-width: 3px;\n  border-style: solid;\n  text-align: center;\n  padding: 0rem 0 0rem 0;\n  font-size: 1rem;\n  opacity: 0.8;\n  z-index: inherit; }\n\ndiv.flash.success {\n  background-color: #b3c99c;\n  border-color: #244224;\n  color: #244224; }\n\ndiv.flash.failure {\n  background-color: #422424;\n  border-color: #b87a7a;\n  color: #b87a7a; }\n\ndiv#flash_container {\n  position: fixed;\n  height: 3em;\n  width: 70vw;\n  top: 4em;\n  left: 15vw;\n  z-index: 1000; }\n\ntr:hover {\n  background: #f5f5f5; }\n\n.dtu-red {\n  background-color: #b50404; }\n\n.dtu-red-text {\n  color: #b50404; }\n", ""]);
 
 	// exports
 
