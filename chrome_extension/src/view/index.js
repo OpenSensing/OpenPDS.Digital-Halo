@@ -26,7 +26,7 @@ function deserialize (obj) {
 };
 
 function readDemographics () {
-    var demoFile = 'res_per_tracker_details.json'
+    var demoFile = 'res_per_tracker_details.json';
     Halo.client.readFile(demoFile, function showDemographics(err, demographics) {
         demographics = deserialize(demographics);
         totals = demographics['total'];
@@ -81,12 +81,7 @@ function readTrackers() {
     Halo.client.readFile('tracker_counts.json', function (err, data) {
         data = deserialize(data);
         const packFeed = {name: 'Tracking Companies', 'children': []};
-/*
-        var min_count = 50;
-        for (var i in data) {
-            if (data[i].count >= min_count) packFeed['children'].push(data[i])   // trim out small tracking companies
-        }
-*/
+
         var cutoff;
         data.length < 50 ? cutoff = data.length : cutoff = 50;
 

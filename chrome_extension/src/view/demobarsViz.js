@@ -50,10 +50,10 @@ function updateBarcharts (trackerName, trackerData, init) {
     if (init) {
         var containerWidth = $('#demographic-barcharts')[0].offsetWidth;
         width          = containerWidth * 0.85;
-        height         = width * 0.35;
+        height         = width * 0.25;
     } else {
         width          = $('#age-bars')[0].width.baseVal.value; // take any of the 5 barcharts
-        height         = width * 0.35;
+        height         = width * 0.25;
     }
 
     d3.selectAll('.tracker-name')
@@ -96,7 +96,7 @@ function showDemoBarchartFactory(svgWidth, svgHeight) {
         var padding  = {top: 10, right: 0, bottom: 20, left: 40}
             , w        = svgWidth  - padding.right          //  width as x distance from the origin - top left corner
             , h        = svgHeight - padding.bottom         //  height as y distance from the origin - top left corner
-            , barWidth = 20;
+            , barWidth = 18;
 
         var yScale = d3.scale.linear()
             .domain([0, 1])  // try change it to [0, max(groupData[n][1])]
@@ -163,6 +163,8 @@ function showDemoBarchartFactory(svgWidth, svgHeight) {
                 .classed('x-axis', true)
                 .attr('transform', 'translate(0,' + svgHeight + ')')
         }
+
+
 
 //NOT USING d3.scale for x to be able to keep the width of bars constant
 

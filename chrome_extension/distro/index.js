@@ -10306,10 +10306,10 @@
 	    if (init) {
 	        var containerWidth = $('#demographic-barcharts')[0].offsetWidth;
 	        width          = containerWidth * 0.85;
-	        height         = width * 0.35;
+	        height         = width * 0.25;
 	    } else {
 	        width          = $('#age-bars')[0].width.baseVal.value; // take any of the 5 barcharts
-	        height         = width * 0.35;
+	        height         = width * 0.25;
 	    }
 
 	    d3.selectAll('.tracker-name')
@@ -10352,7 +10352,7 @@
 	        var padding  = {top: 10, right: 0, bottom: 20, left: 40}
 	            , w        = svgWidth  - padding.right          //  width as x distance from the origin - top left corner
 	            , h        = svgHeight - padding.bottom         //  height as y distance from the origin - top left corner
-	            , barWidth = 20;
+	            , barWidth = 18;
 
 	        var yScale = d3.scale.linear()
 	            .domain([0, 1])  // try change it to [0, max(groupData[n][1])]
@@ -10419,6 +10419,8 @@
 	                .classed('x-axis', true)
 	                .attr('transform', 'translate(0,' + svgHeight + ')')
 	        }
+
+
 
 	//NOT USING d3.scale for x to be able to keep the width of bars constant
 
@@ -10512,7 +10514,7 @@
 	};
 
 	function readDemographics () {
-	    var demoFile = 'res_per_tracker_details.json'
+	    var demoFile = 'res_per_tracker_details.json';
 	    Halo.client.readFile(demoFile, function showDemographics(err, demographics) {
 	        demographics = deserialize(demographics);
 	        totals = demographics['total'];
@@ -10567,12 +10569,7 @@
 	    Halo.client.readFile('tracker_counts.json', function (err, data) {
 	        data = deserialize(data);
 	        const packFeed = {name: 'Tracking Companies', 'children': []};
-	/*
-	        var min_count = 50;
-	        for (var i in data) {
-	            if (data[i].count >= min_count) packFeed['children'].push(data[i])   // trim out small tracking companies
-	        }
-	*/
+
 	        var cutoff;
 	        data.length < 50 ? cutoff = data.length : cutoff = 50;
 
@@ -11118,7 +11115,7 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(38) + ");\n  /* For IE6-8 */\n  src: local(\"Material Icons\"), local(\"MaterialIcons-Regular\"), url(" + __webpack_require__(39) + ") format(\"woff2\"), url(" + __webpack_require__(40) + ") format(\"woff\"), url(" + __webpack_require__(41) + ") format(\"truetype\"); }\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  /* Preferred icon size */\n  display: inline-block;\n  width: 1em;\n  height: 1em;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n  /* Support for IE. */\n  font-feature-settings: 'liga'; }\n\nbody {\n  font-family: Helvetica, sans-serif;\n  font-size: 12px; }\n\nh3 {\n  font-size: 20px;\n  color: #8f3d3d; }\n  h3 .tracker-name {\n    font-weight: bold; }\n\n.demographic-bars {\n  display: block;\n  margin-top: 3em; }\n\n.axis path, .axis line {\n  fill: none;\n  stroke: black;\n  shape-rendering: crispEdges;\n  visibility: hidden; }\n\n.axis text {\n  font-family: Helvetica, sans-serif;\n  font-size: 11px; }\n\n.ordinal-axis path, .ordinal-axis line {\n  visibility: hidden; }\n\ncircle {\n  fill: #1f77b4;\n  fill: none;\n  fill-opacity: .25;\n  stroke: #1f77b4;\n  stroke-width: 1px;\n  stroke: none; }\n\n.node.root circle {\n  /*fill: none;*/\n  fill: whitesmoke; }\n\n.node circle {\n  fill: #b8732e;\n  fill-opacity: 1; }\n\n.node circle:hover {\n  stroke: #000;\n  stroke-width: 1.5px;\n  cursor: pointer; }\n\n.leaf circle {\n  fill: #8f5b24;\n  fill-opacity: 1; }\n\n.node text {\n  fill: #ffff99; }\n\ntext {\n  font: 10px sans-serif; }\n\ndiv.flash {\n  position: absolute;\n  display: block;\n  height: 2rem;\n  width: 95%;\n  margin: 0 auto;\n  border-radius: 10px;\n  border-width: 3px;\n  border-style: solid;\n  text-align: center;\n  padding: 0rem 0 0rem 0;\n  font-size: 1rem;\n  opacity: 0.8;\n  z-index: inherit; }\n\ndiv.flash.success {\n  background-color: #b3c99c;\n  border-color: #244224;\n  color: #244224; }\n\ndiv.flash.failure {\n  background-color: #422424;\n  border-color: #b87a7a;\n  color: #b87a7a; }\n\ndiv#flash_container {\n  position: fixed;\n  height: 3em;\n  width: 70vw;\n  top: 4em;\n  left: 15vw;\n  z-index: 1000; }\n\ntr:hover {\n  background: #f5f5f5; }\n\n.dtu-red {\n  background-color: #b50404; }\n\n.dtu-red-text {\n  color: #b50404; }\n", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: 'Material Icons';\n  font-style: normal;\n  font-weight: 400;\n  src: url(" + __webpack_require__(38) + ");\n  /* For IE6-8 */\n  src: local(\"Material Icons\"), local(\"MaterialIcons-Regular\"), url(" + __webpack_require__(39) + ") format(\"woff2\"), url(" + __webpack_require__(40) + ") format(\"woff\"), url(" + __webpack_require__(41) + ") format(\"truetype\"); }\n\n.material-icons {\n  font-family: 'Material Icons';\n  font-weight: normal;\n  font-style: normal;\n  font-size: 24px;\n  /* Preferred icon size */\n  display: inline-block;\n  width: 1em;\n  height: 1em;\n  line-height: 1;\n  text-transform: none;\n  letter-spacing: normal;\n  word-wrap: normal;\n  white-space: nowrap;\n  direction: ltr;\n  /* Support for all WebKit browsers. */\n  -webkit-font-smoothing: antialiased;\n  /* Support for Safari and Chrome. */\n  text-rendering: optimizeLegibility;\n  /* Support for Firefox. */\n  -moz-osx-font-smoothing: grayscale;\n  /* Support for IE. */\n  font-feature-settings: 'liga'; }\n\nbody {\n  font-family: Helvetica, sans-serif;\n  font-size: 12px; }\n\nh3 {\n  font-size: 20px;\n  color: #8f3d3d; }\n  h3 .tracker-name {\n    font-weight: bold; }\n\n.demographic-bars {\n  display: block;\n  margin-top: 1.5em; }\n\n.axis path, .axis line {\n  fill: none;\n  stroke: black;\n  shape-rendering: crispEdges;\n  visibility: hidden; }\n\n.axis text {\n  font-family: Helvetica, sans-serif;\n  font-size: 11px; }\n\n.y-axis text {\n  font-size: 0.7em; }\n\n.ordinal-axis path, .ordinal-axis line {\n  visibility: hidden; }\n\ncircle {\n  fill: #1f77b4;\n  fill: none;\n  fill-opacity: .25;\n  stroke: #1f77b4;\n  stroke-width: 1px;\n  stroke: none; }\n\n.node.root circle {\n  /*fill: none;*/\n  fill: whitesmoke; }\n\n.node circle {\n  fill: #b8732e;\n  fill-opacity: 1; }\n\n.node circle:hover {\n  stroke: #000;\n  stroke-width: 1.5px;\n  cursor: pointer; }\n\n.leaf circle {\n  fill: #8f5b24;\n  fill-opacity: 1; }\n\n.node text {\n  fill: #ffff99; }\n\ntext {\n  font: 10px sans-serif; }\n\ndiv.flash {\n  position: absolute;\n  display: block;\n  height: 2rem;\n  width: 95%;\n  margin: 0 auto;\n  border-radius: 10px;\n  border-width: 3px;\n  border-style: solid;\n  text-align: center;\n  padding: 0rem 0 0rem 0;\n  font-size: 1rem;\n  opacity: 0.8;\n  z-index: inherit; }\n\ndiv.flash.success {\n  background-color: #b3c99c;\n  border-color: #244224;\n  color: #244224; }\n\ndiv.flash.failure {\n  background-color: #422424;\n  border-color: #b87a7a;\n  color: #b87a7a; }\n\ndiv#flash_container {\n  position: fixed;\n  height: 3em;\n  width: 70vw;\n  top: 4em;\n  left: 15vw;\n  z-index: 1000; }\n\ntr:hover {\n  background: #f5f5f5; }\n\n.dtu-red {\n  background-color: #b50404; }\n\n.dtu-red-text {\n  color: #b50404; }\n", ""]);
 
 	// exports
 
