@@ -218,7 +218,7 @@ def get_tracking_company_details (company_name):
         'children': []
     }
 
-    all_company_trackers_query = 'SELECT name, timesSeen FROM tracker where owner="{0}"'.format( company_name )
+    all_company_trackers_query = 'SELECT name, timesSeen FROM tracker where owner="{0}"'.format( company_name.encode('utf-8') )
     trackerdb_cur.execute(all_company_trackers_query)
     
     for tracker, tracker_count in trackerdb_cur.fetchall():
@@ -353,7 +353,7 @@ for tracker, domains in trackerdb_cur.fetchall():
     '''for each tracker fetch all visits to tracked domains'''
     domains = ast.literal_eval(domains)
     
-
+    #todo
     if len(domains) > 999:
         domains = domains[:999]
 
