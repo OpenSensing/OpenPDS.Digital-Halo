@@ -5,7 +5,7 @@
   "description": "Visualizes and otherwise conveys the extend of users data harvesting by internet actors, 3rd parties particularly.",
   "version": "0.2.1",
 
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+   "homepage_url": "https://github.com/OpenSensing/OpenPDS.Digital-Halo",
 
   "browser_action": {
     "default_popup": "index.html",
